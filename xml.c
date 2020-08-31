@@ -1,50 +1,65 @@
 #include <stdio.h>
+#include <string.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
- 
-/*gcc `xml2-config --cflags --libs` test.c*/
- 
-int is_leaf(xmlNode * node)
+int main()
 {
-  xmlNode * child = node->children;
-  while(child)
-  {
-    if(child->type == XML_ELEMENT_NODE) return 0;
- 
-    child = child->next;
-  }
- 
-  return 1;
-}
- 
-void print_xml(xmlNode * node, int indent_len)
-{
-    while(node)
-    {
-        if(node->type == XML_ELEMENT_NODE)
-        {
-          printf("%*c%s:%s\n", indent_len*2, '-', node->name, is_leaf(node)?xmlNodeGetContent(node):xmlGetProp(node,"id"));
+    xmlDoc         *document;
+    xmlNode        *root, *first_child, *node,*temp;
+    char           *filename;
+    
+   
+    filename = "bmd.xml";
+
+    document = xmlReadFile(filename, NULL, 0);
+    temp = xmlDocGetRootElement(document);
+    root=xmlFirstElementChild(temp);
+  
+        char* arrayName[8];
+        char* arrayValue[8];
+        int i=0;
+        first_child = root->children;
+        for (node = first_child; node; node = node->next) {
+            // if(node->type==1)
+            // fprintf(stdout, "\t Child is <%s>  (%i) value: \n", node->name ,node->type);
+            // // temp=node;
+
+            if(node->type==1)
+            {
+            // printf("%d\n",checkNamespace("MessageID",node->name));
+                arrayName[i]=(char*)node->name;
+                arrayValue[i]=(char*)xmlNodeGetContent(node);
+                //fprintf(stdout, "attributes:<%s>\tvalue: %s\n", node->name,xmlNodeGetContent(node));
+                //printf("%d: name->%s value->%s\n",i,arrayName[i],arrayValue[i]);
+                i++;
+            }
         }
-        print_xml(node->children, indent_len + 1);
-        node = node->next;
+
+    root=xmlLastElementChild(temp);
+    first_child = root;
+        for (node = first_child; node; node = node->next) {
+            // if(node->type==1)
+            // fprintf(stdout, "\t Child is <%s>  (%i) value: \n", node->name ,node->type);
+            // // temp=node;
+
+            if(node->type==1)
+            {
+            // printf("%d\n",checkNamespace("MessageID",node->name));
+                arrayName[i]=(char*)node->name;
+                arrayValue[i]=(char*)xmlNodeGetContent(node);
+                //fprintf(stdout, "attributes:<%s>\tvalue: %s\n", node->name,xmlNodeGetContent(node));
+                //printf("%d: name->%s value->%s\n",i,arrayName[i],arrayValue[i]);
+                i++;
+            }
+        }
+    // }
+    int size = sizeof arrayName / sizeof arrayName[0];
+    for(int i=0;i<=size;i++)
+    {
+        printf("%d: name->%s value->%s\n",i,arrayName[i],arrayValue[i]);
     }
-}
- 
-int main(){
-  xmlDoc *doc = NULL;
-  xmlNode *root_element = NULL;
- 
-  doc = xmlReadFile("bmd.xml",NULL,0);
- 
-  if (doc == NULL) {
-    printf("Could not parse the XML file");
-  }
- 
-  root_element = xmlDocGetRootElement(doc);
- 
-  print_xml(root_element, 1);
- 
-  xmlFreeDoc(doc);
- 
-  xmlCleanupParser();
+    
+
+    fprintf(stdout, "...\n");
+    return 0;
 }
