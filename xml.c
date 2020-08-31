@@ -1,27 +1,50 @@
 #include <stdio.h>
-#include <string.h>
 #include <libxml/parser.h>
-
-int
-main(int argc, char **argv)
+#include <libxml/tree.h>
+ 
+/*gcc `xml2-config --cflags --libs` test.c*/
+ 
+int is_leaf(xmlNode * node)
 {
-    xmlDoc         *document;
-    xmlNode        *root, *first_child, *node;
-    char           *filename;
-
-    if (argc < 2) {
-        fprintf(stderr, "Usage: %s filename.xml\n", argv[0]);
-        return 1;
+  xmlNode * child = node->children;
+  while(child)
+  {
+    if(child->type == XML_ELEMENT_NODE) return 0;
+ 
+    child = child->next;
+  }
+ 
+  return 1;
+}
+ 
+void print_xml(xmlNode * node, int indent_len)
+{
+    while(node)
+    {
+        if(node->type == XML_ELEMENT_NODE)
+        {
+          printf("%*c%s:%s\n", indent_len*2, '-', node->name, is_leaf(node)?xmlNodeGetContent(node):xmlGetProp(node,"id"));
+        }
+        print_xml(node->children, indent_len + 1);
+        node = node->next;
     }
-    filename = argv[1];
-
-    document = xmlReadFile(bmd.xml, NULL, 0);
-    root = xmlDocGetRootElement(document);
-    fprintf(stdout, "Root is <%s> (%i)\n", root->name, root->type);
-    first_child = root->children;
-    for (node = first_child; node; node = node->next) {
-        fprintf(stdout, "\t Child is <%s> (%i)\n", node->name, node->type);
-    }
-    fprintf(stdout, "...\n");
-    return 0;
+}
+ 
+int main(){
+  xmlDoc *doc = NULL;
+  xmlNode *root_element = NULL;
+ 
+  doc = xmlReadFile("bmd.xml",NULL,0);
+ 
+  if (doc == NULL) {
+    printf("Could not parse the XML file");
+  }
+ 
+  root_element = xmlDocGetRootElement(doc);
+ 
+  print_xml(root_element, 1);
+ 
+  xmlFreeDoc(doc);
+ 
+  xmlCleanupParser();
 }
