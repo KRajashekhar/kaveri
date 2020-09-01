@@ -2,12 +2,34 @@
 #include<stdlib.h>
 #include<libxml/parser.h>
 #include<libxml/tree.h>
+#include "mysql/mysql.h"
+
+void finish_with_error(MYSQL *conn)
+{
+fprintf(stderr, "%s \n", mysql_error(conn));
+mysql_close(conn);
+exit(1);
+}
+
 
 int main()
 {
 xmlDoc *doc;
 xmlNode *root,*first_child,*temp,*node;
 char *filename;
+
+MYSQL *conn=mysql_init(NULL);
+
+char *server = "localhost";
+ char *user = "vinay";
+ char *password = "prabhakars 589b"; 
+ char *database = "esb_db"; 
+ if (conn == NULL)
+  {
+     finish_with_error(conn);
+  }
+  
+  mysql_real_connect(conn,"localhost","user","prabhakars 589b","esb_db",0,NULL,0);
 
 filename="bmd.xml";
 doc=xmlReadFile(filename,NULL,0);
@@ -44,6 +66,12 @@ doc=xmlReadFile(filename,NULL,0);
  {
  printf("%d : name->%s value->%s \n",i,arrayname[i],arrayvalue[i]);
  }
+ 
+ if(mysql_query(conn,"insert into esb_request values (arrayname[0],arrayname[1],arrayname[2],arrayname[3],arrayname[4],arrayname[5],arrayname[6],arrayname[7])")
+
+{
+finish_with_error(conn);
+}
  fprintf(stdout,"... \n");
  return 0;
  }
