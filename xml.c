@@ -20,10 +20,7 @@ char *filename;
 
 MYSQL *conn=mysql_init(NULL);
 
-char *server = "localhost";
- char *user = "vinay";
- char *password = "prabhakars 589b"; 
- char *database = "esb_db"; 
+
  if (conn == NULL)
   {
      finish_with_error(conn);
@@ -67,7 +64,7 @@ doc=xmlReadFile(filename,NULL,0);
  printf("%d : name->%s value->%s \n",i,arrayname[i],arrayvalue[i]);
  }
  
- if(mysql_query(conn,"insert into esb_request values (arrayvalue[0],arrayvalue[1],arrayvalue[2],arrayvalue[3],arrayvalue[4],arrayvalue[5],arrayvalue[6],arrayvalue[7])")
+ if(mysql_query(conn,"insert into esb_request values (arrayvalue[0],arrayvalue[1],arrayvalue[2],arrayvalue[3],arrayvalue[4],arrayvalue[5],arrayvalue[6],arrayvalue[7])"))
 
 {
 finish_with_error(conn);
