@@ -26,7 +26,7 @@ MYSQL *conn=mysql_init(NULL);
      finish_with_error(conn);
   }
   
-  mysql_real_connect(conn,"localhost","user","prabhakars 589b","esb_db",0,NULL,0);
+  mysql_real_connect(conn,"localhost","root","prabhakars 589b","esb_db",0,NULL,0);
 
 filename="bmd.xml";
 doc=xmlReadFile(filename,NULL,0);
