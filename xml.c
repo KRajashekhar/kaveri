@@ -67,7 +67,7 @@ doc=xmlReadFile(filename,NULL,0);
  printf("%d : name->%s value->%s \n",i,arrayname[i],arrayvalue[i]);
  }
  
- if(mysql_query(conn,"insert into esb_request values (arrayname[0],arrayname[1],arrayname[2],arrayname[3],arrayname[4],arrayname[5],arrayname[6],arrayname[7])")
+ if(mysql_query(conn,"insert into esb_request values (arrayvalue[0],arrayvalue[1],arrayvalue[2],arrayvalue[3],arrayvalue[4],arrayvalue[5],arrayvalue[6],arrayvalue[7])")
 
 {
 finish_with_error(conn);
