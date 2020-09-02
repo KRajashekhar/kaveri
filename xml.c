@@ -17,7 +17,7 @@ VALUES(?,?,?,?,?,?,?,?)"
 void finish_with_error(MYSQL *conn)
 {
 	fprintf(stderr, "%s \n", mysql_error(conn));
-	mysql_close(conn);
+	//mysql_close(conn);
 	exit(1);
 }
 
