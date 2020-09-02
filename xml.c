@@ -64,6 +64,11 @@ int main()
 	 printf("%d : name->%s value->%s \n",i,arrayname[i],arrayvalue[i]);
 	 }
  
+ 	if(mysql_real_connect(conn,"localhost","root","prabhakars 589b", "esb_db",0,NULL,0)==NULL)
+ 	{
+ 	finish_with_error(conn);
+ 	}
+ 	
  	if(mysql_query(conn,"insert into esb_request values (arrayvalue[0],arrayvalue[1],arrayvalue[2],arrayvalue[3],arrayvalue[4],arrayvalue[5],arrayvalue[6],arrayvalue[7])"))
 	{
 	finish_with_error(conn);
