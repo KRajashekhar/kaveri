@@ -38,7 +38,7 @@ bmd parse_bmd_xml(char * bmd_file_path) {
     temp = xmlDocGetRootElement(document);
     root=xmlFirstElementChild(temp);
   
-        char* arrayName[8];
+       // char* arrayName[8];
         char* arrayValue[8];
         int i=0;
         first_child = root->children;
@@ -50,7 +50,7 @@ bmd parse_bmd_xml(char * bmd_file_path) {
             if(node->type==1)
             {
             // printf("%d\n",checkNamespace("MessageID",node->name));
-                arrayName[i]=(char*)node->name;
+              //  arrayName[i]=(char*)node->name;
                 arrayValue[i]=(char*)xmlNodeGetContent(node);
                 //fprintf(stdout, "attributes:<%s>\tvalue: %s\n", node->name,xmlNodeGetContent(node));
                 //printf("%d: name->%s value->%s\n",i,arrayName[i],arrayValue[i]);
@@ -68,7 +68,7 @@ bmd parse_bmd_xml(char * bmd_file_path) {
             if(node->type==1)
             {
             // printf("%d\n",checkNamespace("MessageID",node->name));
-                arrayName[i]=(char*)node->name;
+               // arrayName[i]=(char*)node->name;
                 arrayValue[i]=(char*)xmlNodeGetContent(node);
                 //fprintf(stdout, "attributes:<%s>\tvalue: %s\n", node->name,xmlNodeGetContent(node));
                 //printf("%d: name->%s value->%s\n",i,arrayName[i],arrayValue[i]);
@@ -76,13 +76,13 @@ bmd parse_bmd_xml(char * bmd_file_path) {
             }
         }
     // }
-    int size = sizeof arrayName / sizeof arrayName[0];
+   /* int size = sizeof arrayName / sizeof arrayName[0];
     printf("%d\n" ,size);
     for(int i=0;i<=size;i++)
     {
         printf("%d: name->%s value->%s\n",i,arrayName[i],arrayValue[i]);
     }
-    fprintf(stdout, "...\n");
+    fprintf(stdout, "...\n");*/
     
    bmd_envelop envl;
    envl.message_id = arrayValue[0];
