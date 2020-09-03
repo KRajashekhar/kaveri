@@ -1,13 +1,15 @@
+#include<stdio.h>
+#include<stdlib.h>
 #include "db_access1.h"
-#include "parser1.h"
+#include "parsing1.h"
 
 
-void finish_with_error(MYSQL *conn)
+/*void finish_with_error(MYSQL *conn)
 {
     fprintf(stderr,"%s\n",mysql_error(conn));
     mysql_close(conn);
     exit(1);
-}
+}*/
 
 int is_bmd_valid(bmd b)
 {
@@ -22,7 +24,7 @@ int is_bmd_valid(bmd b)
     MYSQL *conn =mysql_init(NULL);
     if(conn==NULL)
     {
-        fprintf(stderr,"mysql_init() failed\n")
+        fprintf(stderr,"mysql_init() failed\n");
         exit(1);
     }
     if(mysql_real_connect(conn,"localhost","root","prabhakars 589b","esb_db",0,NULL,0)==NULL)
@@ -42,7 +44,7 @@ int is_bmd_valid(bmd b)
     MYSQL_ROW row;
     while((row=mysql_fetch_row(result)))
     {
-        for(int i=0;i<num_fileds;i++)
+        for(int i=0;i<num_fields;i++)
         {
             if(row[i]==NULL)
             {
@@ -63,5 +65,7 @@ int is_bmd_valid(bmd b)
 
 int main()
 {
-    printf("%d \n",valid);
+    bmd b;
+    b=parse_bmd_xml("bmd.xml");
+    int ans =is_bmd_valid(b);
 }
