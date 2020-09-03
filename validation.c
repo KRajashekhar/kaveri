@@ -13,6 +13,11 @@ int is_bmd_valid(bmd b)
 {
  int valid = 1; // 1 => vaild, -1 => invalid
     // TODO: Implement the validation logic here
+      bmd_envelop envl;
+     if(envl.message_id==NULL || envl.message_type==NULL || envl.sender_id==NULL || envl.destination_id==NULL || envl.received_on==NULL || envl.signature==NULL || envl.reference_id==NULL || envl.user_properties==NULL)
+    {
+        valid=-2;
+    }
 
     MYSQL *conn =mysql_init(NULL);
     if(conn==NULL)
@@ -43,19 +48,16 @@ int is_bmd_valid(bmd b)
             {
                 valid=-2;
             }
+            break;
         }
     }
     mysql_free_result(result);
     mysql_close(conn);
 
-    bmd_envelop envl;
+  
 
-    if(envl.message_id==NULL || envl.message_type==NULL || envl.sender_id==NULL || envl.destination_id==NULL || envl.received_on==NULL || envl.signature==NULL || envl.reference_id==NULL || envl.user_properties==NULL)
-    {
-        valid=-2;
-    }
-    else if()
    
+    
     return valid;
 }
 
