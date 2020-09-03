@@ -13,7 +13,7 @@ void finish_with_error(MYSQL *con) {
     exit(1);
 }
 
-
+int queue_the_request(bmd b) {
     
     MYSQL *con = mysql_init(NULL);
       
@@ -26,7 +26,7 @@ void finish_with_error(MYSQL *con) {
       "root", "prabhakars 589b" , "esb_db", 0 , NULL , CLIENT_MULTI_STATEMENTS )==NULL) {
 
           finish_with_error(con);
-      
+      }
      
      bmd_envelop e = b.envelop;
      size_t len = strlen(e.received_on);
