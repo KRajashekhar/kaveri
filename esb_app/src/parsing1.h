@@ -1,6 +1,6 @@
 #ifndef _PARSING_H
 #define _PASING_H
-
+//gcc -Wall -I/usr/include/libxml2 -o parsing parsing.c -lxml2
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 

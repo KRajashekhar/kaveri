@@ -23,7 +23,7 @@ int queue_the_request(bmd b) {
       }
 
       if(mysql_real_connect(con, "localhost" ,
-      "raja", "Kucharla@1" , "esb_db", 0 , NULL , CLIENT_MULTI_STATEMENTS )==NULL) {
+      "root", "prabhakars 589b" , "esb_db", 0 , NULL , CLIENT_MULTI_STATEMENTS )==NULL) {
 
           finish_with_error(con);
       }

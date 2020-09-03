@@ -1,8 +1,11 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include "db_access.h"
-#include "parsing.h"
 
+//gcc -Wall -I/usr/include/libxml2 -o main main.c -lxml2 `mysql_config --cflags --libs`
+
+
+#include "parsing1.h"
+#include "db_access1.h"
 int main() {
 bmd b;
 
