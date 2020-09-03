@@ -36,9 +36,9 @@ int is_bmd_valid(bmd b)
      
      int return_value;
      char quer[MAX_STRING];
-     return_value = snprintf(quer,MAX_STRING,"select route_id from routes where sender='%s'",envl.sender_id);
+     return_value = snprintf(quer,MAX_STRING,"select route_id from routes where sender='%s' and message_type='%s' and destination='%s'",envl.sender_id,envl.message_type,envl.destination);
     char query[return_value+1];
-    return_value = snprintf(query,return_value+1,"select route_id from routes where sender='%s'",envl.sender_id);
+    return_value = snprintf(query,return_value+1,"select route_id from routes where sender='%s' and message_type='%s' and destination='%s'",envl.sender_id,envl.message_type,envl.destination);
     if(mysql_query(conn,query))
     {
         finish_with_error(conn);
