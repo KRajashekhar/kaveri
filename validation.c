@@ -30,7 +30,7 @@ int is_bmd_valid(bmd b)
         fprintf(stderr,"mysql_init() failed\n");
         exit(1);
     }
-    if(mysql_real_connect(conn,"localhost","root","prabhakars 589b","esb_db",0,NULL,0)==NULL)
+    if(mysql_real_connect(conn,"localhost","raja","Kucharla@1","esb_db",0,NULL,0)==NULL)
     {
         finish_with_error(conn);
     }
@@ -62,6 +62,7 @@ int is_bmd_valid(bmd b)
                 valid=-2;
             }
              r_id=(atoi)(row[i]);
+             printf("%d\n",r_id);
             break;
         }
     }
@@ -73,16 +74,17 @@ int is_bmd_valid(bmd b)
         fprintf(stderr,"mysql_init() failed\n");
         exit(1);
     }
-    if(mysql_real_connect(conn1,"localhost","root","prabhakars 589b","esb_db",0,NULL,0)==NULL)
+    if(mysql_real_connect(conn1,"localhost","raja","Kucharla@1","esb_db",0,NULL,0)==NULL)
     {
         finish_with_error(conn1);
     }
-     int return_value_1;
+    int return_value_1;
     char quer1[MAX_STRING];
-    return_value_1 = snprintf(quer1,MAX_STRING,"select config_key and config_value from transport_config where route_id='%d'",r_id);
+    return_value_1 = snprintf(quer1,MAX_STRING,"select config_key and config_value from transport_config where route_id=%d",r_id);
     char query1[return_value_1+1];
-    return_value_1=snprintf(query1,return_value_1+1,"select config_key and config_value from transport_config where route_id='%d'",r_id);
-    if(mysql_query(conn1,query))
+    return_value_1=snprintf(query1,return_value_1+1,"select config_key and config_value from transport_config where route_id=%d",r_id);
+     printf("query1:%s\n",query1);
+    if(mysql_query(conn1,query1))
     {
         finish_with_error(conn1);
     }
@@ -112,17 +114,18 @@ int is_bmd_valid(bmd b)
         fprintf(stderr,"mysql_init() failed\n");
         exit(1);
     }
-    if(mysql_real_connect(conn2,"locahost","root","prabhakars 589b","esb_db",0,NULL,0)==NULL)
+    if(mysql_real_connect(conn2,"localhost","raja","Kucharla@1","esb_db",0,NULL,0)==NULL)
     {
         finish_with_error(conn2);
     }
 
     int return_value_2;
     char quer2[MAX_STRING];
-    return_value_2=snprintf(quer2,MAX_STRING,"select config_key and config_value from transport_config where route_id='%d'",r_id);
+    return_value_2=snprintf(quer2,MAX_STRING,"select config_key and config_value from transform_config where route_id=%d",r_id);
     char query2[return_value_2+1];
-    return_value_2=snprintf(query2,return_value_2+1,"select config_key and config_value from transport_config where route_id='%d'",r_id);
-    if(mysql_query(conn,query))
+    return_value_2=snprintf(query2,return_value_2+1,"select config_key and config_value from transform_config where route_id=%d",r_id);
+     printf("query2:%s\n",query2);
+    if(mysql_query(conn2,query2))
     {
         finish_with_error(conn2);
     }
@@ -146,7 +149,6 @@ int is_bmd_valid(bmd b)
     }
     mysql_free_result(result_2);
     mysql_close(conn2);
-
   return valid;
 }
 
