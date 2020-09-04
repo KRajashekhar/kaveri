@@ -29,21 +29,24 @@ int is_bmd_valid(bmd b)
         fprintf(stderr,"mysql_init() failed\n");
         exit(1);
     }
-    if(mysql_real_connect(conn,"localhost","raja","Kucharla@1","esb_db",0,NULL,0)==NULL)
+    if(mysql_real_connect(conn,"localhost","root","prabhakars 589b","esb_db",0,NULL,0)==NULL)
     {
         finish_with_error(conn);
     }
      
      int return_value;
      char quer[MAX_STRING];
-     return_value = snprintf(quer,MAX_STRING,"select route_id from routes where sender='%s' and message_type='%s' and destination='%s'",envl.sender_id,envl.message_type,envl.destination);
+     return_value = snprintf(quer,MAX_STRING,"select route_id from routes where sender='%s' and message_type='%s' and destination='%s'",envl.sender_id,envl.message_type,envl.destination_id);
     char query[return_value+1];
-    return_value = snprintf(query,return_value+1,"select route_id from routes where sender='%s' and message_type='%s' and destination='%s'",envl.sender_id,envl.message_type,envl.destination);
+    return_value = snprintf(query,return_value+1,"select route_id from routes where sender='%s' and message_type='%s' and destination='%s'",envl.sender_id,envl.message_type,envl.destination_id);
     if(mysql_query(conn,query))
     {
         finish_with_error(conn);
     }
-    MYSQL_RES   *result=mysql_store_result(conn);
+    MYSQL_RES  *result=mysql_store_result(conn);
+    int r_id;
+    int *ptr;
+    ptr=&r_id;
     if(result==NULL)
     {
         finish_with_error(conn);
@@ -54,6 +57,7 @@ int is_bmd_valid(bmd b)
     {
         for(int i=0;i<num_fields;i++)
         {
+            *ptr=row[i];
             if(row[i]==NULL)
             {
                 valid=-2;
@@ -63,12 +67,87 @@ int is_bmd_valid(bmd b)
     }
     mysql_free_result(result);
     mysql_close(conn);
+     MYSQL *conn1 =mysql_init(NULL);
+    if(conn1==NULL)
+    {
+        fprintf(stderr,"mysql_init() failed\n");
+        exit(1);
+    }
+    if(mysql_real_connect(conn1,"localhost","root","prabhakars 589b","esb_db",0,NULL,0)==NULL)
+    {
+        finish_with_error(conn1);
+    }
+     int return_value_1;
+    char quer1[MAX_STRING];
+    return_value_1 = snprintf(quer1,MAX_STRING,"select config_key and config_value from transport_config where route_id='%d'",r_id);
+    char query1[return_value_1+1];
+    return_value_1=snprintf(query1,return_value_1+1,"select config_key and config_value from transport_config where route_id='%d'",r_id);
+    if(mysql_query(conn1,query))
+    {
+        finish_with_error(conn1);
+    }
+    MYSQL_RES *result_1 = mysql_store_result(conn1);
+    if(result_1==NULL)
+    {
+        finish_with_error(conn1);
+    }
+    int num_fields_1=mysql_num_fields(result_1);
+    MYSQL_ROW row_1;
+    while((row_1==mysql_fetch_row(result_1)))
+        {
+            for(int i=0;i<num_fields_1;i++)
+            {
+                if(row_1[i]==NULL)
+                {
+                    valid=-4;
+                }
+        break;
+            }
+        }
+    mysql_free_result(result_1);
+    mysql_close(conn1);
+     MYSQL *conn2 =mysql_init(NULL);
+    if(conn2==NULL)
+    {
+        fprintf(stderr,"mysql_init() failed\n");
+        exit(1);
+    }
+    if(mysql_real_connect(conn2,"locahost","root","prabhakars 589b","esb_db",0,NULL,0)==NULL)
+    {
+        finish_with_error(conn2);
+    }
 
-  
+    int return_value_2;
+    char quer2[MAX_STRING];
+    return_value_2=snprintf(quer2,MAX_STRING,"select config_key and config_value from transport_config where route_id='%d'",r_id);
+    char query2[return_value_2+1];
+    return_value_2=snprintf(query2,return_value_2+1,"select config_key and config_value from transport_config where route_id='%d'",r_id);
+    if(mysql_query(conn,query))
+    {
+        finish_with_error(conn2);
+    }
+    MYSQL_RES *result_2=mysql_store_result(conn2);
+    if(result_2==NULL)
+    {
+        finish_with_error(conn2);
+    }
+    int num_fields_2=mysql_num_fields(result_2);
+    MYSQL_ROW row_2;
+    while(row_2==mysql_fetch_row(result_2))
+    {
+        for(int i=0;i<num_fields_2;i++)
+        {
+            if(row_2[i]==NULL)
+            {
+                valid=-5;
+            }
+            break;
+        }
+    }
+    mysql_free_result(result_2);
+    mysql_close(conn2);
 
-   
-    
-    return valid;
+  return valid;
 }
 
 int main()
