@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<stdint.h>
 #include "parsing.h"
 #include "db_access.h"
 #define MAX_STRING 200
@@ -44,24 +45,23 @@ int is_bmd_valid(bmd b)
         finish_with_error(conn);
     }
     MYSQL_RES  *result=mysql_store_result(conn);
-    int r_id;
-    int *ptr;
-    ptr=&r_id;
     if(result==NULL)
     {
         finish_with_error(conn);
     }
     int num_fields=mysql_num_fields(result);
     MYSQL_ROW row;
+    unsigned int r_id;
     while((row=mysql_fetch_row(result)))
     {
         for(int i=0;i<num_fields;i++)
         {
-            *ptr=row[i];
+           
             if(row[i]==NULL)
             {
                 valid=-2;
             }
+             r_id=(atoi)(row[i]);
             break;
         }
     }
@@ -93,7 +93,7 @@ int is_bmd_valid(bmd b)
     }
     int num_fields_1=mysql_num_fields(result_1);
     MYSQL_ROW row_1;
-    while((row_1==mysql_fetch_row(result_1)))
+    while(row_1==mysql_fetch_row(result_1))
         {
             for(int i=0;i<num_fields_1;i++)
             {
@@ -158,3 +158,4 @@ int main()
     ans =is_bmd_valid(b);
     printf("%d\n",ans);
 }
+
