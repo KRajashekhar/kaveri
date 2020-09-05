@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdint.h>
+#include<string.h>
 #include "parsing.h"
 #include "db_access.h"
 #define MAX_STRING 200
@@ -23,7 +24,14 @@ int is_bmd_valid(bmd b)
     {
         valid=-1;
     }
+         
+    size_t size = sizeof(b.payload); 
+    if(size > 5242880 ) {
 
+      valid = -1;
+
+    }
+   // printf("%zu\n",size);
     MYSQL *conn =mysql_init(NULL);
     if(conn==NULL)
     {
