@@ -2,9 +2,9 @@
 #include<stdlib.h>
 #include "parsing.h"
 
-void xml2json(char Pay[])
+void xml2json(char *Pay)
 	{
-		char filename[] = "Payload.json";
+		char *filename= "Payload.json";
 		FILE *file;
 	    	file = fopen(filename,"w");
 	    	
@@ -21,15 +21,15 @@ void xml2json(char Pay[])
 	   	
 	    	fclose(file);
 	    	
-	    	return strdup(filename);
+	    	//return strdup(filename);
 	}
 
 int main()
 {
-	/*bmd b;
+	bmd b;
 	b=parse_bmd_xml("bmd.xml");
-	char payload[]=b.payload;*/
-	char payload[]="How to integrate";
+	char *payload=b.payload;
+	//char payload[]="How to integrate";
 	xml2json(payload);
 	return 0;	
 }
