@@ -38,7 +38,7 @@ int is_bmd_valid(bmd b)
         fprintf(stderr,"mysql_init() failed\n");
         exit(1);
     }
-    if(mysql_real_connect(conn,"localhost","raja","Kucharla@1","esb_db",0,NULL,0)==NULL)
+    if(mysql_real_connect(conn,"localhost","root","prabhakars 589b","esb_db",0,NULL,0)==NULL)
     {
         finish_with_error(conn);
     }
@@ -83,7 +83,7 @@ int is_bmd_valid(bmd b)
         fprintf(stderr,"mysql_init() failed\n");
         exit(1);
     }
-    if(mysql_real_connect(conn1,"localhost","raja","Kucharla@1","esb_db",0,NULL,0)==NULL)
+    if(mysql_real_connect(conn1,"localhost","root","prabhakars 589b","esb_db",0,NULL,0)==NULL)
     {
         finish_with_error(conn1);
     }
@@ -139,7 +139,7 @@ int is_bmd_valid(bmd b)
         fprintf(stderr,"mysql_init() failed\n");
         exit(1);
     }
-    if(mysql_real_connect(conn2,"localhost","raja","Kucharla@1","esb_db",0,NULL,0)==NULL)
+    if(mysql_real_connect(conn2,"localhost","root","prabhakars 589b","esb_db",0,NULL,0)==NULL)
     {
         finish_with_error(conn2);
     }
