@@ -2,17 +2,22 @@
 #include<stdlib.h>
 #include<stdint.h>
 #include<string.h>
-#include "parsing.h"
-#include "db_access.h"
+#include<mysql.h>
+/*#include<libxml/parser.h>
+#include<libxml/tree.h>
+*/
+
+
+#include"bmd.h"
 #define MAX_STRING 200
 
 
-/*void finish_with_error(MYSQL *conn)
+void finish_with_error(MYSQL *conn)
 {
     fprintf(stderr,"%s\n",mysql_error(conn));
     mysql_close(conn);
-    exit(1);
-}*/
+    return ;
+}
 
 int is_bmd_valid(bmd b)
 {
@@ -38,10 +43,15 @@ int is_bmd_valid(bmd b)
         fprintf(stderr,"mysql_init() failed\n");
         exit(1);
     }
-    if(mysql_real_connect(conn,"localhost","root","prabhakars 589b","esb_db",0,NULL,0)==NULL)
+    /*if(mysql_real_connect(conn,"localhost","root","prabhakars 589b","esb_db",0,NULL,0)==NULL)
+    {
+        finish_with_error(conn);
+    }*/
+    if(mysql_real_connect(conn,"localhost","raja","Kucharla@1","esb_db",0,NULL,0)==NULL)
     {
         finish_with_error(conn);
     }
+    
      
      int return_value;
      char quer[MAX_STRING];
@@ -83,10 +93,15 @@ int is_bmd_valid(bmd b)
         fprintf(stderr,"mysql_init() failed\n");
         exit(1);
     }
-    if(mysql_real_connect(conn1,"localhost","root","prabhakars 589b","esb_db",0,NULL,0)==NULL)
+    /*if(mysql_real_connect(conn1,"localhost","root","prabhakars 589b","esb_db",0,NULL,0)==NULL)
     {
         finish_with_error(conn1);
+    }*/
+     if(mysql_real_connect(conn,"localhost","raja","Kucharla@1","esb_db",0,NULL,0)==NULL)
+    {
+        finish_with_error(conn);
     }
+
     int return_value_1;
     char quer1[MAX_STRING];
     return_value_1 = snprintf(quer1,MAX_STRING,"select config_key and config_value from transport_config where route_id=%d",r_id);
@@ -139,9 +154,13 @@ int is_bmd_valid(bmd b)
         fprintf(stderr,"mysql_init() failed\n");
         exit(1);
     }
-    if(mysql_real_connect(conn2,"localhost","root","prabhakars 589b","esb_db",0,NULL,0)==NULL)
+    /*if(mysql_real_connect(conn2,"localhost","root","prabhakars 589b","esb_db",0,NULL,0)==NULL)
     {
         finish_with_error(conn2);
+    }*/
+    if(mysql_real_connect(conn,"localhost","raja","Kucharla@1","esb_db",0,NULL,0)==NULL)
+    {
+        finish_with_error(conn);
     }
 
     int return_value_2;
@@ -193,11 +212,14 @@ int is_bmd_valid(bmd b)
   return valid;
 }
 
-int main()
+/*int main()
 {
     bmd b;
     b=parse_bmd_xml("bmd.xml");
+   // db_access(b);
     int ans;
     ans =is_bmd_valid(b);
     printf("%d\n",ans);
+    xml2json(b.payload);
 }
+*/
