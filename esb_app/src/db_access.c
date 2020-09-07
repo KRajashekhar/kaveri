@@ -1,19 +1,24 @@
-#ifndef _queue_the_request
-#define _queue_the_request
 
 //gcc connect.c -o connect 'mysql_config --cflags --libs'
-
+#include<stdio.h>
 #include <string.h>
 #include <mysql/mysql.h>
+/*#include <libxml/parser.h>
+#include <libxml/tree.h>
+*/
+#include "bmd.h"
+
 #define MAX_STRING 200
 
-void finish_with_error(MYSQL *con) {
+
+void finish_with_error1(MYSQL *con) {
     fprintf(stderr,"%s\n", mysql_error(con)) ;
     mysql_close(con);
-    exit(1);
+   exit(1);
 }
 
-int db_access(bmd b) {
+
+void db_access(bmd b) {
     
     MYSQL *con = mysql_init(NULL);
       
@@ -25,7 +30,7 @@ int db_access(bmd b) {
       if(mysql_real_connect(con, "localhost" ,
       "raja", "Kucharla@1" , "esb_db", 0 , NULL , CLIENT_MULTI_STATEMENTS )==NULL) {
 
-          finish_with_error(con);
+          finish_with_error1(con);
       }
      
      bmd_envelop e = b.envelop;
@@ -71,13 +76,13 @@ int db_access(bmd b) {
 
         if (mysql_query(con, query1)) {
 
-         finish_with_error(con);
+         finish_with_error1(con);
       }
     
       
       if (mysql_query(con, query)) {
            
-           finish_with_error(con);
+           finish_with_error1(con);
       }
 
     
@@ -85,7 +90,13 @@ int db_access(bmd b) {
 
       printf("The last inserted row id is: %d\n",id);
       mysql_close(con);
-      return 0;
+    
 }
 
-#endif
+/*int main() {
+
+  bmd b;
+  b = parse_bmd_xml("bmd.xml");
+  db_access(b);
+  return 0;
+}*/

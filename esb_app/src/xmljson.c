@@ -1,8 +1,9 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include "parsing.h"
 
-void xml2json(char *Pay)
+#include"bmd.h"
+
+void xml2json(char *Payload)
 	{
 		char *filename= "Payload.json";
 		FILE *file;
@@ -15,7 +16,7 @@ void xml2json(char *Pay)
 	    	}
 	    	
 	    	
-	    	fprintf(file,"{\n \"Payload\":\"%s\"\n}",Pay);
+	    	fprintf(file,"{\n \"Payload\":\"%s\"\n}",Payload);
 	    	
 	    	printf("\nPayload json File created\n");
 	   	
@@ -24,7 +25,7 @@ void xml2json(char *Pay)
 	    	//return strdup(filename);
 	}
 
-int main()
+/*int main()
 {
 	bmd b;
 	b=parse_bmd_xml("bmd.xml");
@@ -33,3 +34,4 @@ int main()
 	xml2json(payload);
 	return 0;	
 }
+*/

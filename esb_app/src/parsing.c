@@ -1,29 +1,11 @@
-#ifndef _PARSING_H
-#define _PASING_H
+#include<stdio.h>
+#include<stdlib.h>
 //gcc -Wall -I/usr/include/libxml2 -o parsing parsing.c -lxml2
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 
-struct _bmd_envelop {
-    char* sender_id;
-    char* destination_id;
-    char* message_type;
-    // TODO: Other fields
-    char* reference_id;
-    char* message_id;
-    char * received_on;
-    char * signature;
-    char * user_properties;
-};
+#include "bmd.h"
 
-typedef struct _bmd_envelop bmd_envelop;
-
-struct _bmd{
-    bmd_envelop envelop;
-    char* payload;
-};
-
-typedef struct _bmd bmd;
 
 bmd parse_bmd_xml(char * bmd_file_path) {
 
@@ -38,7 +20,7 @@ bmd parse_bmd_xml(char * bmd_file_path) {
     temp = xmlDocGetRootElement(document);
     root=xmlFirstElementChild(temp);
   
-       // char* arrayName[8];
+       //char* arrayName[8];
         char* arrayValue[8];
         int i=0;
         first_child = root->children;
@@ -76,7 +58,7 @@ bmd parse_bmd_xml(char * bmd_file_path) {
             }
         }
     // }
-   /* int size = sizeof arrayName / sizeof arrayName[0];
+   /*int size = sizeof arrayName / sizeof arrayName[0];
     printf("%d\n" ,size);
     for(int i=0;i<=size;i++)
     {
@@ -100,4 +82,10 @@ bmd parse_bmd_xml(char * bmd_file_path) {
 
  return b;
 }
-#endif
+
+/*int main() {
+ 
+ bmd b;
+ b = parse_bmd_xml("bmd.xml");
+ printf("%s\n",b.payload);
+}*/
