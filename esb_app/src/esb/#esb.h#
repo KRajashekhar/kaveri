@@ -29,11 +29,11 @@ bmd parse_bmd_xml(char * bmd_file_path) ;
 void db_access(bmd b);
 int is_bmd_valid(bmd b);
 void xml2json(char *Payload);
+int process_esb_request(char* bmd_file_path);
+int select_active_route(const unsigned char *Sender,const unsigned char *Destination,const unsigned char *MessageType);
+int select_transport_config(int route_id);
+int select_transform_config(int route_id);
 
-int chech_if_string_is_guid(const unsigned char *value);
-bmd *process_xml(char *);
-envelop *extract_envelop(chaar *bmd_xml);
-payload *extract_payload(char *bmd_xml);
 
 
 

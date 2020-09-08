@@ -12,7 +12,8 @@
  * test_abc_setup and test_abc_tear_down respectively.
  */
  
- 
+ /* gcc test_esb.c munit.c bmd_parser.c database.c esb.c  `mysql_config --cflags --libs` `xml2-config --cflags --libs` -o test_esb
+ */
  
  
  static void *
