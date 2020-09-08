@@ -30,6 +30,11 @@ void db_access(bmd b);
 int is_bmd_valid(bmd b);
 void xml2json(char *Payload);
 
+int chech_if_string_is_guid(const unsigned char *value);
+bmd *process_xml(char *);
+envelop *extract_envelop(chaar *bmd_xml);
+payload *extract_payload(char *bmd_xml);
+
 
 
 #endif

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type='text/xsl'?> 
+<BMD>
+<Envelop>
+<MessageID>first_test_case</MessageID>
+<MessageType>C_R</MessageType>
+<Sender>Sender_First</Sender>
+<Destination>Destination_First</Destination>
+<CreationDateTime>2020-08-12T05:18:00+0000</CreationDateTime>
+<Signature>Signature_First</Signature>
+<ReferenceID>RefID_1</ReferenceID>
+<UserProperties>
+<key1>Value_1</key1>
+<key2>Value_2</key2>
+</UserProperties>
+</Envelop>
+<Payload>001-01-12341</Payload>
+</BMD>
