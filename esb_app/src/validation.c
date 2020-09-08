@@ -89,10 +89,8 @@ int is_bmd_complete(bmd b) {
 
 
 // finding the root_id
-int get_root_id(bmd b) {
-
-    bmd_envelop envelop = b.envelop;
-
+int get_root_id(char *sender_id, char *message_type, char *destination_id) {
+   
     MYSQL *conn =mysql_init(NULL);
     if(conn==NULL)
     {
@@ -111,9 +109,9 @@ int get_root_id(bmd b) {
     
     int return_value;
     char quer[MAX_STRING];
-    return_value = snprintf(quer,MAX_STRING,"select route_id from routes where sender='%s' and message_type='%s' and destination='%s'",envelop.sender_id,envelop.message_type,envelop.destination_id);
+    return_value = snprintf(quer,MAX_STRING,"select route_id from routes where sender='%s' and message_type='%s' and destination='%s'",sender_id,message_type,destination_id);
     char query[return_value+1];
-    return_value = snprintf(query,return_value+1,"select route_id from routes where sender='%s' and message_type='%s' and destination='%s'",envelop.sender_id,envelop.message_type,envelop.destination_id);
+    return_value = snprintf(query,return_value+1,"select route_id from routes where sender='%s' and message_type='%s' and destination='%s'",sender_id,message_type,destination_id);
     if(mysql_query(conn,query))
     {
        return finish_with_error(conn);
@@ -290,7 +288,7 @@ int check_transform_config_table(int r_id) {
 int is_bmd_valid(bmd b)
 {
      // 1 => VALID, -1 => INVALID
-      bmd_envelop envl = b.envelop;
+      bmd_envelop envelop = b.envelop;
     
 
     // checking whether bmd is complete or not
@@ -310,7 +308,7 @@ int is_bmd_valid(bmd b)
     }
     
     //route_id
-    int r_id = get_root_id(b);
+    int r_id = get_root_id(envelop.sender_id, envelop.message_type, envelop.destination_id);
     if(r_id == INVALID) {
         fprintf(stderr,"There is no route_id corresponding to bmd file\n");
         return INVALID;

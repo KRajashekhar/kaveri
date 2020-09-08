@@ -7,7 +7,8 @@
 #include "bmd.h"
 
 
-bmd parse_bmd_xml(char * bmd_file_path) {
+bmd parse_bmd_xml(char * bmd_file_path) 
+{
 
     xmlDoc         *document;
     xmlNode        *root, *first_child, *node,*temp;
@@ -20,51 +21,30 @@ bmd parse_bmd_xml(char * bmd_file_path) {
     temp = xmlDocGetRootElement(document);
     root=xmlFirstElementChild(temp);
   
-       //char* arrayName[8];
-        char* arrayValue[8];
-        int i=0;
-        first_child = root->children;
-        for (node = first_child; node; node = node->next) {
-            // if(node->type==1)
-            // fprintf(stdout, "\t Child is <%s>  (%i) value: \n", node->name ,node->type);
-            // // temp=node;
-
-            if(node->type==1)
-            {
-            // printf("%d\n",checkNamespace("MessageID",node->name));
-              //  arrayName[i]=(char*)node->name;
-                arrayValue[i]=(char*)xmlNodeGetContent(node);
-                //fprintf(stdout, "attributes:<%s>\tvalue: %s\n", node->name,xmlNodeGetContent(node));
-                //printf("%d: name->%s value->%s\n",i,arrayName[i],arrayValue[i]);
-                i++;
-            }
+       
+    char* arrayValue[8];
+    int i=0;
+    first_child = root->children;
+    for (node = first_child; node; node = node->next) 
+    {
+            
+      if(node->type==1)
+        {
+            arrayValue[i]=(char*)xmlNodeGetContent(node);
+            i++;
         }
+    }
 
     root=xmlLastElementChild(temp);
     first_child = root;
-        for (node = first_child; node; node = node->next) {
-            // if(node->type==1)
-            // fprintf(stdout, "\t Child is <%s>  (%i) value: \n", node->name ,node->type);
-            // // temp=node;
-
-            if(node->type==1)
-            {
-            // printf("%d\n",checkNamespace("MessageID",node->name));
-               // arrayName[i]=(char*)node->name;
-                arrayValue[i]=(char*)xmlNodeGetContent(node);
-                //fprintf(stdout, "attributes:<%s>\tvalue: %s\n", node->name,xmlNodeGetContent(node));
-                //printf("%d: name->%s value->%s\n",i,arrayName[i],arrayValue[i]);
-                i++;
-            }
+    for (node = first_child; node; node = node->next)
+     {
+        if(node->type==1)
+        {
+            arrayValue[i]=(char*)xmlNodeGetContent(node);
+            i++;
         }
-    // }
-   /*int size = sizeof arrayName / sizeof arrayName[0];
-    printf("%d\n" ,size);
-    for(int i=0;i<=size;i++)
-    {
-        printf("%d: name->%s value->%s\n",i,arrayName[i],arrayValue[i]);
-    }
-    fprintf(stdout, "...\n");*/
+     }
     
    bmd_envelop envl;
    envl.message_id = arrayValue[0];

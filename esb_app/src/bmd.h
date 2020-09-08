@@ -25,15 +25,13 @@ typedef struct _bmd bmd;
 
 
 bmd parse_bmd_xml(char * bmd_file_path) ;
-//void finish_with_error(MYSQL *con);
 void db_access(bmd b);
+int is_bmd_complete(bmd b);
+int get_root_id(char *sender_id, char *message_type, char *destination_id) ;
+int check_transport_config_table(int r_id);
+int check_transform_config_table(int r_id);
 int is_bmd_valid(bmd b);
 void xml2json(char *Payload);
-
-int chech_if_string_is_guid(const unsigned char *value);
-bmd *process_xml(char *);
-envelop *extract_envelop(chaar *bmd_xml);
-payload *extract_payload(char *bmd_xml);
 
 
 
