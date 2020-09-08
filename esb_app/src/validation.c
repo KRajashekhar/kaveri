@@ -10,38 +10,95 @@
 
 #include"bmd.h"
 #define MAX_STRING 200
+#define MAX_SIZE 5242880
+#define VALID 1
+#define INVALID -1
 
 
-void finish_with_error(MYSQL *conn)
+int finish_with_error(MYSQL *conn)
 {
     fprintf(stderr,"%s\n",mysql_error(conn));
     mysql_close(conn);
-    return ;
+    return INVALID;
 }
 
-int is_bmd_valid(bmd b)
-{
- int valid = 1; // 1 => vaild, -1 => invalid
-    // TODO: Implement the validation logic here
-      bmd_envelop envl = b.envelop;
+int is_bmd_complete(bmd b) {
+   bmd_envelop envelop = b.envelop;
 
-     if(envl.message_id==NULL || envl.message_type==NULL || envl.sender_id==NULL || envl.destination_id==NULL || envl.received_on==NULL || envl.signature==NULL || envl.reference_id==NULL || envl.user_properties==NULL)
-    {
-        valid=-1;
+   // checking message_id 
+   if(envelop.message_id == NULL) {
+
+       fprintf(stderr,"message_id not present\n");
+       return INVALID;
+   }
+
+   // message_type
+
+   if(envelop.message_type == NULL) {
+        fprintf(stderr,"message_type is not present\n");
+        return INVALID;
+   }
+
+    //sender_id
+    if(envelop.sender_id == NULL) {
+        fprintf(stderr,"sender_id is not present\n");
+        return INVALID;
     }
-         
-    size_t size = sizeof(b.payload); 
-    if(size > 5242880 ) {
 
-      valid = -1;
-
+    //destination_id
+    if(envelop.destination_id == NULL) {
+        fprintf(stderr,"destination_id is not present\n");
+        return INVALID;
     }
-   // printf("%zu\n",size);
+
+    //received_on
+    if(envelop.received_on == NULL) {
+        fprintf(stderr,"received_on is not present\n");
+        return INVALID;
+    }
+
+    //signature
+    if(envelop.signature == NULL) {
+        fprintf(stderr, "signature is not present\n");
+        return INVALID;
+    }
+
+    //reference_id
+    if(envelop.reference_id == NULL) {
+        fprintf(stderr, "reference_id is not present\n");
+        return INVALID;
+    }
+
+    //user_properties
+    if(envelop.user_properties == NULL) {
+        fprintf(stderr, "user_properties is not present\n");
+        return INVALID;
+    }
+
+    //payload
+    if(b.payload == NULL) {
+        fprintf(stderr, "payload is not present\n");
+        return INVALID;
+    }
+
+
+    return VALID;
+   
+   
+}
+
+
+// finding the root_id
+int get_root_id(bmd b) {
+
+    bmd_envelop envelop = b.envelop;
+
     MYSQL *conn =mysql_init(NULL);
     if(conn==NULL)
     {
         fprintf(stderr,"mysql_init() failed\n");
-        exit(1);
+        //exit(1);
+        return INVALID;
     }
     /*if(mysql_real_connect(conn,"localhost","root","prabhakars 589b","esb_db",0,NULL,0)==NULL)
     {
@@ -49,110 +106,127 @@ int is_bmd_valid(bmd b)
     }*/
     if(mysql_real_connect(conn,"localhost","raja","Kucharla@1","esb_db",0,NULL,0)==NULL)
     {
-        finish_with_error(conn);
+        return finish_with_error(conn);
     }
     
-     
-     int return_value;
-     char quer[MAX_STRING];
-     return_value = snprintf(quer,MAX_STRING,"select route_id from routes where sender='%s' and message_type='%s' and destination='%s'",envl.sender_id,envl.message_type,envl.destination_id);
+    int return_value;
+    char quer[MAX_STRING];
+    return_value = snprintf(quer,MAX_STRING,"select route_id from routes where sender='%s' and message_type='%s' and destination='%s'",envelop.sender_id,envelop.message_type,envelop.destination_id);
     char query[return_value+1];
-    return_value = snprintf(query,return_value+1,"select route_id from routes where sender='%s' and message_type='%s' and destination='%s'",envl.sender_id,envl.message_type,envl.destination_id);
+    return_value = snprintf(query,return_value+1,"select route_id from routes where sender='%s' and message_type='%s' and destination='%s'",envelop.sender_id,envelop.message_type,envelop.destination_id);
     if(mysql_query(conn,query))
     {
-        finish_with_error(conn);
+       return finish_with_error(conn);
     }
     MYSQL_RES  *result=mysql_store_result(conn);
-    unsigned int r_id;
     if(result==NULL)
     {
-        finish_with_error(conn);
+        return finish_with_error(conn);
     }
     int num_fields=mysql_num_fields(result);
     MYSQL_ROW row;
-    while((row=mysql_fetch_row(result)))
-    {
-        for(int i=0;i<num_fields;i++)
-        {
-           
-            if(row[i]==NULL)
-            {
-                valid=-1;
+    unsigned int r_id;
+    row = mysql_fetch_row(result);
+    if(row==NULL) {
+          
+          return INVALID;
+    }
+    else {
+        for(int i=0;i<num_fields;i++) {
+                if(row[i]==NULL) {
+                return INVALID;
             }
-             r_id=(atoi)(row[i]);
-             //printf("%d\n",r_id);
-            break;
+             r_id = atoi(row[i]);
         }
     }
+
     mysql_free_result(result);
     mysql_close(conn);
-    
-     MYSQL *conn1 =mysql_init(NULL);
-    if(conn1==NULL)
+    return r_id;
+}
+
+
+// checking config_value and config_key from transport_config table;
+
+int check_transport_config_table(int r_id) {
+    MYSQL *conn =mysql_init(NULL);
+    if(conn==NULL)
     {
         fprintf(stderr,"mysql_init() failed\n");
-        exit(1);
+        //exit(1);
+        return INVALID;
     }
-    /*if(mysql_real_connect(conn1,"localhost","root","prabhakars 589b","esb_db",0,NULL,0)==NULL)
+    /*if(mysql_real_connect(conn,"localhost","root","prabhakars 589b","esb_db",0,NULL,0)==NULL)
     {
-        finish_with_error(conn1);
+        finish_with_error(conn);
     }*/
      if(mysql_real_connect(conn,"localhost","raja","Kucharla@1","esb_db",0,NULL,0)==NULL)
     {
-        finish_with_error(conn);
+        return finish_with_error(conn);
     }
+    
+   
 
-    int return_value_1;
-    char quer1[MAX_STRING];
-    return_value_1 = snprintf(quer1,MAX_STRING,"select config_key and config_value from transport_config where route_id=%d",r_id);
-    char query1[return_value_1+1];
-    return_value_1=snprintf(query1,return_value_1+1,"select config_key and config_value from transport_config where route_id=%d",r_id);
-    // printf("query1:%s\n",query1);
-    if(mysql_query(conn1,query1))
+    int return_value;
+    char quer[MAX_STRING];
+    return_value = snprintf(quer,MAX_STRING,"select config_key and config_value from transport_config where route_id=%d",r_id);
+    char query[return_value+1];
+    return_value=snprintf(query,return_value+1,"select config_key and config_value from transport_config where route_id=%d",r_id);
+    if(mysql_query(conn,query))
     {
-        finish_with_error(conn1);
+        return finish_with_error(conn);
     }
-    MYSQL_RES *result_1 = mysql_store_result(conn1);
-    if(result_1==NULL)
+    MYSQL_RES *result = mysql_store_result(conn);
+    if(result==NULL)
     {  
         
-        finish_with_error(conn1);
+        return finish_with_error(conn);
     }
-      //  printf("result_1\n");
-    int num_fields_1=mysql_num_fields(result_1);
-    MYSQL_ROW row_1;
-    row_1=mysql_fetch_row(result_1);
-    if(row_1==NULL) {
+
+    int num_fields=mysql_num_fields(result);
+    MYSQL_ROW row;
+    row=mysql_fetch_row(result);
+    if(row==NULL) {
           
-          valid = -1;
+          return INVALID;
     }
     else {
-        for(int i=0;i<num_fields_1;i++){
+        for(int i=0;i<num_fields;i++){
 
-            if(row_1[i]==NULL) {
-                valid = -1;
+            if(row[i]==NULL) {
+                return INVALID;
             }
         }
     }
-    while((row_1=mysql_fetch_row(result_1)))
+    while((row=mysql_fetch_row(result)))
         {
-            for(int i=0;i<num_fields_1;i++)
+            for(int i=0;i<num_fields;i++)
             {
-                if(row_1[i]==NULL)
+                if(row[i]==NULL)
                 {
-                    valid=-1;
+                    return INVALID;
                 }
-        break;
             }
         }
-    mysql_free_result(result_1);
-    mysql_close(conn1);
-    
-     MYSQL *conn2 =mysql_init(NULL);
-    if(conn2==NULL)
+    mysql_free_result(result);
+    mysql_close(conn);
+     
+     return VALID;
+
+}
+
+
+//checking config_key and config_value from trasform_config table
+
+int check_transform_config_table(int r_id) {
+
+
+    MYSQL *conn =mysql_init(NULL);
+    if(conn==NULL)
     {
         fprintf(stderr,"mysql_init() failed\n");
-        exit(1);
+       // exit(1);
+       return INVALID;
     }
     /*if(mysql_real_connect(conn2,"localhost","root","prabhakars 589b","esb_db",0,NULL,0)==NULL)
     {
@@ -160,56 +234,102 @@ int is_bmd_valid(bmd b)
     }*/
     if(mysql_real_connect(conn,"localhost","raja","Kucharla@1","esb_db",0,NULL,0)==NULL)
     {
-        finish_with_error(conn);
+        return finish_with_error(conn);
     }
 
-    int return_value_2;
-    char quer2[MAX_STRING];
-    return_value_2=snprintf(quer2,MAX_STRING,"select config_key and config_value from transform_config where route_id=%d",r_id);
-    char query2[return_value_2+1];
-    return_value_2=snprintf(query2,return_value_2+1,"select config_key and config_value from transform_config where route_id=%d",r_id);
+    int return_value;
+    char quer[MAX_STRING];
+    return_value=snprintf(quer,MAX_STRING,"select config_key and config_value from transform_config where route_id=%d",r_id);
+    char query[return_value+1];
+    return_value=snprintf(query,return_value+1,"select config_key and config_value from transform_config where route_id=%d",r_id);
     // printf("query2:%s\n",query2);
-    if(mysql_query(conn2,query2))
+    if(mysql_query(conn,query))
     {
-        finish_with_error(conn2);
+        return finish_with_error(conn);
     }
 
-    MYSQL_RES *result_2=mysql_store_result(conn2);
-    if(result_2==NULL)
+    MYSQL_RES *result=mysql_store_result(conn);
+    if(result==NULL)
     {
-        finish_with_error(conn2);
+        return finish_with_error(conn);
     }
-    int num_fields_2=mysql_num_fields(result_2);
-    MYSQL_ROW row_2;
-    row_2 = mysql_fetch_row(result_2);
-    if(row_2==NULL) {
+    int num_fields=mysql_num_fields(result);
+    MYSQL_ROW row;
+    row = mysql_fetch_row(result);
+    if(row==NULL) {
           
-          valid = -1;
+          return INVALID;
     }
     else {
-        for(int i=0;i<num_fields_2;i++){
+        for(int i=0;i<num_fields;i++){
 
-            if(row_2[i]==NULL) {
-                valid = -1;
+            if(row[i]==NULL) {
+                return INVALID;
             }
         }
     }
     
-    while((row_2=mysql_fetch_row(result_2)))
+    while((row=mysql_fetch_row(result)))
     {
-        for(int i=0;i<num_fields_2;i++)
+        for(int i=0;i<num_fields;i++)
         {
-            if(row_2[i]==NULL)
+            if(row[i]==NULL)
             {
-                valid=-1;
+                return INVALID;
             }
-            break;
         }
     }
-    mysql_free_result(result_2);
-    mysql_close(conn2);
+    mysql_free_result(result);
+    mysql_close(conn);
+    return VALID;
+}
+
+
+
+
+int is_bmd_valid(bmd b)
+{
+     // 1 => VALID, -1 => INVALID
+      bmd_envelop envl = b.envelop;
     
-  return valid;
+
+    // checking whether bmd is complete or not
+    if(is_bmd_complete(b) == INVALID)
+    {
+        fprintf(stderr,"BMD is incomplete\n");
+        return INVALID;
+    }  
+
+    // checking the size of the payload
+    size_t size = strlen(b.payload); 
+    size = size+1;
+    if(size > MAX_SIZE ) {
+      fprintf(stderr, "Payload size is greater than 5MB\n");
+      return INVALID;
+
+    }
+    
+    //route_id
+    int r_id = get_root_id(b);
+    if(r_id == INVALID) {
+        fprintf(stderr,"There is no route_id corresponding to bmd file\n");
+        return INVALID;
+    }
+    
+    //transform_config_table
+    if(check_transform_config_table(r_id) == INVALID) {
+
+        fprintf(stderr, "Either config_value or config_key or both corresponding to route_id not present in transform_config table \n");
+        return INVALID;
+    }
+    
+    //transport_config_table
+    if(check_transport_config_table(r_id)  == INVALID) {
+        fprintf(stderr,"Either config_value or config_key or both corressponding to route_id not present in transport_config table \n");
+        return INVALID;
+    }
+    
+  return VALID;
 }
 
 /*int main()
