@@ -25,7 +25,7 @@ int is_bmd_valid(bmd b)
     return valid;
 }
 
-int queue_the_request(bmd b)
+int queue_the_request(bmd *b, char *file_path)
 {
     int success = 1; // 1 => OK, -1 => Error cases
     /** 
@@ -33,6 +33,7 @@ int queue_the_request(bmd b)
      * and implement other logic for enqueueing the request
      * as specified in Theory of Operation.
      */
+     int check=insert_to_esb_request
     return success;
 }
 
