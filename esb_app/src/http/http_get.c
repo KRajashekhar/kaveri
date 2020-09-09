@@ -9,7 +9,7 @@ int main()
 	if(curl)
 	{
 		curl_easy_setopt(curl,CURLOPT_URL,"https://ifsc.razorpay.com/");
-		curl_easy_setopt(curl,CURLOPT_POSTFIELDS,"IFSC=KARB0001");
+		curl_easy_setopt(curl,CURLOPT_HTTPGET,"IDIB000V086");
 		res=curl_easy_perform(curl);
 		if(res!=CURLE_OK)
 		{
