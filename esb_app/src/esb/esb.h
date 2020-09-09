@@ -1,6 +1,7 @@
 #include<stdio.h>
-#ifndef BMD_H
-#define BMD_H
+#include "../bmd/bmd.h"
+#ifndef ESB_H
+#define ESB_H
 
 int process_esb_request(char* bmd_file_path);
 
