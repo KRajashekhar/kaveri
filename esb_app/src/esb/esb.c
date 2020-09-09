@@ -34,7 +34,7 @@ int queue_the_request(bmd *b, char *file_path)
      * and implement other logic for enqueueing the request
      * as specified in Theory of Operation.
      */
-     int check=insert_to_esb_request;
+    // int check=insert_to_esb_request;
     return success;
 }
 
@@ -64,7 +64,7 @@ int process_esb_request(char* bmd_file_path) {
     else
     {
         // Step 3:
-        status = queue_the_request(b);
+        //status = queue_the_request(b);
     }
     
     return status;
