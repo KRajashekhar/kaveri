@@ -16,7 +16,7 @@ struct _bmd_envelop {
 
 typedef struct _bmd_envelop bmd_envelop;
 
-struct _bmd{
+struct _bmd
     bmd_envelop envelop;
     char* payload;
 };
@@ -34,5 +34,7 @@ int is_bmd_valid(bmd b);
 void xml2json(char *Payload);
 
 
+
+#endif
 
 #endif
