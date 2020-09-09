@@ -16,7 +16,7 @@ parsing.o : parsing.c bmd.h
 	$(cflags) parsing.c $(libl) 
 
 clean:
-	rm -f out $(OBJECTS)
+	rm out $(OBJECTS)
 
 
 

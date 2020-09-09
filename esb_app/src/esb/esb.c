@@ -1,11 +1,13 @@
 #include<stdio.h>
 #include "email.h"
-#include "esb.h"
+//#include "esb.h"
+#include "../bmd/bmd.h"
+
 
 /**
  * TODO: This is to be implemented separately.
  */
-bmd parse_bmd_xml(char* bmd_file_path) {
+/*bmd parse_bmd_xml(char* bmd_file_path) {
     bmd b;
     bmd_envelop envl;
     envl.sender_id = "TEST-GUID-1";
@@ -15,8 +17,7 @@ bmd parse_bmd_xml(char* bmd_file_path) {
     b.envelop = envl;
     b.payload = "Some data here";
     return b;
-}
-
+}*/
 int is_bmd_valid(bmd b)
 {
     int valid = 1; // 1 => vaild, -1 => invalid
@@ -33,7 +34,7 @@ int queue_the_request(bmd *b, char *file_path)
      * and implement other logic for enqueueing the request
      * as specified in Theory of Operation.
      */
-     int check=insert_to_esb_request
+     int check=insert_to_esb_request;
     return success;
 }
 
@@ -54,7 +55,7 @@ int process_esb_request(char* bmd_file_path) {
     bmd b = parse_bmd_xml(bmd_file_path);
 
     // Step 2:
-    if (!is_bmd_valid(b))
+    if (is_bmd_valid(b) ==  -1)
     {
         //TODO: Process the error case
         printf("BMD is invalid!\n");

@@ -7,9 +7,15 @@
  * 
  */ 
 #include "../bmd/bmd.h"
+<<<<<<< HEAD
 
 
 //#include "../db_access/connector.h"
+=======
+
+
+
+>>>>>>> bc12a8df81135c2ea1698ed5a3b299689e074c50
 
 
 static MunitResult
