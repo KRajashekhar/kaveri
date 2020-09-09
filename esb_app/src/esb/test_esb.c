@@ -6,10 +6,10 @@
  * functions and  bmd structure declaration 
  * 
  */ 
-#include "../db_access/bmd.h"
+#include "../bmd/bmd.h"
 
 
-#include "../db_access/connector.h"
+//#include "../db_access/connector.h"
 
 
 static MunitResult
