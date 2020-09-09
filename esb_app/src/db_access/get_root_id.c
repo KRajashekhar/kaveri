@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<stdint.h>
 #include<string.h>
-#include<mysql.h>
+#include<mysql/mysql.h>
 /*#include<libxml/parser.h>
 #include<libxml/tree.h>
 */
