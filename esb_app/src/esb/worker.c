@@ -1,15 +1,21 @@
 #include <stdio.h>
 #include <unistd.h>
-#include "../bmd/bmd.h"
+#include "esb.h"
+//#include "../bmd/bmd.h"
 
-int fetch_new_request_from_db(bmd *request)
+int fetch_new_request_from_db(task_t *request)
 {
     /** 
      * TODO: query the DB for this, and populate the 
      * request pointer with the requests.
      */
     printf("Checking for new requests in esb_requests table.\n");
-    return 1; // 1 => OK, -1 => Errors
+    request=select_new_esb_request();
+    if(request!=NULL)
+    {
+    	return 1;
+    	}
+    return 0; // 1 => OK, 0 => Failed
 }
 
 /**
@@ -26,7 +32,7 @@ void *poll_database_for_new_requets(void *vargp)
          * Step 2: Query the esb_requests table to see if there
          * are any newly received BMD requets.
          */
-        bmd req;
+        task_t *req;
         /**
          * Step 3:
          */
@@ -55,3 +61,13 @@ void *poll_database_for_new_requets(void *vargp)
         sleep(5);
     }
 }
+
+int main()  {
+	task_t *req=select_new_esb_request();
+	int a=update_esb_request("done",req->id);
+	printf("rc for update =%d",a);
+	printf("%d",req->id);
+	printf("%s",req->data_location);
+	printf("%s",req->destination);
+	return 0;
+	}

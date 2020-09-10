@@ -26,6 +26,53 @@ test_queue_the_request(const MunitParameter params[], void *fixture)
 {
     bmd b = parse_bmd_xml("../Testing/bmd.xml");
 
-    //munit_assert(test_queue_the_request(b,"../Testing/bmd.xml")==1);
+    munit_assert(queue_the_request(b,"../Testing/bmd.xml")==1);
     return MUNIT_OK;
 }
+
+static MunitResult
+ test_process_esb_request(const MunitParameter params[], void *fixture)
+ {
+ 	bmd *b=(bmd *)fixture;
+ 	
+ 	munit_assert(process_esb_request("../Testing/bmd.xml")==1);
+ 	return MUNIT_OK;
+ 	
+ }
+ 
+ MunitTest esb_tests[] ={
+ 	{
+ 	//processing the esb request
+ 	test_process_esb_request,
+ 	NULL,
+ 	NULL,
+ 	MUNIT_TEST_OPTION_NONE,
+ 	NULL
+ 	},
+ 	
+ 	{
+ 	//queue_the_request,
+ 	test_queue_the_request,
+ 	NULL,
+ 	NULL,
+ 	MUNIT_TEST_OPTION_NONE,
+ 	NULL
+ 	},
+ 	
+ 	{NULL,NULL,NULL,NULL,MUNIT_TEST_OPTION_NONE,NULL}
+ 	};
+ 	
+ 	//arranging the cases into respective suites,
+ 	
+ 	static const MunitSuite suite={
+ 	//es_tests,
+ 	esb_tests,
+ 	NULL
+ 	1,
+ 	MUNIT_TEST_OPTION_NONE
+ 	};
+ 	
+ 	//checking the tests
+ 	int main(int argc, const char* argv[]){
+ 	return munit_suite_main(&suite,NULL,argc,NULL);
+ 	}
