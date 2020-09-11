@@ -3,7 +3,6 @@
 //gcc -Wall -I/usr/include/libxml2 -o parsing parsing.c -lxml2
 #include <libxml/parser.h>
 #include <libxml/tree.h>
-
 #include "bmd.h"
 
 

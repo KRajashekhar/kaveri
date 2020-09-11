@@ -3,9 +3,9 @@
 #include<stdint.h>
 #include<string.h>
 #include<mysql/mysql.h>
-/*#include<libxml/parser.h>
+#include<libxml/parser.h>
 #include<libxml/tree.h>
-*/
+
 
 
 #include"bmd.h"
