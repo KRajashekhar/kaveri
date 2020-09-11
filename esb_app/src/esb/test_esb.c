@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 #include "munit.h"
-//#include "esb.h"
+#include "esb.h"
 /** Include Module that has bmd handling 
  * functions and  bmd structure declaration 
  * 
@@ -64,7 +64,7 @@ static MunitResult
  	
  	//arranging the cases into respective suites,
  	
- 	static const MunitSuite suite={
+ 	static const MunitSuite suite{
  	//es_tests,
  	esb_tests,
  	NULL
