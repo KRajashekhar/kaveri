@@ -4,6 +4,8 @@
 #include<string.h>
 #include "../bmd/bmd.h"
 #include "transform.h"
+
+//#include "../bmd/parsing.c"
 #include "transport.h"
 
 //creating a json file and returning path of file
