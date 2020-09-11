@@ -65,7 +65,7 @@ static MunitResult
  	//arranging the cases into respective suites,
  	
  	static const MunitSuite suite{
- 	//es_tests,
+; 	//es_tests,
  	esb_tests,
  	NULL,
  	1,
