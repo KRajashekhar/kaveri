@@ -60,7 +60,7 @@ char* payload_to_xml(bmd *bmd_file) {
 	
 	
 	int main() {
-		bmd *file=parse_bmd_xml("../bmd/bmd.xml");
+		bmd file=parse_bmd_xml("../bmd/bmd.xml");
 		char *xml_path=payload_to_xml(file);
 		char *json_path=payload_to_json(file);
 		send_email("testmailv1@gmail.com",json_path);
