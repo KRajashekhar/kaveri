@@ -67,7 +67,7 @@ static MunitResult
  	static const MunitSuite suite={
  	//es_tests,
  	esb_tests,
- 	NULL
+ 	NULL,
  	1,
  	MUNIT_TEST_OPTION_NONE
  	};
