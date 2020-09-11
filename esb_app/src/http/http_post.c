@@ -1,4 +1,4 @@
-#include<stdio.h>
+/*#include<stdio.h>
 #include<curl/curl.h>
 
 int main(void)
@@ -23,3 +23,4 @@ int main(void)
         curl_global_cleanup(curl);
         return 0;
 }
+*/

@@ -73,6 +73,7 @@ test2(const MunitParameter params[], void *fixture)
     return MUNIT_OK;
 }
 
+<<<<<<< HEAD
 /* Put all unit tests here. */
 MunitTest esb_tests[] = {
     {
@@ -108,3 +109,51 @@ static const MunitSuite suite = {
 int main (int argc, const char* argv[]) {
   return munit_suite_main(&suite, NULL, argc, argv);
 }
+=======
+static MunitResult
+ test_process_esb_request(const MunitParameter params[], void *fixture)
+ {
+ 	bmd *b=(bmd *)fixture;
+ 	
+ 	munit_assert(process_esb_request("../Testing/bmd.xml")==1);
+ 	return MUNIT_OK;
+ 	
+ }
+ 
+ MunitTest esb_tests[] ={
+ 	{
+ 	//processing the esb request
+ 	test_process_esb_request,
+ 	NULL,
+ 	NULL,
+ 	MUNIT_TEST_OPTION_NONE,
+ 	NULL
+ 	},
+ 	
+ 	{
+ 	//queue_the_request,
+ 	test_queue_the_request,
+ 	NULL,
+ 	NULL,
+ 	MUNIT_TEST_OPTION_NONE,
+ 	NULL
+ 	},
+ 	
+ 	{NULL,NULL,NULL,NULL,MUNIT_TEST_OPTION_NONE,NULL}
+ 	};
+ 	
+ 	//arranging the cases into respective suites,
+ 	
+ 	static const MunitSuite suite{
+; 	//es_tests,
+ 	esb_tests,
+ 	NULL,
+ 	1,
+ 	MUNIT_TEST_OPTION_NONE
+ 	};
+ 	
+ 	//checking the tests
+ 	int main(int argc, const char* argv[]){
+ 	return munit_suite_main(&suite,NULL,argc,NULL);
+ 	}
+>>>>>>> 755455e4336aedec258005b18af06568cff144f3

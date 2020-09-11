@@ -23,14 +23,15 @@ struct _bmd{
 
 typedef struct _bmd bmd;
 
-
+/*
 bmd_envelop*  extract_envelop(char * filepath);
 bmd* parse_bmd_xml(char *bmd_xml_file);
 char * extract_payload(char * filepath);
 char * xml2json(bmd *bmd_file);
 int is_bmd_valid(bmd *bmd_file);
 long int find_size(char *);
-/*
+*/
+
 bmd parse_bmd_xml(char * bmd_file_path) ;
 void db_access(bmd b);
 int is_bmd_complete(bmd b);
@@ -39,5 +40,5 @@ int check_transport_config_table(int r_id);
 int check_transform_config_table(int r_id);
 int is_bmd_valid(bmd b);
 void xml2json(char *Payload);
-*/
+
 #endif
