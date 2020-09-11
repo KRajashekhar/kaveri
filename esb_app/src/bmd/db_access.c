@@ -39,8 +39,8 @@ void db_access(bmd b)
   size_t len = strlen(e.received_on);
 
   char date[len+2];
-  int i;
-  for(i = 0; i <len-2 ; i++)
+  size_t i;
+  for(i = 0; i < len-2 ; i++)
   {
         
    if(e.received_on[i] == 'T') 
