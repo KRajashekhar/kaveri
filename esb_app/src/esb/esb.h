@@ -15,9 +15,10 @@ typedef struct task
 		int processing_attempts;
 	} task_t;
 	
-int queue_the_request(bmd *b,char *file_path);
-int process_esb_request(char * bmd_file_path);
-int fetch_new_request_from_db(task_t *request);
-void *poll_database_for_new_request(void *vargp);
+int process_esb_request(char* bmd_file_path);
+//int insert_in_esb_request(BMD *);
+int select_active_route(const unsigned char *Sender, const unsigned char *Destination, const unsigned char *MessageType);
+int select_transport_config(int route_id);
+int select_transform_config(int route_id);
 
 #endif

@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<string.h>
 #include<curl/curl.h>
-#include "transport.h"
+
 
 #define FROM "testmailv1@gmail.com"
 #define CC "testmailv2@gmail.com"
@@ -10,7 +10,7 @@ struct upload_status
 {
 	int lines_read;
 	};
-#if 0
+#if 
  static const char *payload_file_path[]={
  	"Date:Wed,4 Sept 2016 21:45:11 +1100\r\n",
  	"To:"TO"\r\n",
@@ -18,8 +18,9 @@ struct upload_status
  	"Cc: " CC "(example)\r\n",
  	"Message-ID:<dc7cb-11db-487a-9f3a-e52a9458ef@"
  	"rfcpedant.example.org>\r\n",
- 	"Subject: SMTP TLS example message \r\n",
- 	"\r\n",/* empty line to divide headers from body ,see RFC5322 */
+ 	"Subject: FTP TLS example message \r\n",
+ 	"\r\n",
+ 	/* empty line to divide headers from body ,see RFC5322 */
  	"The message starts from here .\r\n",
  	"\r\n",
  	"It can be bigger that this , continue .\r\n",
@@ -80,7 +81,7 @@ int send_mail(char *to,char *file_path)
 		
 		recipients=curl_slist_append(recipients,to);
 		recipients=curl_slist_append(recipients,CC);
-		curl_easy_setopt(curl,CUR_MAIL_RCPT,recipients);
+		curl_easy_setopt(curl,CURLOPT_MAIL_RCPT,recipients);
 		//now writing a call back function
 		
 		FILE *fp=fopen(file_path,"r");
