@@ -59,8 +59,8 @@ unsigned long    str_length[8];
   exit(1);
   }
 
-  if(mysql_real_connect(con, "localhost" ,"raja", "Kucharla@1" ,
-        "esb_db", 0 , NULL , CLIENT_MULTI_STATEMENTS )==NULL) {
+  if(mysql_real_connect(con, HOST ,USER, PASSWD ,
+        DB, 0 , UNIX_SOCKET , FLAG )==NULL) {
 
     finish_with_error(con);
   }
@@ -307,7 +307,3 @@ if(mysql_stmt_close(stmt)) {
 mysql_close(con);
 }
 
-int main() {
-    insert_into_esb_request("A9ECAEF2-107A-4452-9553-043B6D25386E","6393F82F-4687-433D-AA23-1966330381FE","CreditReport","INV-PROFILE-889712","A9ECAEF2-107A-4452-9553-043B6D25386E","2020-08-02T05:18:00+0000", "bmd.xml","available","It is available" );
-    return 0;
-} 
