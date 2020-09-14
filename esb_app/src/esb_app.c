@@ -1,4 +1,4 @@
-/*
+
  * Copyright (c) 2016-2018 Joris Vink <joris@coders.se>
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -34,6 +34,7 @@
 #include <pthread.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include<stddef.h>
 #include <sys/time.h>
 #include "esb.h"
 
@@ -69,9 +70,10 @@ int esb_endpoint(struct http_request *req)
 	{
 		/* Invoke the ESB's main processing logic. */
 		int esb_status = process_esb_request(epr.bmd_path);
-		if (esb_status > 0)
+		if (esb_status >=0)
 		{
 			//TODO: Take suitable action
+			printf(" Sql queries in progress ...\n")
 			return (KORE_RESULT_OK);
 		}
 		else
@@ -83,6 +85,53 @@ int esb_endpoint(struct http_request *req)
 	}
 }
 
+//creating a working directory and returning as per status
+
+static int mkdir_p(const char *path)
+{
+	const size_t len=strlen(path);
+	char _path[PATH_MAX];
+	char *p;
+	
+	errorno=0;
+	
+	//copying string to make it mutable;
+	if(len>sizeof(_path)-1)
+	{
+		errorno=ENAMETOOLONG;
+		return -1;
+	}
+	strcpy(_path,path);
+	
+	//iterating through the string
+	for(p=_path+1;*p;p++)
+	{
+		if(*p=='/')
+		{
+			//truncating
+			*p='\0';
+			
+			if(mkdir(_path,S_IRWXU)!=0)
+			{
+				if(errorno!=EEXIST)
+				{
+					return -1;
+				}
+			}
+		*p='/';
+		}
+	}
+	if(mkdir(_path,S_IRWXU)!=0)
+	{
+		if(errorno!=EEXIST)
+		{
+			return -1;
+		}
+	}
+	return 0;
+	}
+	
+
 char *create_work_dir_for_request()
 {
 	kore_log(LOG_INFO, "Creating the temporary work folder.");
@@ -90,8 +139,26 @@ char *create_work_dir_for_request()
 	 * TODO: Create a temporary folder in the current directory.
 	 * Its name should be unique to each request.
 	 */
+	 
+	 
 	char *temp_path = malloc(PATH_MAX * sizeof(char));
-	strcpy(temp_path, "./bmd_files/1234");
+	time_t now=time(NULL);
+	srand(now);
+	int t=rand();
+	char cwd[100];
+	getcwd(cwd,sizeof(cwd);
+	
+	sprintf(temp_path,"%s/bmd_files/%ld_%d",cwd,now,t);
+	
+	int ret =mkdir_p(temp_path);
+	if(ret!=0 && errorno==EExist)
+	{
+		sprintf(temp_path,"%s_%d", temp_path,rand());
+		 mkdir_p(temp_path);
+	}
+	
+	printf("Current Working Directory %s \n",cwd);
+	//strcpy(temp_path, "./bmd_files/1234");
 	kore_log(LOG_INFO, "Temporary work folder: %s", temp_path);
 	return temp_path;
 }
