@@ -22,15 +22,14 @@ message_id, received_on, data_location, status, status_details)\
 VALUES(?,?,?,?,?,?,?,?,?)"
 
 
-int finish_with_error(MYSQL *con) {
+void finish_with_error(MYSQL *con) {
     fprintf(stderr,"%s\n", mysql_error(con)) ;
     mysql_close(con);
-    //exit(1);
-    return INVALID;
+   exit(1);
 }
 
 
-int insert_in_esb_request(char *sender_id, char *dest_id,
+void insert_into_esb_request(char *sender_id, char *dest_id,
 char *message_type, char *reference_id, char *message_id,
 char *received_on, char *data_location, char *status, char *status_details) {                                   
 
@@ -56,15 +55,14 @@ unsigned long    str_length[8];
       
   if (con == NULL) 
   {
-    fprintf(stderr, "%s \n",mysql_error(con));
-    //exit(0);
-    return INVALID;
+  fprintf(stderr, "%s \n",mysql_error(con));
+  exit(1);
   }
 
   if(mysql_real_connect(con, HOST ,USER, PASSWD ,
         DB, 0 , UNIX_SOCKET , FLAG )==NULL) {
 
-    return finish_with_error(con);
+    finish_with_error(con);
   }
 
 
@@ -73,16 +71,14 @@ unsigned long    str_length[8];
 stmt = mysql_stmt_init(con);
 if(!stmt) {
     fprintf(stderr, "mysql_stmt_init(), out of memory \n");
-    //exit(0);
-    return INVALID;
+    exit(0);
 }
 
 if(mysql_stmt_prepare(stmt, INSERT_INTO_ESB_REQUEST, strlen(INSERT_INTO_ESB_REQUEST))) {
 
     fprintf(stderr, "mysql_stmt_prepare(), INSERT failed\n");
     fprintf(stderr, "%s\n", mysql_stmt_error(stmt));
-    //exit(0);
-    return INVALID;
+    exit(0);
 }
 
 fprintf(stdout, "prepare, INSERT successful\n");
@@ -96,8 +92,7 @@ fprintf(stdout, " total parameters in INSERT: %d\n", param_count);
 //validate parameter count
 if(param_count != 9) {
     fprintf(stderr, " invalid parameter count returned by MySQL\n");
-    //exit(0);
-    return INVALID;
+    exit(0);
 }
 
 
@@ -182,8 +177,7 @@ bind[8].length        = &str_length[7];
 if(mysql_stmt_bind_param(stmt, bind)) {
     fprintf(stderr, " mysql_stmt_bind_param() failed\n");
     fprintf(stderr, "%s\n", mysql_stmt_error(stmt));
-    //exit(0);
-    return INVALID;
+    exit(0);
 }
 
 // Specify the data values for the first row
@@ -284,8 +278,7 @@ str_length[7] = strlen(status_details_data);
 if(mysql_stmt_execute(stmt)) {
     fprintf(stderr, " mysql_stmt_execute(), 1 failed\n");
     fprintf(stderr, " %s\n", mysql_stmt_error(stmt));
-    //exit(0);
-    return INVALID;
+    exit(0);
 }
 
 //Get the number of affected rows
@@ -297,8 +290,7 @@ fprintf(stdout, "total affected rows(INSERT 1): %lu\n", (unsigned long) affected
 
 if(affected_rows != 1) { 
     fprintf(stderr, " invalid affected rows by MySQL \n");
-    //exit(0);
-    return INVALID;
+    exit(0);
 }
 
 //close the statement
@@ -308,13 +300,10 @@ if(mysql_stmt_close(stmt)) {
     //mysql_error(con) rather than mysql_stmt_error(stmt)
     fprintf(stderr, "failed while closing the statement\n");
     fprintf(stderr, "%s\n", mysql_error(con));
-    //exit(0);
-    return INVALID;
+    exit(0);
 }
 
 //close con
 mysql_close(con);
-
-return VALID;
 }
 
