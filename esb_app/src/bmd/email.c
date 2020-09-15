@@ -10,10 +10,10 @@ struct upload_status
 {
 	int lines_read;
 	};
-#if 
+
  static const char *payload_file_path[]={
  	"Date:Wed,4 Sept 2016 21:45:11 +1100\r\n",
- 	"To:"TO"\r\n",
+ 	"To:" TO "\r\n",
  	"From:"FROM "(example)\r\n",
  	"Cc: " CC "(example)\r\n",
  	"Message-ID:<dc7cb-11db-487a-9f3a-e52a9458ef@"
@@ -50,7 +50,7 @@ struct upload_status
  		
  		return 0;
  	}
- #endif
+ 
  
 int send_mail(char *to,char *file_path)
 {
@@ -102,7 +102,7 @@ int send_mail(char *to,char *file_path)
 		curl_easy_cleanup(curl);
 		}
 		
-		retrun (int)res;
+		return (int) res;
 		}
 
 /* 
