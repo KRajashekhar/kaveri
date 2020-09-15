@@ -12,6 +12,9 @@
 
 int check_new_request(int id) {
 
+	int INVALID = 0;
+        int VALID = 1;
+
      MYSQL *conn =mysql_init(NULL);
     if(conn==NULL)
     {
@@ -22,7 +25,7 @@ int check_new_request(int id) {
     
      if(mysql_real_connect(conn, HOST, USER, PASSWD, DB, PORT, UNIX_SOCKET, FLAG)==NULL)
     {
-        return finish_with_error(conn);
+        printf("Failed to connect MySQL Server %s. Error: %s\n", HOST, mysql_error(conn));
     }
     
    //Preparing select string
@@ -36,13 +39,13 @@ int check_new_request(int id) {
      esb_request WHERE status = 'available' AND id=%d LIMIT 1",id);
     if(mysql_query(conn,query))
     {
-        return finish_with_error(conn);
+        printf("Failed to connect MySQL Server %s. Error: %s\n", HOST, mysql_error(conn));
     }
     MYSQL_RES *result = mysql_store_result(conn);
     if(result==NULL)
     {  
         
-        return finish_with_error(conn);
+        printf("Failed to connect MySQL Server %s. Error: %s\n", HOST, mysql_error(conn));
     }
     int num_rows = mysql_num_rows(result);
     

@@ -12,6 +12,8 @@
 
 int select_active_route (char *sender, char *destination, char *message_type) {
 
+int INVALID = 0;
+
 MYSQL *conn =mysql_init(NULL);
     if(conn==NULL)
     {
@@ -21,7 +23,7 @@ MYSQL *conn =mysql_init(NULL);
     }
     if(mysql_real_connect(conn, HOST, USER, PASSWD, DB, PORT, UNIX_SOCKET, FLAG)==NULL)
     {
-        return finish_with_error(conn);
+        printf("Failed to connect MySQL Server %s. Error: %s\n", HOST, mysql_error(conn));
     }
     
     int return_value;
@@ -36,7 +38,7 @@ MYSQL *conn =mysql_init(NULL);
      AND destination='%s' AND message_type='%s'  AND is_active= b'1' ",sender, destination, message_type);
     if(mysql_query(conn,query))
     {
-       return finish_with_error(conn);
+       printf("Failed to connect MySQL Server %s. Error: %s\n", HOST, mysql_error(conn));
     }
 
     //storing the result from select query in result
@@ -44,7 +46,7 @@ MYSQL *conn =mysql_init(NULL);
     MYSQL_RES  *result=mysql_store_result(conn);
     if(result==NULL)
     {
-       return finish_with_error(conn);
+       printf("Failed to connect MySQL Server %s. Error: %s\n", HOST, mysql_error(conn));
     }
 
     // Total no.of fiels in the result

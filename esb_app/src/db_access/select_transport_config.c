@@ -12,6 +12,9 @@
 
 int select_transport_config(int route_id) {
 
+    int INVALID = 0;
+    int VALID = 1;
+
      MYSQL *conn =mysql_init(NULL);
     if(conn==NULL)
     {
@@ -22,7 +25,7 @@ int select_transport_config(int route_id) {
     
      if(mysql_real_connect(conn, HOST, USER, PASSWD, DB, PORT, UNIX_SOCKET, FLAG)==NULL)
     {
-        return finish_with_error(conn);
+        printf("Failed to connect MySQL Server %s. Error: %s\n", HOST, mysql_error(conn));
     }
     
    //Preparing select string
@@ -36,13 +39,13 @@ int select_transport_config(int route_id) {
      FROM transport_config WHERE route_id=%d",route_id);
     if(mysql_query(conn,query))
     {
-        return finish_with_error(conn);
+        printf("Failed to connect MySQL Server %s. Error: %s\n", HOST, mysql_error(conn));
     }
     MYSQL_RES *result = mysql_store_result(conn);
     if(result==NULL)
     {  
         
-        return finish_with_error(conn);
+        printf("Failed to connect MySQL Server %s. Error: %s\n", HOST, mysql_error(conn));
     }
 
     int num_fields=mysql_num_fields(result);
