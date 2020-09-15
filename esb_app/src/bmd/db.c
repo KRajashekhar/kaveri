@@ -1,4 +1,4 @@
-#include <mysql.h>
+#include <mysql/mysql.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -281,15 +281,16 @@ void change_taken_to_done(int id)
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	conn=mysql_init(NULL);
+	char query[5000];
 	
 	//connect to db
-	if(!mysql_real_connect(conn,server,user,password,databse,0,NULL,0))
+	if(!mysql_real_connect(conn,server,user,password,database,0,NULL,0))
 	{
 		printf("Failed to connect to MYSQL server %s. Error : %s \n", server,mysq_error(conn));
 	}
 	sprintf(query,TAKEN_TO_DONE,id);
 	
-	if(mysql_query(conn,query)
+	if(mysql_query(conn,query))
 	{
 		printf("failed to execute query. Error: %s\n", mysql_error(conn));
 	}
@@ -462,4 +463,6 @@ void get_transport_value(int route_id, char* transport_value)
 	/* free results */
 	mysql_free_result(res);
 	
+ }
 }
+

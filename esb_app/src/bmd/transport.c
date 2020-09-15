@@ -26,6 +26,7 @@ Apply_tranport_service(char URL[], char transport_service[])
 		{
 			printf("Failed to send mail \n");
 		}
+	}
 	else	
 	 	{
 			printf("No service Found\n");
