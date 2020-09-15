@@ -32,4 +32,6 @@ int select_transform_config(int route_id);
 
 int check_new_request(int id);
 
+int change_available_to_done(int id);
+
 #endif

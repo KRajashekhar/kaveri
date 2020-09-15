@@ -14,7 +14,9 @@ int main() {
    success = select_transform_config(route_id);
    printf("result from transform is : %d\n",success);
    success = check_new_request(19);
-   printf("result form check new_request is %d\n",success);
+   printf("result from check new_request is : %d\n",success);
+   success = change_available_to_done(19);
+   printf("result from change_available_to_taken is : %d\n",success);
 
     return 0;
 } 
