@@ -1,0 +1,17 @@
+?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type='text/xsl'?> 
+<BMD>
+<Envelop>
+<MessageID>sixth_test_case</MessageID>
+<MessageType>C_R_6</MessageType>
+<Sender>Sender_Sixth</Sender>
+<Destination>Destination_Sixth</Destination>
+<CreationDateTime>2020-08-12T05:18:00+0000</CreationDateTime>
+<Signature>Signature_Sixth</Signature>
+<UserProperties>
+<key1>Value_1</key1>
+<key2>Value_2</key2>
+</UserProperties>
+</Envelop>
+<Payload>001-01-12341</Payload>
+</BMD>
