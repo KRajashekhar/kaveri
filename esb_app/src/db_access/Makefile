@@ -6,6 +6,8 @@ out : $(OBJECTS)
 	gcc -o out $(OBJECTS)  $(libm)
 main.o : main.c db_access.h
 	$(cflags) main.c $(libm)
+get_transform_key.o :get_transform_key.c db_access.h
+	$(cflags) get_transform_key.c $(libm)
 get_route_id.o  : get_route_id.c db_access.h
 	$(cflags) get_route_id.c $(libm)
 taken_to_done.o : taken_to_done.c db_access.h

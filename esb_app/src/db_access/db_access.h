@@ -37,4 +37,7 @@ int change_available_to_taken(int id);
 int change_taken_to_done(int id);
 
 int get_route_id (char *sender, char *destination, char *message_type);
+
+int get_transform_key(int route_id, char *transform_key);
+
 #endif

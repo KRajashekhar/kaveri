@@ -10,7 +10,7 @@
 #define STRING_SIZE 1000
 
 
-int get_route_id (char *sender, char *destination, char *message_type) {
+int get_transform_key(int route_id, char *transform_key){
 
 MYSQL *conn =mysql_init(NULL);
     if(conn==NULL)
@@ -29,11 +29,13 @@ MYSQL *conn =mysql_init(NULL);
 
     //Prepareing select statement
 
-    return_value = snprintf(quer,STRING_SIZE,"SELECT route_id FROM routes WHERE sender='%s'\
-     AND destination='%s' AND message_type='%s' ",sender, destination, message_type);
+    return_value = snprintf(quer,STRING_SIZE,"SELECT config_key FROM \
+     transform_config  WHERE route_id = %d ",route_id);
+     
     char query[return_value+1];
-    return_value = snprintf(query,return_value+1,"SELECT route_id FROM routes WHERE sender='%s' \
-     AND destination='%s' AND message_type='%s'  ",sender, destination, message_type);
+    return_value = snprintf(query,return_value+1, "SELECT config_key FROM \
+     transform_config  WHERE route_id = %d ",route_id);
+     
     if(mysql_query(conn,query))
     {
        return finish_with_error(conn);
@@ -51,7 +53,6 @@ MYSQL *conn =mysql_init(NULL);
 
     int num_fields=mysql_num_fields(result);
     MYSQL_ROW row;
-    unsigned int r_id;
     row = mysql_fetch_row(result);
     if(row==NULL) {
           return INVALID;
@@ -61,13 +62,14 @@ MYSQL *conn =mysql_init(NULL);
         for(int i=0;i<num_fields;i++) {
                 if(row[i]==NULL) {
                 return INVALID;
-                 }
-             r_id = atoi(row[i]);
+            }
+                strcpy(transform_key, row[0]);
+             
         }
     }
    
     mysql_free_result(result);
     mysql_close(conn);
-    return r_id;
+    return VALID;
 
 }

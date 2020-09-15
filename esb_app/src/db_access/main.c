@@ -21,6 +21,9 @@ int main() {
    printf("result from change_taken_to_done is : %d\n",success);
    route_id = get_route_id("756E2EAA-1D5B-4BC0-ACC4-4CEB669408DA","6393F82F-4687-433D-AA23-1966330381FE","CreditReport");
    printf("result from get_route_id is : %d\n",route_id);
+   char  transform_key[50] = "   ";
+   success = get_transform_key(1,transform_key);
+   printf("result form get_transform_key is :%d   %s and \n",success,transform_key);
 
 
     return 0;
