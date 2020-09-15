@@ -6,6 +6,8 @@ out : $(OBJECTS)
 	gcc -o out $(OBJECTS)  $(libm)
 main.o : main.c db_access.h
 	$(cflags) main.c $(libm)
+check_new_request.o : check_new_request.c db_access.h
+	$(cflags) check_new_request.c $(libm)
 select_transform_config.o : select_transform_config.c db_access.h
 	$(cflags) select_transform_config.c $(libm)
 select_transport_config.o : select_transport_config.c db_access.h 

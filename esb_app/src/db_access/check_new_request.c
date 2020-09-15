@@ -10,7 +10,7 @@
 #define STRING_SIZE 1000
 
 
-int select_transport_config(int route_id) {
+int check_new_request(int id) {
 
      MYSQL *conn =mysql_init(NULL);
     if(conn==NULL)
@@ -29,11 +29,11 @@ int select_transport_config(int route_id) {
    
     int return_value;
     char quer[STRING_SIZE];
-    return_value = snprintf(quer,STRING_SIZE,"SELECT * \
-     FROM transport_config WHERE route_id=%d",route_id);
+    return_value = snprintf(quer,STRING_SIZE,"SELECT * FROM\
+     esb_request WHERE status = 'avalilable' AND id = %d LIMIT 1",id);
     char query[return_value+1];
-    return_value=snprintf(query,return_value+1,"SELECT *\
-     FROM transport_config WHERE route_id=%d",route_id);
+    return_value=snprintf(query,return_value+1,"SELECT * FROM \
+     esb_request WHERE status = 'available' AND id=%d LIMIT 1",id);
     if(mysql_query(conn,query))
     {
         return finish_with_error(conn);
@@ -44,10 +44,16 @@ int select_transport_config(int route_id) {
         
         return finish_with_error(conn);
     }
-
+    int num_rows = mysql_num_rows(result);
+    
+    if(num_rows == 0) {
+        return INVALID;
+    }
+    /*
     int num_fields=mysql_num_fields(result);
     MYSQL_ROW row;
     row=mysql_fetch_row(result);
+
     if(row==NULL) {
           
           return INVALID;
@@ -70,6 +76,7 @@ int select_transport_config(int route_id) {
                 }
             }
         }
+    */
     mysql_free_result(result);
     mysql_close(conn);
      

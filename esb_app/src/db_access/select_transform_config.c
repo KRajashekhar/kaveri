@@ -28,11 +28,11 @@ int select_transform_config(int route_id) {
    
     int return_value;
     char quer[STRING_SIZE];
-    return_value = snprintf(quer,STRING_SIZE,"SELECT config_key \
-     AND config_value FROM transform_config WHERE route_id=%d",route_id);
+    return_value = snprintf(quer,STRING_SIZE,"SELECT *\
+     FROM transform_config WHERE route_id=%d",route_id);
     char query[return_value+1];
-    return_value=snprintf(query,return_value+1,"select config_key \
-     AND config_value FROM transform_config WHERE route_id=%d",route_id);
+    return_value=snprintf(query,return_value+1,"select *\
+     FROM transform_config WHERE route_id=%d",route_id);
     if(mysql_query(conn,query))
     {
         return finish_with_error(conn);

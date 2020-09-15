@@ -30,6 +30,6 @@ int select_transport_config(int route_id);
 
 int select_transform_config(int route_id);
 
-
+int check_new_request(int id);
 
 #endif

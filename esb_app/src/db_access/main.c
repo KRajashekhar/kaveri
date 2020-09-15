@@ -10,8 +10,11 @@ int main() {
    int route_id = select_active_route("756E2EAA-1D5B-4BC0-ACC4-4CEB669408DA","6393F82F-4687-433D-AA23-1966330381FE","CreditReport");
    printf("%d\n",route_id);
    int success = select_transport_config(route_id);
-   printf("%d\n",success);
+   printf("result form transport is : %d\n",success);
    success = select_transform_config(route_id);
-   printf("%d\n",success);
+   printf("result from transform is : %d\n",success);
+   success = check_new_request(19);
+   printf("result form check new_request is %d\n",success);
+
     return 0;
 } 
