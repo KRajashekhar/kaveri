@@ -4,7 +4,7 @@
 
 void check_transform(char type[], int route_id, char * transport_key, char * transport_value)
 {
-	if((!strcmp(type,"Json_transform")&&(!strcmp(transport_value,"HTTP")))
+	if((!strcmp(type,"Json_transform")&&(!strcmp(transport_value,"HTTP"))))
 	{
 		printf(" HTTP_Json transformation \n");
 		HTTP_Json_transform(route_id,transport_key);
@@ -22,9 +22,9 @@ void check_transform(char type[], int route_id, char * transport_key, char * tra
 	
 }
 
-void HTTP_Json transform( int route_id , char * transport_key)
+void HTTP_Json_transform( int route_id , char *transport_key)
 {
-	chat temp[100];
+	char temp[100];
 	FILE *fp=fopen("Payload.json","r");
 	
 	int i=0;
