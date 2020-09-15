@@ -12,8 +12,6 @@
 
 int check_new_request(int id) {
 
-	int INVALID = 0;
-        int VALID = 1;
 
      MYSQL *conn =mysql_init(NULL);
     if(conn==NULL)

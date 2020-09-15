@@ -20,8 +20,7 @@
  SET status = 'done' WHERE id = ?"
 
 int change_taken_to_done(int id) {
-    int INVALID=0;
-    int VALID=1;
+    
 
     MYSQL_STMT        *stmt;
     MYSQL_BIND        bind[1];

@@ -27,8 +27,6 @@ int change_available_to_taken(int id) {
     int               param_count;
     int               id_data;
 
-    int INVALID=0;
-    int VALID=1;
     MYSQL *con = mysql_init(NULL);
       
   if (con == NULL) 

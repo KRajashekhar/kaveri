@@ -8,34 +8,38 @@
 #include<mysql/mysql.h>
 
 #define HOST         "localhost"
-#define USER         "root"	
-#define PASSWD      "prabhakars 589b"
+#define USER         "raja"	
+#define PASSWD       "Kucharla@1"
 #define DB           "esb_db"
 #define PORT         0
 #define UNIX_SOCKET  NULL
 #define FLAG         CLIENT_MULTI_STATEMENTS
 
-void insert_into_esb_request(char *sender_id, char *dest_id,
+#define VALID 1
+#define INVALID -1
+
+int insert_into_esb_request(char *sender_id, char *dest_id,
 char *message_type, char *reference_id, char *message_id,
 char *received_on, char *data_location, char *status, char *status_details);
 
-void finish_with_error(MYSQL *con);
+int finish_with_error(MYSQL *con);
 
-//<<<<<<< HEAD
-//#endif
-//=======
+int select_active_route (char *sender, char *destination, char *message_type) ;
+
+int select_transport_config(int route_id);
+
+int select_transform_config(int route_id);
+
+int check_new_request(int id);
+
 int change_available_to_taken(int id);
 
 int change_taken_to_done(int id);
 
 int get_route_id (char *sender, char *destination, char *message_type);
-<<<<<<< HEAD
 
 int get_transform_key(int route_id, char *transform_key);
 
-#endif
-=======
-#endif
+int get_emailId(int route_id, char *transport_key);
 
-//>>>>>>> 52ead9eb6377164ebfbe04410ae16778f7a582f7
->>>>>>> dd973beeaccc56dbef584225e1bf7b7318aa1c29
+#endif

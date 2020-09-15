@@ -11,10 +11,9 @@
 
 
 int get_route_id (char *sender, char *destination, char *message_type) {
-    int INVALID=0;
-    int VALID=1;
+   
 
-MYSQL *conn =mysql_init(NULL);
+    MYSQL *conn =mysql_init(NULL);
     if(conn==NULL)
     {
         fprintf(stderr,"mysql_init() failed\n");

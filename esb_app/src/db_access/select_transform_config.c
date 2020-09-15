@@ -11,8 +11,6 @@
 
 int select_transform_config(int route_id) {
 
-    int INVALID = 0;
-    int VALID = 1;
     MYSQL *conn =mysql_init(NULL);
     if(conn==NULL)
     {
