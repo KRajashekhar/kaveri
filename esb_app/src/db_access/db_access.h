@@ -32,6 +32,9 @@ int select_transform_config(int route_id);
 
 int check_new_request(int id);
 
-int change_available_to_done(int id);
+int change_available_to_taken(int id);
 
+int change_taken_to_done(int id);
+
+int get_route_id (char *sender, char *destination, char *message_type);
 #endif

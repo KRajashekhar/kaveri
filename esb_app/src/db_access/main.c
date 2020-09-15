@@ -15,8 +15,13 @@ int main() {
    printf("result from transform is : %d\n",success);
    success = check_new_request(19);
    printf("result from check new_request is : %d\n",success);
-   success = change_available_to_done(19);
+   success = change_available_to_taken(19);
    printf("result from change_available_to_taken is : %d\n",success);
+     success = change_taken_to_done(19);
+   printf("result from change_taken_to_done is : %d\n",success);
+   route_id = get_route_id("756E2EAA-1D5B-4BC0-ACC4-4CEB669408DA","6393F82F-4687-433D-AA23-1966330381FE","CreditReport");
+   printf("result from get_route_id is : %d\n",route_id);
+
 
     return 0;
 } 

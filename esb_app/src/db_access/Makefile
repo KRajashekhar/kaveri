@@ -6,8 +6,12 @@ out : $(OBJECTS)
 	gcc -o out $(OBJECTS)  $(libm)
 main.o : main.c db_access.h
 	$(cflags) main.c $(libm)
-available_to_done.o : available_to_done.c db_access.h
-	$(cflags) available_to_done.c $(libm);
+get_route_id.o  : get_route_id.c db_access.h
+	$(cflags) get_route_id.c $(libm)
+taken_to_done.o : taken_to_done.c db_access.h
+	$(cflags) taken_to_done.c $(libm)
+available_to_taken.o : available_to_taken.c db_access.h
+	$(cflags) available_to_taken.c $(libm);
 check_new_request.o : check_new_request.c db_access.h
 	$(cflags) check_new_request.c $(libm)
 select_transform_config.o : select_transform_config.c db_access.h
