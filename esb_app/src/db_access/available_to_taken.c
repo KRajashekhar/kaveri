@@ -27,7 +27,8 @@ int change_available_to_taken(int id) {
     int               param_count;
     int               id_data;
 
-
+    int INVALID=0;
+    int VALID=1;
     MYSQL *con = mysql_init(NULL);
       
   if (con == NULL) 
@@ -40,7 +41,7 @@ int change_available_to_taken(int id) {
   if(mysql_real_connect(con, HOST ,USER, PASSWD ,
         DB, 0 , UNIX_SOCKET , FLAG )==NULL) {
 
-    return finish_with_error(con);
+    printf("Failed to connect MySQL Server %s. Error: %s\n", HOST, mysql_error(con));
   }
 
 

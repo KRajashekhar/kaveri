@@ -20,6 +20,8 @@
  SET status = 'done' WHERE id = ?"
 
 int change_taken_to_done(int id) {
+    int INVALID=0;
+    int VALID=1;
 
     MYSQL_STMT        *stmt;
     MYSQL_BIND        bind[1];
@@ -40,7 +42,7 @@ int change_taken_to_done(int id) {
   if(mysql_real_connect(con, HOST ,USER, PASSWD ,
         DB, 0 , UNIX_SOCKET , FLAG )==NULL) {
 
-    return finish_with_error(con);
+    printf("Failed to connect MySQL Server %s. Error: %s\n", HOST, mysql_error(con));
   }
 
 
