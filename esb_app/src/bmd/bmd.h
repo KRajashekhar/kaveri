@@ -24,7 +24,7 @@ struct _bmd{
 typedef struct _bmd bmd;
 
 
-bmd *parse_bmd_xml(char *);
+//bmd *parse_bmd_xml(char *);
 bmd *process_xml(char *);
 int check_if_string_is_guid(const unsigned char *value);
 bmd_envelop *extract_envelop(char *bmd_xml);
