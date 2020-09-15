@@ -10,9 +10,7 @@
 #define STRING_SIZE 1000
 
 
-int select_active_route (char *sender, char *destination, char *message_type) {
-
-int INVALID = 0;
+int get_route_id (char *sender, char *destination, char *message_type) {
 
 MYSQL *conn =mysql_init(NULL);
     if(conn==NULL)
@@ -23,7 +21,7 @@ MYSQL *conn =mysql_init(NULL);
     }
     if(mysql_real_connect(conn, HOST, USER, PASSWD, DB, PORT, UNIX_SOCKET, FLAG)==NULL)
     {
-        printf("Failed to connect MySQL Server %s. Error: %s\n", HOST, mysql_error(conn));
+        return finish_with_error(conn);
     }
     
     int return_value;
@@ -32,13 +30,13 @@ MYSQL *conn =mysql_init(NULL);
     //Prepareing select statement
 
     return_value = snprintf(quer,STRING_SIZE,"SELECT route_id FROM routes WHERE sender='%s'\
-     AND destination='%s' AND message_type='%s'  AND is_active= b'1' ",sender, destination, message_type);
+     AND destination='%s' AND message_type='%s' ",sender, destination, message_type);
     char query[return_value+1];
     return_value = snprintf(query,return_value+1,"SELECT route_id FROM routes WHERE sender='%s' \
-     AND destination='%s' AND message_type='%s'  AND is_active= b'1' ",sender, destination, message_type);
+     AND destination='%s' AND message_type='%s'  ",sender, destination, message_type);
     if(mysql_query(conn,query))
     {
-       printf("Failed to connect MySQL Server %s. Error: %s\n", HOST, mysql_error(conn));
+       return finish_with_error(conn);
     }
 
     //storing the result from select query in result
@@ -46,7 +44,7 @@ MYSQL *conn =mysql_init(NULL);
     MYSQL_RES  *result=mysql_store_result(conn);
     if(result==NULL)
     {
-       printf("Failed to connect MySQL Server %s. Error: %s\n", HOST, mysql_error(conn));
+       return finish_with_error(conn);
     }
 
     // Total no.of fiels in the result
