@@ -1,5 +1,5 @@
 #include<stdio.h>
-#include "../bmd/email.c"
+//#include "../bmd/email.c"
 //#include "esb.h"
 #include "../bmd/bmd.h"
 #define MAX_SIZE  5000000
