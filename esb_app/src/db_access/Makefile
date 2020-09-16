@@ -6,6 +6,10 @@ out : $(OBJECTS)
 	gcc -o out $(OBJECTS)  $(libm)
 main.o : main.c db_access.h
 	$(cflags) main.c $(libm)
+add_payload.o : add_payload.c db_access.h
+	$(cflags) add_payload.c $(libm)
+get_transport_value.o : get_transport_value.c db_access.h
+	$(cflags) get_transport_value.c $(libm)
 get_emailId.o : get_emailId.c db_access.h
 	$(cflags) get_emailId.c $(libm)
 get_transform_key.o :get_transform_key.c db_access.h

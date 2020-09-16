@@ -43,4 +43,8 @@ int get_transform_key(int route_id, char *transform_key);
 
 int get_emailId(int route_id, char *transport_key);
 
+int get_transport_value(int route_id, char *transport_value);
+
+int add_payload(char Payload_value[], int route_id, char *transport_key);
+
 #endif
