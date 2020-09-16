@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 
  /** Copyright (c) 2016-2018 Joris Vink <joris@coders.se>
+=======
+/*
+ * Copyright (c) 2016-2018 Joris Vink <joris@coders.se>
+>>>>>>> f73b5edcc6f39a1a3ccee6d9e96b9f96fcebe295
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -34,9 +39,13 @@
 #include <pthread.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include<stddef.h>
 #include <sys/time.h>
 #include "esb.h"
+#include <time.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <limits.h>
+#include <stdio.h>
 
 #define PATH_MAX 500
 
@@ -93,12 +102,16 @@ static int mkdir_p(const char *path)
 	char _path[PATH_MAX];
 	char *p;
 	
+<<<<<<< HEAD
 	int errorno=0;
+=======
+	errno=0;
+>>>>>>> f73b5edcc6f39a1a3ccee6d9e96b9f96fcebe295
 	
 	//copying string to make it mutable;
 	if(len>sizeof(_path)-1)
 	{
-		errorno=ENAMETOOLONG;
+		errno=ENAMETOOLONG;
 		return -1;
 	}
 	strcpy(_path,path);
@@ -113,7 +126,7 @@ static int mkdir_p(const char *path)
 			
 			if(mkdir(_path,S_IRWXU)!=0)
 			{
-				if(errorno!=EEXIST)
+				if(errno!=EEXIST)
 				{
 					return -1;
 				}
@@ -123,14 +136,14 @@ static int mkdir_p(const char *path)
 	}
 	if(mkdir(_path,S_IRWXU)!=0)
 	{
-		if(errorno!=EEXIST)
+		if(errno!=EEXIST)
 		{
 			return -1;
 		}
 	}
 	return 0;
 	}
-	
+//a unique path has to be created by extracting the date time and appending a random number 
 
 char *create_work_dir_for_request()
 {
@@ -151,7 +164,7 @@ char *create_work_dir_for_request()
 	sprintf(temp_path,"%s/bmd_files/%ld_%d",cwd,now,t);
 	
 	int ret =mkdir_p(temp_path);
-	if(ret!=0 && errorno==EExist)
+	if(ret!=0 && errno==EEXIST)
 	{
 		sprintf(temp_path,"%s_%d", temp_path,rand());
 		 mkdir_p(temp_path);
