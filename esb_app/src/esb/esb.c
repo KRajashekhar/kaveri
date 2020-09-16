@@ -1,8 +1,9 @@
 #include<stdio.h>
-#include "email.h"
+#include "../bmd/email.c"
 //#include "esb.h"
 #include "../bmd/bmd.h"
-
+#define MAX_SIZE  5000000
+#include"../db_access/db_access.h"
 
 /**
  * TODO: This is to be implemented separately.
@@ -22,8 +23,48 @@ int is_bmd_valid(bmd b)
 {
     int valid = 1; // 1 => vaild, -1 => invalid
     // TODO: Implement the validation logic here
+	  // 1 => VALID, -1 => INVALID
+      bmd_envelop envelop = b.envelop;
+    
 
-    return valid;
+    // checking whether bmd is complete or not
+    if(is_bmd_complete(b) == INVALID)
+    {
+        fprintf(stderr,"BMD is incomplete\n");
+        return INVALID;
+    }  
+
+    // checking the size of the payload
+    size_t size = strlen(b.payload); 
+    size = size+1;
+    if(size > MAX_SIZE ) {
+      fprintf(stderr, "Payload size is greater than 5MB\n");
+      return INVALID;
+
+    }
+    
+    //route_id
+    int r_id = get_route_id(envelop.sender_id, envelop.message_type, envelop.destination_id);
+    if(r_id == INVALID) {
+        fprintf(stderr,"There is no route_id corresponding to bmd file\n");
+        return INVALID;
+    }
+    
+    //transform_config_table
+    if(select_transform_config(r_id) == INVALID) {
+
+        fprintf(stderr, "Either config_value or config_key or both corresponding to route_id not present in transform_config table \n");
+        return INVALID;
+    }
+    
+    //transport_config_table
+    if(select_transport_config(r_id)  == INVALID) {
+        fprintf(stderr,"Either config_value or config_key or both corressponding to route_id not present in transport_config table \n");
+        return INVALID;
+    }
+    
+  return VALID;
+    //return valid;
 }
 
 int queue_the_request(bmd *b, char *file_path)

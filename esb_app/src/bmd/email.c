@@ -96,7 +96,7 @@ int send_mail(char *to,char *file_path)
 			}
 		//free
 		
-		curl_slist_free_al(recipients);
+		curl_slist_free_all(recipients);
 		
 		//cleanup
 		curl_easy_cleanup(curl);

@@ -87,7 +87,7 @@ int is_bmd_complete(bmd b) {
 
 
 
-
+/*
 int is_bmd_valid(bmd b)
 {
      // 1 => VALID, -1 => INVALID
@@ -132,6 +132,7 @@ int is_bmd_valid(bmd b)
     
   return VALID;
 }
+*/
 
 int main()
 {
