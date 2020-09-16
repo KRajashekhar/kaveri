@@ -1,5 +1,10 @@
+<<<<<<< HEAD
+
+ /** Copyright (c) 2016-2018 Joris Vink <joris@coders.se>
+=======
 /*
  * Copyright (c) 2016-2018 Joris Vink <joris@coders.se>
+>>>>>>> f73b5edcc6f39a1a3ccee6d9e96b9f96fcebe295
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -97,7 +102,11 @@ static int mkdir_p(const char *path)
 	char _path[PATH_MAX];
 	char *p;
 	
+<<<<<<< HEAD
+	int errorno=0;
+=======
 	errno=0;
+>>>>>>> f73b5edcc6f39a1a3ccee6d9e96b9f96fcebe295
 	
 	//copying string to make it mutable;
 	if(len>sizeof(_path)-1)
