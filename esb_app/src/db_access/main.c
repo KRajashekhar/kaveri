@@ -28,5 +28,12 @@ int main() {
    char transport_key[50] = " ";
    success = get_transform_key(1,transport_key);
    printf("result form get_emailId is :%d   %s and \n",success,transport_key);
+   char transport_value[50] = " ";
+   success = get_transport_value(1,transport_value);
+   printf("result from get_transport_value is : %d   %s ans \n",success,transport_value);
+   char Payload_value[] = " shekhar ";
+   success = add_payload(Payload_value, 1, transport_key);
+   printf("result form add_payload is : %d  %s and",success,transport_key );
+
    return 0;
 } 
