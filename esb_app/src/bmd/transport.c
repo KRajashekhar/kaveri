@@ -2,7 +2,10 @@
 #include<stdlib.h>
 #include<string.h>
 
-Apply_tranport_service(char URL[], char transport_service[])
+#include "bmd.h"
+#include "../db_access/db_access.h"
+
+int Apply_tranport_service(char URL[], char transport_service[])
 {
 	if(!strcmp(transport_service,"HTTP"))
 	{
@@ -31,5 +34,6 @@ Apply_tranport_service(char URL[], char transport_service[])
 	 	{
 			printf("No service Found\n");
 		}
+	return 0;
 	
 }

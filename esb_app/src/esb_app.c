@@ -1,5 +1,5 @@
 
- * Copyright (c) 2016-2018 Joris Vink <joris@coders.se>
+ /** Copyright (c) 2016-2018 Joris Vink <joris@coders.se>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -73,7 +73,7 @@ int esb_endpoint(struct http_request *req)
 		if (esb_status >=0)
 		{
 			//TODO: Take suitable action
-			printf(" Sql queries in progress ...\n")
+			printf(" Sql queries in progress ...\n");
 			return (KORE_RESULT_OK);
 		}
 		else
@@ -93,7 +93,7 @@ static int mkdir_p(const char *path)
 	char _path[PATH_MAX];
 	char *p;
 	
-	errorno=0;
+	int errorno=0;
 	
 	//copying string to make it mutable;
 	if(len>sizeof(_path)-1)
@@ -146,7 +146,7 @@ char *create_work_dir_for_request()
 	srand(now);
 	int t=rand();
 	char cwd[100];
-	getcwd(cwd,sizeof(cwd);
+	getcwd(cwd,sizeof(cwd));
 	
 	sprintf(temp_path,"%s/bmd_files/%ld_%d",cwd,now,t);
 	

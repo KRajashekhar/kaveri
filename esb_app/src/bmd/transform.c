@@ -2,6 +2,9 @@
 #include<stdlib.h>
 #include<string.h>
 
+#include "bmd.h"
+#include "../db_access/db_access.h"
+
 void check_transform(char type[], int route_id, char * transport_key, char * transport_value)
 {
 	if((!strcmp(type,"Json_transform")&&(!strcmp(transport_value,"HTTP"))))

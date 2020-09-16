@@ -23,11 +23,17 @@ struct _bmd{
 
 typedef struct _bmd bmd;
 
+bmd parse_bmd_xml(char * bmd_file_path) ;
+int is_bmd_valid(bmd b);
+int send_mail(char *to,char *file_path);
+void check_transform(char type[], int route_id, char * transport_key, char * transport_value);
+void HTTP_Json_transform( int route_id , char *transport_key);
+int Apply_tranport_service(char URL[], char transport_service[]);
 
 //bmd *parse_bmd_xml(char *);
-bmd *process_xml(char *);
-int check_if_string_is_guid(const unsigned char *value);
-bmd_envelop *extract_envelop(char *bmd_xml);
+//bmd *process_xml(char *);
+//int check_if_string_is_guid(const unsigned char *value);
+//bmd_envelop *extract_envelop(char *bmd_xml);
 //payload *extract_payload(char *bmd_xml);
 
 #endif
