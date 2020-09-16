@@ -4,7 +4,7 @@
 #include "../bmd/bmd.h"
 #include<mysql/mysql.h>
 #include<string.h>
-#include "../bmd/db.h"
+#include "../db_access/db_access.h"
 #
 
 int fetch_new_request_from_db(int id)
@@ -43,10 +43,10 @@ void *poll_database_for_new_requets(void *vargp)
     MYSQL_ROW row;
     conn=mysql_init(NULL);
     
-    if(!mysql_real_connect(conn,server,user,password,database ,0,NULL,0))
+    if(mysql_real_connect(conn, HOST, USER, PASSWD, DB, PORT, UNIX_SOCKET, FLAG)==NULL)
     {
-    	printf("Failed to connect ot MYSQL server");
-    	}
+        return finish_with_error(conn);
+    }
     	
     int i = 0;
     while (i < 99)

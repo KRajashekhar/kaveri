@@ -21,13 +21,12 @@ esb_request(sender_id, dest_id, message_type, reference_id, \
 message_id, received_on, data_location, status, status_details)\
 VALUES(?,?,?,?,?,?,?,?,?)"
 
-/*int finish_with_error(MYSQL *con) {
+int finish_with_error(MYSQL *con) {
     fprintf(stderr,"%s\n", mysql_error(con)) ;
     mysql_close(con);
    //exit(1);
    return INVALID;
 }
-*/
 
 
 int insert_into_esb_request(char *sender_id, char *dest_id,
