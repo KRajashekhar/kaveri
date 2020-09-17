@@ -20,10 +20,10 @@ int Apply_tranport_service(char URL[], char transport_service[])
 	{
 		char filename[1000];
 		printf("Enter file to be read:\t");
-		scanf("%s",&filename);
+		scanf("%s",filename);
 		printf(" email service applied \n");
 		int mail_status = send_mail(URL,filename);
-		if(mail_status=0)
+		if(mail_status == 0)
 		{
 			printf("Mail has been sent");
 		}
