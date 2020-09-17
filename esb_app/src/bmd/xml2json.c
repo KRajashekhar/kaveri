@@ -1,12 +1,12 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include"bmd.h"
 #include<string.h>
 #define SEEK_SET 0
 #define SEEK_CUR 1
 #define SEEK_END 2
+#include"bmd.h"
 
-void xml2json(char Pay[],char Sender[])
+void xml2json(char *Payload)
 	{
 		char *filename;
 		strcpy(filename,Sender);
@@ -21,7 +21,7 @@ void xml2json(char Pay[],char Sender[])
 	    	}
 	    	
 	    	
-	    	fprintf(file,"{\n \"Payload\":\"%s\"\n}",Pay);
+	    	fprintf(file,"{\n \"Payload\":\"%s\"\n}",Payload);
 	    	
 	    	printf("\nPayload json File created\n");
 	   	
@@ -76,7 +76,7 @@ char *get_filecontents (char filename[])
 	return strdup(str_data);
 }
 	
-char* xmltojson(char Pay[])
+char* xmltojson(char PAY[])
 {
 	char filename[]="Payload.json";
 	FILE *file;
