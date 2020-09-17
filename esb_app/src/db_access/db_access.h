@@ -47,4 +47,8 @@ int get_transport_value(int route_id, char *transport_value);
 
 int add_payload(char Payload_value[], int route_id, char *transport_key);
 
+int change_status_to_error(int id);
+
+
+
 #endif

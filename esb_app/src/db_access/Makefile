@@ -6,6 +6,8 @@ out : $(OBJECTS)
 	gcc -o out $(OBJECTS)  $(libm)
 main.o : main.c db_access.h
 	$(cflags) main.c $(libm)
+status_to_error.o : status_to_error.c db_access.h
+	$(cflags) $< $(libm)
 add_payload.o : add_payload.c db_access.h
 	$(cflags) $< $(libm)
 get_transport_value.o : get_transport_value.c db_access.h
@@ -31,6 +33,6 @@ select_active_route.o : select_active_route.c db_access.h
 insert_into_esb_request.o : insert_into_esb_request.c db_access.h
 	$(cflags) $< $(libm)
 
-.PHONY : clean
+
 clean:
 	rm out $(OBJECTS)
