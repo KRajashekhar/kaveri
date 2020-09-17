@@ -5,7 +5,7 @@
 #include "bmd.h"
 #include "../db_access/db_access.h"
 
-int Apply_tranport_service(char URL[], char transport_service[])
+int Apply_transport_service(char URL[], char transport_service[])
 {
 	int status=1;
 	if(!strcmp(transport_service,"HTTP"))
