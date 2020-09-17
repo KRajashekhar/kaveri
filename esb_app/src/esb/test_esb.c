@@ -220,7 +220,7 @@ static MunitResult(const MunitParameter params[],void *fixture)
 
 //test function for email json transform
 
-static MunitResult(const MunitParameter params[], void *fixture)
+static MunitResult test_email_Json_transform(const MunitParameter params[], void *fixture)
 {
 	char type[]="Json_transform";
 	int route_id=2;
@@ -231,8 +231,118 @@ static MunitResult(const MunitParameter params[], void *fixture)
 	munit_asser_int(status,==,1);
 	return MUNIT_OK;
 }
+static MunitResult test_no_transform(const Munitparameter params[], void * fixture)
+{
+	char type[]="";
+	int route_id=1;
+	char* transport_key;
+	char *transport_value="";
+	char* SENDER;
+	int transform_status=check_transform(type,route_id,tranport_key,transport_value,SENDER);
+	munit_asser_int(transform_status,==,0);
+	return MUNIT_OK;
+}
+//test function for send http request
+static MunitResult
+{
+static MunitResult test_HTTP_request(const MunitParameter params[],void * fixture)
+{
+	char *URL="https://ifsc.razorpay.com/HDFC0CAGSBK";
+	int HTTP_status=send_http_request(URL);
+	munit_assert_int(HTTP_status,==,1);
+	return MUNIT_OK;
+}
+
+//test function for send emaol
+
+static MunitResult test_send_email(const MunitParameter params[], void *fixture)
+{
+	int mail_status=send_mail("testmailv1@gmail.com","Payload.Json");
+	munit_assert_int(mail_status,==,0);
+	return MUNIT_OK;
+}
+
+//test function for active route
+static MunitResult test_select_active_route(const MunitParameter params[], void *fixture)
+{
+	int x =select_active_route("756E2EAA-1D5B-4BC0-ACC4-4CEB669408DA","6393F82F-4687-433D-AA23-1966330381FE","CreditReport");
+	munit_assert_int(x,==,1);
+	return MUNIT_OK;
+}
+
+//test function for transport config present for route_id
+
+static MunitResult test_select_transport_config(const MunitParameter params[],void *fixture)
+{
+	int x=select_transport_config(1)
+	munit_assert_int(x,==,1);
+	return MUNIT_OK;
+}
+
+//test fucntion for transport config not present for a route_id
+
+static MunitResult test_select_transport_config(const MunitParameter params[],void *fixture)
+{
+	int x=select_transport_config(0);
+	munit_assert_int(x,==,1);
+	return MUNIT_OK;
 	
-/* Put all unit tests here. */
+}
+
+//test function for transform config for route_id
+
+static MunitResult test_select_transform_config(const MunitParameter params[], void *fixture)
+{	
+	int x=select_transform_config(2);
+	munit_assert_int(x,==,1);
+	return MUNIT_OK;
+}
+
+//test function for transform config for no route_id
+static MunitResult test_select_transform_config(MunitParameter params[], void *fixture)
+{
+	int x=select_transform_config(999);
+	munit_assert_int(x,==,-1);
+	return MUNIT_OK;
+}
+
+// test function for an id with status = available
+
+static MunitResult test_check_new_request(const MunitParameter params[], void * fixture)
+{
+	int x=check_new_request(1234);
+	munit_assert_int(x,==,1);
+	return MUNIT_OK;
+}
+
+// test function for an id with status not available
+
+static MunitResult test_check_new_request_invalid(const MunitParameter params[], void * fixture)
+{
+	int x=check_new_request(1);
+	munit_assert_int(x,==,-1);
+	return MUNIT_OK;
+}
+
+// test function for getting route_id
+static MunitResult test_get_route_id(const MunitParameter params[], void *fixture)
+{
+	int x =get_route_id("756E2EAA-1D5B-4BC0-ACC4-4CEB669408DA","6393F82F-4687-433D-AA23-1966330381FE","CreditReport");
+	munit_assert_int(x,==,1);
+	return MUNIT_OK;
+}
+
+//test function to get transform key
+
+static MunitResult test_get_transform_key(const MunitParameter params[], void * fixture)
+{
+	char transform_key[50];
+	get_transform_key(1,transform_key);
+	munit_assert_string_equal(transform_key,"Json_transform");
+	return MUNIT_OK;
+}
+
+	/* Put all unit tests here. */
 MunitTest esb_tests[] = {
     {
         "/my-test-1",   /* name */
