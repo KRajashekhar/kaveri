@@ -212,11 +212,11 @@ static MunitResult test_HTTP_Json_transform(const MunitParameter params[],void *
 {
 	char type[]="Json_transform";
 	int route_id=10;
-	char *transport_key=;
+	char *transport_key;
 	char *transport_value="HTTP";
 	char *SENDER;
 	int transport_status=check_transform(type,route_id,transport_key,transport_value,SENDER);
-	munit_asser_int(transform_status,==,1);
+	munit_assert_int(transport_status,==,1);
 	return MUNIT_OK;
 }
 
@@ -229,24 +229,23 @@ static MunitResult test_email_Json_transform(const MunitParameter params[], void
 	char *transport_key;
 	char *transport_value="email";
 	char *SENDER;
-	int transform_status=Apply_transform_service(type,route_id,transport_key,transport_value,SENDER);
-	munit_asser_int(status,==,1);
+	int  transform_status=Apply_transform_service(type,route_id,transport_key,transport_value,SENDER);
+	munit_assert_int(transform_status,==,1);
 	return MUNIT_OK;
 }
-static MunitResult test_no_transform(const Munitparameter params[], void * fixture)
+static MunitResult test_no_transform(const MunitParameter params[], void * fixture)
 {
 	char type[]="";
 	int route_id=1;
 	char* transport_key;
 	char *transport_value="";
 	char* SENDER;
-	int transform_status=check_transform(type,route_id,tranport_key,transport_value,SENDER);
-	munit_asser_int(transform_status,==,0);
+	int transform_status=check_transform(type,route_id,transport_key,transport_value,SENDER);
+	munit_assert_int(transform_status,==,0);
 	return MUNIT_OK;
 }
 //test function for send http request
-static MunitResult
-{
+
 static MunitResult test_HTTP_request(const MunitParameter params[],void * fixture)
 {
 	char *URL="https://ifsc.razorpay.com/HDFC0CAGSBK";
@@ -301,7 +300,7 @@ static MunitResult test_select_transform_config(const MunitParameter params[], v
 }
 
 //test function for transform config for no route_id
-static MunitResult test_select_transform_config(MunitParameter params[], void *fixture)
+static MunitResult test_select_transform_config_invalid(MunitParameter params[], void *fixture)
 {
 	int x=select_transform_config(999);
 	munit_assert_int(x,==,-1);
@@ -351,7 +350,7 @@ MunitTest esb_tests[] = {
     	test_bmd_parse_xml,
     	test_bmd_parse_xml_setup,
     	test_bmd_parse_xml_tear_down,
-    	MUNIT_TEST-OPTION_NONE,
+    	MUNIT_TEST_OPTION_NONE,
     	NULL
     },
     
@@ -402,7 +401,7 @@ MunitTest esb_tests[] = {
      
      {
      	//no_transport_test
-     	test_no_transport_test,
+     	test_no_transport_service
      	NULL,
      	NULL,
      	MUNIT_TEST_OPTION_NONE,
@@ -437,15 +436,7 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	//HTTP_request_test
-     	test_HTTP_request,
-     	NULL,
-     	NULL,
-     	MUNIT_TEST_OPTION_NONE,
-     	NULL
-     },
-     
-     {
+     	//HTTP_request_
      	//select_active_route_test
      	test_select_active_route,
      	NULL,
@@ -474,7 +465,7 @@ MunitTest esb_tests[] = {
      
      {
      	//select_tranform_config
-     	test_select_tranform_config,
+     	test_select_transform_config,
      	NULL,
      	NULL,
      	MUNIT_TEST_OPTION_NONE,
@@ -513,7 +504,7 @@ MunitTest esb_tests[] = {
      	test_get_route_id,
      	NULL,
      	NULL,
-     	MUNIT_TEST_OPTION_NONE.
+     	MUNIT_TEST_OPTION_NONE,
      	NULL
      },
      
@@ -533,7 +524,7 @@ MunitTest esb_tests[] = {
      	
 /* Arrange the test cases into a test suite. */
 static const MunitSuite suite = {
-  "/test_suite_esb, /* name */
+  "/test_suite_esb", /* name */
   esb_tests, /* tests */
   NULL, /* suites */
   1, /* iterations */
@@ -544,3 +535,5 @@ static const MunitSuite suite = {
 int main (int argc, const char* argv[]) {
   return munit_suite_main(&suite, NULL, argc, argv);
 }
+     
+     
