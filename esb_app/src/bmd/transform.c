@@ -1,42 +1,48 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-#include "bmd.h"
-#include "../db_access/db_access.h"
-
-void check_transform(char type[], int route_id, char * transport_key, char * transport_value)
+int check_transform(char type[], int route_id, char* transport_key, char* transport_value, char* SENDER)
 {
-	if((!strcmp(type,"Json_transform")&&(!strcmp(transport_value,"HTTP"))))
+	if((!strcmp(type,"Json_transform"))&&(!strcmp(transport_value,"HTTP")))
 	{
-		printf(" HTTP_Json transformation \n");
-		HTTP_Json_transform(route_id,transport_key);
+		printf("\nApplying HTTP_Json transformation\n");
+		HTTP_Json_transform(route_id, transport_key, SENDER);
+		return 1;
 	}
-	
-	else if((!strcmp(type,"Json_transform"))&& (!strcmp(transport_value,"email")))
-	{
-		printf( " Email_Json transform \n");
-		get_emailId(route_id,transport_key);
+	else if((!strcmp(type,"Json_transform"))&&(!strcmp(transport_value,"email")))
+	{	
+		printf("\nApplying Email_Json transformation\n");
+		get_emailID(route_id, transport_key);
+		return 1;
 	}
 	else
 	{
-		printf("No transformation needed\n");
+		printf("\nNo transformation needed\n");
+		return 0;
 	}
 	
 }
 
-void HTTP_Json_transform( int route_id , char *transport_key)
+void HTTP_Json_transform(int route_id, char* transport_key, char *SENDER)
 {
 	char temp[100];
-	FILE *fp=fopen("Payload.json","r");
+	char* filename;
+	strcpy(filename, SENDER);
+	strcat(filename, "Payload.json");
+	FILE *fp = fopen(filename, "r");
+	fp = fopen(filename, "r");
+   	
+   	if (fp == NULL)
+      		  return;
 	
 	int i=0;
-	char c=fgetc(fp);
-	while(c!=EOF)
-	{
-		temp[i++]=c;
-		c=fgetc(fp);
-	}
+	char c = fgetc(fp); 
+    	while (c != EOF)
+    	{ 
+	     temp[i++] = c;
+	     c = fgetc(fp);
+        }
 	temp[i]='\0';
 	
 	char payload[strlen(temp)];
@@ -47,16 +53,16 @@ void HTTP_Json_transform( int route_id , char *transport_key)
 		{
 			for(int j=i+2;j<strlen(temp);j++)
 			{
-				if(temp[j]==' " ')
-				{
+				if(temp[j]=='"')
 					break;
-				}
-				payload[k++]=temp[j];
+				payload[k++] = temp[j];
 			}
-			break;
+			break;		
 		}
 	}
-	printf("Payload is :|t %s \n",payload);
-	add_payload(payload,route_id,transport_key);
+	
+	printf("\nPayload:\t%s\n",payload);
+	
+	add_payload(payload, route_id, transport_key);
+	
 }
-
