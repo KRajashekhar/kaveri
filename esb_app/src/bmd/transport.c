@@ -4,6 +4,7 @@
 
 #include "bmd.h"
 #include "../db_access/db_access.h"
+#include "../http/http.h"
 
 int Apply_transport_service(char URL[], char transport_service[])
 {

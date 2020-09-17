@@ -2,12 +2,7 @@
 #include<curl/curl.h>
 #include<stdlib.h>
 #include<string.h>
-
-struct string {
-  char *ptr;
-  size_t len;
-};
-
+#include "http.h"
 void init_string(struct string *s) {
   s->len = 0;
   s->ptr = malloc(s->len+1);
@@ -36,7 +31,7 @@ size_t writefunc(void *ptr, size_t size, size_t nmemb, struct string *s)
 int send_http_request(char *URL) 
 {
   CURL *curl;
-  CURLcode res;
+  //CURLcode res;
 
   curl = curl_easy_init();
   if(curl) {
@@ -46,7 +41,8 @@ int send_http_request(char *URL)
     curl_easy_setopt(curl, CURLOPT_URL,URL);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writefunc);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &s);
-    res = curl_easy_perform(curl);
+    //res = 
+    curl_easy_perform(curl);
 
     printf("%s\n", s.ptr);
     free(s.ptr);

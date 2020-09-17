@@ -1,5 +1,9 @@
-/*#include<stdio.h>
+#include<stdio.h>
 #include<curl/curl.h>
+#include<stdlib.h>
+#include<string.h>
+
+#include "http.h"
 
 int main(void)
 {
@@ -10,7 +14,7 @@ int main(void)
     if(curl)
     {
         curl_easy_setopt(curl,CURLOPT_URL, "enter a valid url");
-        curl_easy_setopt(curl,CURLOPT_POSTFEILDS,"field1=value1&field2=value2"); //field =payload and value be 001-1234
+        curl_easy_setopt(curl,CURLOPT_POSTFIELDS,"field1=value1&field2=value2"); //field =payload and value be 001-1234
         res=curl_easy_perform(curl);
         if(res!=CURLE_OK)
         {
@@ -20,7 +24,6 @@ int main(void)
         curl_easy_cleanup(curl);
         
     }
-        curl_global_cleanup(curl);
+        curl_global_cleanup();
         return 0;
 }
-*/

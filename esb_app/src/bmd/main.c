@@ -1,4 +1,4 @@
-/*
+
 #include<stdio.h>
 #include<stdlib.h>
 //gcc -Wall -I/usr/include/libxml2 -o main main.c -lxml2 `mysql_config --cflags --libs`
@@ -11,8 +11,7 @@ printf("%s\n",b.payload);
 //db_access(b);
 //int *ans = is_bmd_valid(b);
 //printf("%d",&ans);
-xml2json(*b.payload);
-db_access(b);
+//xml2json(b.payload);
 return 0;
 }
-*/
+
