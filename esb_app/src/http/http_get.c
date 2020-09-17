@@ -33,7 +33,7 @@ size_t writefunc(void *ptr, size_t size, size_t nmemb, struct string *s)
   return size*nmemb;
 }
 
-int send_http_request(char *URL) // eg. URL="https://ifsc.razorpay.com/HDFC0CAGSBK"
+int send_http_request(char *URL) 
 {
   CURL *curl;
   CURLcode res;

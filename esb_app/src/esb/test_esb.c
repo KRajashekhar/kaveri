@@ -282,10 +282,10 @@ static MunitResult test_select_transport_config(const MunitParameter params[],vo
 
 //test fucntion for transport config not present for a route_id
 
-static MunitResult test_select_transport_config(const MunitParameter params[],void *fixture)
+static MunitResult test_select_transport_config_invalid(const MunitParameter params[],void *fixture)
 {
 	int x=select_transport_config(0);
-	munit_assert_int(x,==,1);
+	munit_assert_int(x,==,-1);
 	return MUNIT_OK;
 	
 }
@@ -375,15 +375,15 @@ MunitTest esb_tests[] = {
      {
      	//filecontents_test,
      	test_Json_filecontents,
-     	test_Json_filecontents_setup,
-     	test_Json_filecontents_tear_down
-     	MUNIT_TEST_OPTION_NONE
+     	Json_filecontents_setup,
+     	Json_filecontents_tear_down,
+     	MUNIT_TEST_OPTION_NONE,
      	NULL
      },
      
      {
      	//http transport_test
-     	test_http_transport_service,
+     	test_HTTP_transport_service,
      	NULL,
      	NULL,
      	MUNIT_TEST_OPTION_NONE,
@@ -392,7 +392,7 @@ MunitTest esb_tests[] = {
      
      {
      	//email_transport_test
-     	test_email_transport_test,
+     	test_email_transport_service,
      	NULL,
      	NULL,
      	MUNIT_TEST_OPTION_NONE,
@@ -401,7 +401,7 @@ MunitTest esb_tests[] = {
      
      {
      	//no_transport_test
-     	test_no_transport_service
+     	test_no_transport_service,
      	NULL,
      	NULL,
      	MUNIT_TEST_OPTION_NONE,
@@ -419,7 +419,7 @@ MunitTest esb_tests[] = {
      
      {
      	//email_Json_transform_test
-     	test_email_Json_transform_test,
+     	test_email_Json_transform,
      	NULL,
      	NULL,
      	MUNIT_TEST_OPTION_NONE,
@@ -428,7 +428,7 @@ MunitTest esb_tests[] = {
      
      {
      	//no_transform_test
-     	test_no_tranform_test,
+     	test_no_transform,
      	NULL,
      	NULL,
      	MUNIT_TEST_OPTION_NONE,
