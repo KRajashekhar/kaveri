@@ -1,19 +1,26 @@
-OBJECTS := $(patsubst %.c,%.o,$(wildcard *.c))
+#OBJECTS := $(patsubst %.c,%.o,$(wildcard *.c))
 libl = -I/usr/include/libxml2 -lxml2 
 libm = `mysql_config --cflags --libs`
-cflags = gcc -c -g -Wall -Werror -std=c99 
+cflags = gcc -c -g -Wall -Werror -pedantic
 VPATH = ../db_access
 #INCLUDE := ../db_access
-out : parsing.o validation.o get_route_id.o select_transport_config.o select_transform_config.o
+out : parsing.o validation.o xmljson.o transform.o transport.o get_route_id.o select_transport_config.o select_transform_config.o\
+ get_emailId.o add_payload.o
 	gcc -o out $^ $(libl) $(libm)
 #main.o : main.c bmd.h	\
-	$(cflags) main.c\
-xmljson.o : xmljson.c bmd.h\
-	$(cflags) xmljson.c
+	$(cflags) main.c
+transport.o : transport.c bmd.h db_access.h
+	$(cflags) $<
+transform.o : transform.c bmd.h db_access.h
+	$(cflags) $< 
+xmljson.o : xmljson.c bmd.h
+	$(cflags) $< $(libl)
 validation.o : validation.c bmd.h db_access.h
 	$(cflags)  $< $(libm) $(libl)
 parsing.o : parsing.c bmd.h
 	$(cflags)  $< $(libl) 
+status_to_error.o : status_to_error.c db_access.h
+	$(cflags) $< $(libm)
 add_payload.o : add_payload.c db_access.h
 	$(cflags) $< $(libm)
 get_transport_value.o : get_transport_value.c db_access.h
@@ -42,8 +49,8 @@ insert_into_esb_request.o : insert_into_esb_request.c db_access.h
 
 .PHONY : clean
 clean:
-	rm out parsing.o validation.o get_route_id.o select_transport_config.o select_transform_config.o
-
+	rm out  parsing.o validation.o xmljson.o transform.o get_route_id.o select_transport_config.o select_transform_config.o\
+ get_emailId.o add_payload.o
 
 
 

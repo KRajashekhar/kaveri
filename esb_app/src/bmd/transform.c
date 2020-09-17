@@ -46,8 +46,9 @@ void HTTP_Json_transform( int route_id , char *transport_key)
 		if(temp[i]==':')
 		{
 			for(int j=i+2;j<strlen(temp);j++)
-			{
-				if(temp[j]==' " ')
+			{   
+				char tem = '"' ;
+				if( temp[j] == tem)
 				{
 					break;
 				}

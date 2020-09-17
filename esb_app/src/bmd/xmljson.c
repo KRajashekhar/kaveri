@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 #define SEEK_SET 0
 #define SEEK_CUR 1
 #define SEEK_END 2
@@ -7,7 +8,7 @@
 
 void xml2json(char Pay[],char Sender[])
 	{
-		char *filename;
+		char *filename = " ";
 		strcpy(filename,Sender);
 		strcat(filename,"Paylaod.json");
 		FILE *file;
@@ -60,7 +61,7 @@ char *get_filecontents (char filename[])
 {
 	long f_size;
 	char *str_data;
-	size_t file_size,result;
+	size_t file_size;
 	FILE *fp=fopen(filename,"r");
 	fseek(fp,0,2);
 	
@@ -71,7 +72,7 @@ char *get_filecontents (char filename[])
 	str_data=malloc(file_size);
 	
 	//returns number of items actually read
-	result =fread(str_data,1,f_size,fp);
+	fread(str_data,1,f_size,fp);
 	return strdup(str_data);
 }
 	
@@ -96,5 +97,5 @@ char* xmltojson(char Pay[])
 	fclose(file);
 	
 	return strdup(filename);
-	}
+}
 	

@@ -25,6 +25,10 @@ typedef struct _bmd bmd;
 
 bmd parse_bmd_xml(char * bmd_file_path) ;
 int is_bmd_valid(bmd b);
+void xml2json(char Pay[],char Sender[]);
+int get_filesize(char filename[]);
+char *get_filecontents (char filename[]);
+char* xmltojson(char Pay[]);
 int send_mail(char *to,char *file_path);
 void check_transform(char type[], int route_id, char * transport_key, char * transport_value);
 void HTTP_Json_transform( int route_id , char *transport_key);
