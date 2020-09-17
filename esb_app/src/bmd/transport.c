@@ -7,12 +7,14 @@
 
 int Apply_tranport_service(char URL[], char transport_service[])
 {
+	int status=1;
 	if(!strcmp(transport_service,"HTTP"))
 	{
 		printf(" HTTP service should be applied here\n");
 		//passing the url
 		send_http_request(URL);
 		//destination service could be of any type 
+		return status;
 	}
 	else if(!strcmp(transport_service,"email"))
 	{
@@ -32,8 +34,9 @@ int Apply_tranport_service(char URL[], char transport_service[])
 	}
 	else	
 	 	{
+	 		status =0;
 			printf("No service Found\n");
 		}
-	return 0;
+	return status;
 	
 }

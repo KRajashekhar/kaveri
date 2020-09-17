@@ -30,8 +30,8 @@ int get_filesize(char filename[]);
 char *get_filecontents (char filename[]);
 char* xmltojson(char Pay[]);
 int send_mail(char *to,char *file_path);
-void check_transform(char type[], int route_id, char * transport_key, char * transport_value);
-void HTTP_Json_transform( int route_id , char *transport_key);
+int check_transform(char type[], int route_id, char* transport_key, char* transport_value, char* SENDER);
+void HTTP_Json_transform(int route_id, char* transport_key, char *SENDER);
 int Apply_tranport_service(char URL[], char transport_service[]);
 
 //bmd *parse_bmd_xml(char *);

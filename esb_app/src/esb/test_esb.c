@@ -1,9 +1,11 @@
 #include "munit.h"
 #include "esb.h"
 #include<string.h>
+#include<stdlib.h>
 #include<dirent.h>
 #include<stdio.h>
-#include "xml2json.c"
+#include "../bmd/xmljson.c"
+#include "../bmd/bmd.h"
 
 /**
  * If the name of a test function is "test_abc" then you should
@@ -24,7 +26,7 @@ test_parse_bmd_xml(const MunitParameter params[], void *user_data)
      struct dirent *dir;
      d=opendir("./Testing");
      char **s;
-     s-malloc(100*sizeof(char *));
+     s=malloc(100*sizeof(char *));
      int i=0;
      if(d)
      {
@@ -75,7 +77,7 @@ test1(const MunitParameter params[], void *fixture)
      {
      	bmd *bmd;
      	bmd=parse_bmd_xml(str[i]);
-     	munit_asser_true(bmd!=NULL);
+     	munit_assert_true(bmd!=NULL);
      	
      	free(bmd);
      	i++;
@@ -101,7 +103,7 @@ test2_parse_bmd_xml(const MunitParameter params[], void *user_data)
     
     return strdup(path);
  }
-}
+
 
 static void
 test2_parse_bmd_xml_tear_down(void *fixture)
@@ -115,13 +117,13 @@ test2_parse_bmd_xml(const MunitParameter params[], void *fixture)
     char *str = (char *)fixture;
     bmd *bmd;
     bmd=parse_bmd_xml(str);
-    munit_assert_string_equal(bmd->bmd_envelope->MessageID,"A9ECAEF2-107A-4452-9553-043B6D25386E");
-    munit_assert_string_equal(bmd->bmd_envelope->Sender,"756E2EAA-1D5B-4BC0-ACC4-4CEB669408DA");
-    munit_assert_string_equal(bmd->bmd_envelope->Destination,"6393F82F-4687-433D-AA23-1966330381FE");
-    munit_assert_string_equal(bmd->bmd_envelope->MessageType,"CreditReport");
-    munit_assert_string_equal(bmd->bmd_envelope->Signature,"63f5f61f7a79301f715433f8f3689390d1f5da4f855169023300491c00b8113c");
-    munit_assert_string_equal(bmd->bmd_envelope->ReferenceID,"INV-PROFILE-889712");
-    munit_assert_string_equal(bmd->bmd_envelope->CreationDateTime,"2020-08-12T05:18:00+0000");
+    munit_assert_string_equal(bmd->envelop.message_id,"A9ECAEF2-107A-4452-9553-043B6D25386E");
+    munit_assert_string_equal(bmd->envelop.sender_id,"756E2EAA-1D5B-4BC0-ACC4-4CEB669408DA");
+    munit_assert_string_equal(bmd->envelop.destination_id,"6393F82F-4687-433D-AA23-1966330381FE");
+    munit_assert_string_equal(bmd->envelop.message_type,"CreditReport");
+    munit_assert_string_equal(bmd->envelop.signature,"63f5f61f7a79301f715433f8f3689390d1f5da4f855169023300491c00b8113c");
+    munit_assert_string_equal(bmd->envelop.reference_id,"INV-PROFILE-889712");
+    munit_assert_string_equal(bmd->envelop.received_on,"2020-08-12T05:18:00+0000");
     return MUNIT_OK;
     munit_assert_string_equal(str, "TEST-2");
     return MUNIT_OK;
@@ -156,7 +158,7 @@ test_filesize(const MunitParameter params[],void *fixture)
 
 static void *Json_filecontents_setup(const MunitParameter params[], void *user_data)
 {
-	char *file_created=xml2json("001-01-1234");
+	char *file_created=xmljson("001-01-1234");
 	char *json_data=get_filecontents(file_created);
 	return strdup(json_data);
 }
@@ -168,7 +170,7 @@ static void Json_filecontents_tear_down(void *fixture)
 	free(fixture);
 }
 
-static MunitResult test_Json_filecontents (const Munitparameter params[],void *fixture)
+static MunitResult test_Json_filecontents (const MunitParameter params[],void *fixture)
 {
 	char *json_data=(char *)fixture;
 	char *test_data=get_filecontents("Paylaod.json");
@@ -191,7 +193,7 @@ test_HTTP_transport_service(const MunitParameter params[],void *fixture)
 static MunitResult test_email_transport_service(const MunitParameter params[], void *fixture)
 {
 	int status=Apply_transport_service("testmailv1@gmail.com","email");
-	munit_asser_int(status,==,1);
+	munit_assert_int(status,==,1);
 	return MUNIT_OK;
 }
 
@@ -206,7 +208,7 @@ static MunitResult test_no_transport_service(const MunitParameter params[],void 
 
 //test function for http json transform
 
-static MunitResult(const MunitParameter params[],void *fixture)
+static MunitResult test_HTTP_Json_transform(const MunitParameter params[],void *fixture)
 {
 	char type[]="Json_transform";
 	int route_id=10;
@@ -220,7 +222,7 @@ static MunitResult(const MunitParameter params[],void *fixture)
 
 //test function for email json transform
 
-static MunitResult(const MunitParameter params[], void *fixture)
+static MunitResult test_email_Json_transform(const MunitParameter params[], void *fixture)
 {
 	char type[]="Json_transform";
 	int route_id=2;
@@ -231,32 +233,307 @@ static MunitResult(const MunitParameter params[], void *fixture)
 	munit_asser_int(status,==,1);
 	return MUNIT_OK;
 }
+static MunitResult test_no_transform(const Munitparameter params[], void * fixture)
+{
+	char type[]="";
+	int route_id=1;
+	char* transport_key;
+	char *transport_value="";
+	char* SENDER;
+	int transform_status=check_transform(type,route_id,tranport_key,transport_value,SENDER);
+	munit_asser_int(transform_status,==,0);
+	return MUNIT_OK;
+}
+//test function for send http request
+static MunitResult
+{
+static MunitResult test_HTTP_request(const MunitParameter params[],void * fixture)
+{
+	char *URL="https://ifsc.razorpay.com/HDFC0CAGSBK";
+	int HTTP_status=send_http_request(URL);
+	munit_assert_int(HTTP_status,==,1);
+	return MUNIT_OK;
+}
+
+//test function for send emaol
+
+static MunitResult test_send_email(const MunitParameter params[], void *fixture)
+{
+	int mail_status=send_mail("testmailv1@gmail.com","Payload.Json");
+	munit_assert_int(mail_status,==,0);
+	return MUNIT_OK;
+}
+
+//test function for active route
+static MunitResult test_select_active_route(const MunitParameter params[], void *fixture)
+{
+	int x =select_active_route("756E2EAA-1D5B-4BC0-ACC4-4CEB669408DA","6393F82F-4687-433D-AA23-1966330381FE","CreditReport");
+	munit_assert_int(x,==,1);
+	return MUNIT_OK;
+}
+
+//test function for transport config present for route_id
+
+static MunitResult test_select_transport_config(const MunitParameter params[],void *fixture)
+{
+	int x=select_transport_config(1)
+	munit_assert_int(x,==,1);
+	return MUNIT_OK;
+}
+
+//test fucntion for transport config not present for a route_id
+
+static MunitResult test_select_transport_config(const MunitParameter params[],void *fixture)
+{
+	int x=select_transport_config(0);
+	munit_assert_int(x,==,1);
+	return MUNIT_OK;
 	
-/* Put all unit tests here. */
+}
+
+//test function for transform config for route_id
+
+static MunitResult test_select_transform_config(const MunitParameter params[], void *fixture)
+{	
+	int x=select_transform_config(2);
+	munit_assert_int(x,==,1);
+	return MUNIT_OK;
+}
+
+//test function for transform config for no route_id
+static MunitResult test_select_transform_config(MunitParameter params[], void *fixture)
+{
+	int x=select_transform_config(999);
+	munit_assert_int(x,==,-1);
+	return MUNIT_OK;
+}
+
+// test function for an id with status = available
+
+static MunitResult test_check_new_request(const MunitParameter params[], void * fixture)
+{
+	int x=check_new_request(1234);
+	munit_assert_int(x,==,1);
+	return MUNIT_OK;
+}
+
+// test function for an id with status not available
+
+static MunitResult test_check_new_request_invalid(const MunitParameter params[], void * fixture)
+{
+	int x=check_new_request(1);
+	munit_assert_int(x,==,-1);
+	return MUNIT_OK;
+}
+
+// test function for getting route_id
+static MunitResult test_get_route_id(const MunitParameter params[], void *fixture)
+{
+	int x =get_route_id("756E2EAA-1D5B-4BC0-ACC4-4CEB669408DA","6393F82F-4687-433D-AA23-1966330381FE","CreditReport");
+	munit_assert_int(x,==,1);
+	return MUNIT_OK;
+}
+
+//test function to get transform key
+
+static MunitResult test_get_transform_key(const MunitParameter params[], void * fixture)
+{
+	char transform_key[50];
+	get_transform_key(1,transform_key);
+	munit_assert_string_equal(transform_key,"Json_transform");
+	return MUNIT_OK;
+}
+
+	/* Put all unit tests here. */
 MunitTest esb_tests[] = {
     {
-        "/my-test-1",   /* name */
-        test1,  /* test function */
-        test1_setup,    /* setup function for the test */
-        test1_tear_down,    /* tear_down */
-        MUNIT_TEST_OPTION_NONE, /* options */
-        NULL                    /* parameters */
+    	//test_bmd_parse_xml
+    	test_bmd_parse_xml,
+    	test_bmd_parse_xml_setup,
+    	test_bmd_parse_xml_tear_down,
+    	MUNIT_TEST-OPTION_NONE,
+    	NULL
     },
+    
     {
-        "/my-test-2",   /* name */
-        test2,  /* test function */
-        test2_setup,    /* setup function for the test */
-        test2_tear_down,    /* tear_down */
-        MUNIT_TEST_OPTION_NONE, /* options */
-        NULL                    /* parameters */
-    },
-    /* Mark the end of the array with an entry where the test
-   * function is NULL */
-    {NULL, NULL, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL}};
-
+     	//test2_bmd_parse_xml
+     	test2_bmd_parse_xml,
+     	test2_bmd_parse_xml_setup,
+     	test2_bmd_parse_xml_tear_down,
+     	MUNIT_TEST_OPTION_NONE,
+     	NULL
+     },
+     
+     {
+     	//test_json_filesize
+     	test_filesize,
+     	test_filesize_setup,
+     	test_filesize_tear_down,
+     	MUNIT_TEST_OPTION_NONE,
+     	NULL
+     },
+     
+     {
+     	//filecontents_test,
+     	test_Json_filecontents,
+     	test_Json_filecontents_setup,
+     	test_Json_filecontents_tear_down
+     	MUNIT_TEST_OPTION_NONE
+     	NULL
+     },
+     
+     {
+     	//http transport_test
+     	test_http_transport_service,
+     	NULL,
+     	NULL,
+     	MUNIT_TEST_OPTION_NONE,
+     	NULL
+     },
+     
+     {
+     	//email_transport_test
+     	test_email_transport_test,
+     	NULL,
+     	NULL,
+     	MUNIT_TEST_OPTION_NONE,
+     	NULL
+     },
+     
+     {
+     	//no_transport_test
+     	test_no_transport_test,
+     	NULL,
+     	NULL,
+     	MUNIT_TEST_OPTION_NONE,
+     	NULL
+     },
+     
+     {
+     	//HTTP_Json_transform_test
+     	test_HTTP_Json_transform,
+     	NULL,
+     	NULL,
+     	MUNIT_TEST_OPTION_NONE,
+     	NULL
+     },
+     
+     {
+     	//email_Json_transform_test
+     	test_email_Json_transform_test,
+     	NULL,
+     	NULL,
+     	MUNIT_TEST_OPTION_NONE,
+     	NULL
+     },
+     
+     {
+     	//no_transform_test
+     	test_no_tranform_test,
+     	NULL,
+     	NULL,
+     	MUNIT_TEST_OPTION_NONE,
+     	NULL
+     },
+     
+     {
+     	//HTTP_request_test
+     	test_HTTP_request,
+     	NULL,
+     	NULL,
+     	MUNIT_TEST_OPTION_NONE,
+     	NULL
+     },
+     
+     {
+     	//select_active_route_test
+     	test_select_active_route,
+     	NULL,
+     	NULL,
+     	MUNIT_TEST_OPTION_NONE,
+     	NULL
+     },
+     
+     {
+     	//select_transport_config
+     	test_select_transport_config,
+     	NULL,
+     	NULL,
+     	MUNIT_TEST_OPTION_NONE,
+     	NULL
+     },
+     
+     {
+     	//select_transport_config_invalid_test"
+     	test_select_transport_config_invalid,
+     	NULL,
+     	NULL,
+     	MUNIT_TEST_OPTION_NONE,
+     	NULL
+     },
+     
+     {
+     	//select_tranform_config
+     	test_select_tranform_config,
+     	NULL,
+     	NULL,
+     	MUNIT_TEST_OPTION_NONE,
+     	NULL
+     },
+     
+     {
+     	//select_transform_config_invalid
+     	test_select_transform_config_invalid,
+     	NULL,
+     	NULL,
+     	MUNIT_TEST_OPTION_NONE,
+     	NULL
+     },
+     
+     {
+     	//test_check_new_request
+	test_check_new_request,
+	NULL,
+	NULL,
+	MUNIT_TEST_OPTION_NONE,
+	NULL
+     },
+     
+     {
+     	//test_check_new_request_invalid
+     	test_check_new_request_invalid,
+     	NULL,
+     	NULL,
+     	MUNIT_TEST_OPTION_NONE,
+     	NULL
+     },
+     
+     {
+     	//test_get_route_id
+     	test_get_route_id,
+     	NULL,
+     	NULL,
+     	MUNIT_TEST_OPTION_NONE.
+     	NULL
+     },
+     
+     {
+     	//test_get_transform_key
+     	test_get_transform_key,
+     	NULL,
+     	NULL,
+     	MUNIT_TEST_OPTION_NONE,
+     	NULL
+     },
+     
+     {NULL,NULL,NULL,NULL,MUNIT_TEST_OPTION_NONE,NULL}};
+     
+     
+     	
+     	
 /* Arrange the test cases into a test suite. */
 static const MunitSuite suite = {
-  "/my-tests", /* name */
+  "/test_suite_esb, /* name */
   esb_tests, /* tests */
   NULL, /* suites */
   1, /* iterations */

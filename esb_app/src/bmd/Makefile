@@ -49,10 +49,8 @@ insert_into_esb_request.o : insert_into_esb_request.c db_access.h
 
 .PHONY : clean
 clean:
-	rm out  parsing.o validation.o xmljson.o transform.o get_route_id.o select_transport_config.o select_transform_config.o\
+	rm out parsing.o validation.o xmljson.o transform.o transport.o get_route_id.o select_transport_config.o select_transform_config.o\
  get_emailId.o add_payload.o
-
-
 
 
 
