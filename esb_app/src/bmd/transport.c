@@ -6,7 +6,7 @@
 #include "../db_access/db_access.h"
 #include "../http/http.h"
 
-int Apply_transport_service(char URL[], char transport_service[])
+static int Apply_transport_service(char URL[], char transport_service[])
 {
 	int status=1;
 	if(!strcmp(transport_service,"HTTP"))
