@@ -1,3 +1,6 @@
+
+// @authors Kucharla Rajashekhar and Vinay Prabhakar
+
 #include<stdio.h>
 #ifndef BMD_H
 #define BMD_H

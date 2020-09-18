@@ -1,4 +1,6 @@
 
+// @authors Kucharla Rajashekhar and Vinay Prabhakar
+
 #include<stdio.h>
 #include<stdlib.h>
 //gcc -Wall -I/usr/include/libxml2 -o main main.c -lxml2 `mysql_config --cflags --libs`

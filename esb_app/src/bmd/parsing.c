@@ -1,3 +1,6 @@
+
+// @authors Kucharla Rajashekhar and Vinay Prabhakar
+
 #include<stdio.h>
 #include<stdlib.h>
 //gcc -Wall -I/usr/include/libxml2 -o parsing parsing.c -lxml2

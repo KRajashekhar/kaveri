@@ -1,5 +1,5 @@
 
-// @authors Kucharla Rajashekhar and Vinay Prabhakar
+# @authors Kucharla Rajashekhar and Vinay Prabhakar
 
 OBJECTS := $(patsubst %.c,%.o,$(wildcard *.c))
 libl = -I/usr/include/libxml2 -lxml2 
@@ -9,7 +9,7 @@ out : $(OBJECTS)
 	gcc -o out $(OBJECTS)  $(libm)
 main.o : main.c db_access.h
 	$(cflags) main.c $(libm)
-status_to_error.o : status_to_error.c db_access.h
+change_status_to_error.o : change_status_to_error.c db_access.h
 	$(cflags) $< $(libm)
 add_payload.o : add_payload.c db_access.h
 	$(cflags) $< $(libm)
