@@ -1,3 +1,6 @@
+
+// @authors Kucharla Rajashekhar and Vinay Prabhakar
+
 #include <stdio.h>
 #include <unistd.h>
 #include "esb.h"
@@ -5,7 +8,7 @@
 #include<mysql/mysql.h>
 #include<string.h>
 #include "../db_access/db_access.h"
-#
+
 
 int fetch_new_request_from_db(int id)
 {

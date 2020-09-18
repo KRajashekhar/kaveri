@@ -1,3 +1,6 @@
+
+// @authors Kucharla Rajashekhar and Vinay Prabhakar
+
 #include<stdio.h>
 ///#include "../bmd/bmd.h"
 #ifndef ESB_H

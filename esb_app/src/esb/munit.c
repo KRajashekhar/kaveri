@@ -27,6 +27,9 @@
  * meant to let you choose stdout or stderr, but if anyone really want
  * to direct it to a file let me know, it would be fairly easy to
  * support. */
+
+// @authors Kucharla Rajashekhar and Vinay Prabhakar
+
 #if !defined(MUNIT_OUTPUT_FILE)
 #  define MUNIT_OUTPUT_FILE stdout
 #endif

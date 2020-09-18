@@ -3,6 +3,9 @@
  * following is one of the ways to invoke a dyamically loaded function in C.
  * Help taken from: https://stackoverflow.com/a/1120834
  */
+
+// @authors Kucharla Rajashekhar and Vinay Prabhakar
+
 #include <stdio.h>
 #include <string.h>
 
