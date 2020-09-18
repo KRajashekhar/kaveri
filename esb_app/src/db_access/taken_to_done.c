@@ -1,3 +1,7 @@
+
+// @authors Kucharla Rajashekhar and Vinay Prabhakar// @authors Kucharla Rajashekhar and Vinay Prabhakar
+
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>

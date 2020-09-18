@@ -1,4 +1,7 @@
-	#include<stdio.h>
+
+// @authors Kucharla Rajashekhar and Vinay Prabhakar
+
+#include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 
