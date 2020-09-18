@@ -6,8 +6,8 @@
 #include<stdlib.h>
 
 #define FROM "testmailv1@gmail.com"
-#define CC "testmailv2@gmail.com"
-#define TO "testmailv3@gmail.com"
+#define CC "testmailv1@gmail.com"
+#define TO "testmailv1@gmail.com"
 struct upload_status
 {
 	int lines_read;

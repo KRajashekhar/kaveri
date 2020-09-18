@@ -5,6 +5,7 @@
 #include"bmd.h"
 #include"../db_access/db_access.h"
 
+
 int check_transform(char type[], int route_id, char* transport_key, char* transport_value, char* SENDER)
 {
 	if((!strcmp(type,"Json_transform"))&&(!strcmp(transport_value,"HTTP")))

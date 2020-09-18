@@ -6,14 +6,14 @@
 #include<stdio.h>
 #include "../bmd/xmljson.c"
 #include "../bmd/bmd.h"
-
+#include"../bmd/transport.c"
 /**
  * If the name of a test function is "test_abc" then you should
  * define the setup and teardown functions by the names:
  * test_abc_setup and test_abc_tear_down respectively.
  */
 static void *
-test_parse_bmd_xml(const MunitParameter params[], void *user_data)
+test_parse_bmd_xml_setup(const MunitParameter params[], void *user_data)
 {
     /**
      * Return the data that will be used for test1. Here we
@@ -58,7 +58,7 @@ test_parse_bmd_xml(const MunitParameter params[], void *user_data)
     
     
 static MunitResult
-test1(const MunitParameter params[], void *fixture)
+test_parse_bmd_xml(const MunitParameter params[], void *fixture)
 {
     char **str = (char **)fixture;
     /**
@@ -94,7 +94,7 @@ test1(const MunitParameter params[], void *fixture)
 
 /* Define the setup and the test for test2 */
 static void *
-test2_parse_bmd_xml(const MunitParameter params[], void *user_data)
+test2_parse_bmd_xml_setup(const MunitParameter params[], void *user_data)
 {
     char cwd[100];
     getcwd(cwd,sizeof(cwd));
@@ -158,7 +158,7 @@ test_filesize(const MunitParameter params[],void *fixture)
 
 static void *Json_filecontents_setup(const MunitParameter params[], void *user_data)
 {
-	char *file_created=xmljson("001-01-1234");
+	char *file_created=xmltojson("001-01-1234");
 	char *json_data=get_filecontents(file_created);
 	return strdup(json_data);
 }
@@ -181,10 +181,9 @@ static MunitResult test_Json_filecontents (const MunitParameter params[],void *f
 }
 
 //test function for HTTP transport service
-
-test_HTTP_transport_service(const MunitParameter params[],void *fixture)
+static MunitResult test_HTTP_transport_service(const MunitParameter params[],void *fixture)
 {
-	int status=Apply_transport_service("ttps://ifsc.razorpay.com/HDFC0CAGSBK", "HTTP");
+	int status=Apply_transport_service("https://ifsc.razorpay.com/HDFC0CAGSBK", "HTTP");
 	munit_assert_int(status,==,1);
 	return MUNIT_OK;
 }
@@ -201,7 +200,7 @@ static MunitResult test_email_transport_service(const MunitParameter params[], v
 
 static MunitResult test_no_transport_service(const MunitParameter params[],void *fixture)
 {
-	int status=Apply_tranport_service("email","service");
+	int status=Apply_tranport_service("URL","service");
 	munit_assert_int(status,==,0);
 	return MUNIT_OK;
 }
@@ -229,7 +228,7 @@ static MunitResult test_email_Json_transform(const MunitParameter params[], void
 	char *transport_key;
 	char *transport_value="email";
 	char *SENDER;
-	int  transform_status=Apply_transform_service(type,route_id,transport_key,transport_value,SENDER);
+	int  transform_status=check_transform(type,route_id,transport_key,transport_value,SENDER);
 	munit_assert_int(transform_status,==,1);
 	return MUNIT_OK;
 }
@@ -343,22 +342,80 @@ static MunitResult test_get_transform_key(const MunitParameter params[], void * 
 	return MUNIT_OK;
 }
 
+//test 1 for above function
+static MunitResult test_get_transport_key_T1(const MunitParameter params[], void *fixture)
+{
+	char Payload_value[]="IDIB000V086";
+	int route_id=1;
+	char transport_key[50];
+	char url[]="https://ifsc.razorpay.com/IDIB000V086";
+	add_payload(Payload_value,route_id,transport_key);
+	
+	munit_assert_string_equal(transport_key,url);
+	return MUNIT_OK;
+}
+
+//test 2
+
+static MunitResult test_get_transport_key_T2(const MunitParameter params[], void *fixture)
+{
+	char transport_key[70];
+	char type[]="Json_transform";
+	int route_id=2;
+	char *transport_value="email";
+	char *SENDER;
+	
+	int check=check_transform(type,route_id,transport_key,transport_value,SENDER);
+	munit_assert_string_equal(transport_key,"testmailv1@gmail.com");
+	return MUNIT_OK;
+}
+//test 3
+static MunitResult test_get_transport_key_T3(const MunitParameter params[], void *fixture)
+{
+	char transport_key[70];
+	int route_id=2;
+	get_emailId(route_id,transport_key);
+	
+	munit_assert_string_equal(transport_key,"testmailv1@gmail.com");
+	return MUNIT_OK;
+}
+
+//test 1 for get_transform_value
+static MunitResult test_get_transport_value_T1(const MunitParameter params[], void *fixture)
+{
+	char transport_value[50];
+	get_transport_value(1,transport_value);
+	munit_assert_string_equal(transport_value,"HTTP");
+	return MUNIT_OK;
+}
+
+//test 2 
+static MunitResult test_get_transport_value_T2(const MunitParameter params[], void *fixture)
+{
+	char transport_value[50];
+	get_transport_value(2,transport_value);
+	
+	munit_assert_string_equal(transport_value,"email");
+	return MUNIT_OK;
+}
+
+
 	/* Put all unit tests here. */
 MunitTest esb_tests[] = {
     {
     	//test_bmd_parse_xml
-    	test_bmd_parse_xml,
-    	test_bmd_parse_xml_setup,
-    	test_bmd_parse_xml_tear_down,
+    	test_parse_bmd_xml,
+    	test_parse_bmd_xml_setup,
+    	test_parse_bmd_xml_tear_down,
     	MUNIT_TEST_OPTION_NONE,
     	NULL
     },
     
     {
      	//test2_bmd_parse_xml
-     	test2_bmd_parse_xml,
-     	test2_bmd_parse_xml_setup,
-     	test2_bmd_parse_xml_tear_down,
+     	test2_parse_bmd_xml,
+     	test2_parse_bmd_xml_setup,
+     	test2_parse_bmd_xml_tear_down,
      	MUNIT_TEST_OPTION_NONE,
      	NULL
      },
@@ -436,7 +493,25 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	//HTTP_request_
+     	//http request_test
+     	test_HTTP_request,
+     	NULL,
+     	NULL,
+     	MUNIT_TEST_OPTION_NONE,
+     	NULL
+     },
+     
+     {
+     	//send_email_test
+     	test_send_email,
+     	NULL,
+     	NULL,
+     	MUNIT_TEST_OPTION_NONE,
+     	NULL
+     },
+     
+     {
+     
      	//select_active_route_test
      	test_select_active_route,
      	NULL,
@@ -511,6 +586,51 @@ MunitTest esb_tests[] = {
      {
      	//test_get_transform_key
      	test_get_transform_key,
+     	NULL,
+     	NULL,
+     	MUNIT_TEST_OPTION_NONE,
+     	NULL
+     },
+     
+     {
+     	//get transport_key t1
+     	test_get_transport_key_T1,
+     	NULL,
+     	NULL,
+     	MUNIT_TEST_OPTION_NONE,
+     	NULL
+     },
+     
+     {
+     	//get_transport_key_t2
+     	test_get_transport_key_T2,
+     	NULL,
+     	NULL,
+     	MUNIT_TEST_OPTION_NONE,
+     	NULL
+     },
+     
+     {
+     	//get_transport_key_t3
+     	test_get_transport_key_T3,
+     	NULL,
+     	NULL,
+     	MUNIT_TEST_OPTION_NONE,
+     	NULL
+     },
+     
+     {
+     	//tst_get_transport_value_t1
+     	test_get_transport_value_T1,
+     	NULL,
+     	NULL,
+     	MUNIT_TEST_OPTION_NONE,
+     	NULL
+     },
+     
+     {
+     	//test_get_transport_value_t2
+     	test_get_transport_value_T2,
      	NULL,
      	NULL,
      	MUNIT_TEST_OPTION_NONE,
