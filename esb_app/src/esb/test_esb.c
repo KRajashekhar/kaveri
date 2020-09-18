@@ -430,7 +430,7 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	"/filecontents_test,"
+     	"/filecontents_test",
      	test_Json_filecontents,
      	Json_filecontents_setup,
      	Json_filecontents_tear_down,
