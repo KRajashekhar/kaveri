@@ -1,4 +1,6 @@
 
+// @authors Kucharla Rajashekhar and Vinay Prabhakar
+
 #ifndef _EMAIL_H
 #define _EMAIL_H
 
