@@ -1,3 +1,6 @@
+
+ # @uthors Kucharla Rajashekhar and Vinay Prabhakar
+
 OBJECTS := $(patsubst %.c,%.o,$(wildcard *.c))
 libl = -I/usr/include/libxml2 -lxml2 
 libm = `mysql_config --cflags --libs`
@@ -12,4 +15,4 @@ http_post.o : http_post.c http.h
 
 .PHONY : clean
 clean :
-	rm $(OBJECTS)
+	rm  out $(OBJECTS)
