@@ -201,7 +201,7 @@ static MunitResult test_email_transport_service(const MunitParameter params[], v
 
 static MunitResult test_no_transport_service(const MunitParameter params[],void *fixture)
 {
-	int status=Apply_tranport_service("URL","service");
+	int status=Apply_transport_service("URL","service");
 	munit_assert_int(status,==,0);
 	return MUNIT_OK;
 }
@@ -653,8 +653,8 @@ static const MunitSuite suite = {
 };
 
 /* Run the the test suite */
-int main (int argc, const char* argv[]) {
+int main (int argc, const char *argv[]) {
   return munit_suite_main(&suite, NULL, argc, argv);
 }
      
-     
+
