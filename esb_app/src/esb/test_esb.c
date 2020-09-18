@@ -4,6 +4,7 @@
 #include<stdlib.h>
 #include<dirent.h>
 #include<stdio.h>
+#include<unistd.h>
 #include "../bmd/xmljson.c"
 #include "../bmd/bmd.h"
 #include"../bmd/transport.c"
@@ -73,19 +74,19 @@ test_parse_bmd_xml(const MunitParameter params[], void *fixture)
      * to see the effect of any changes in data in this example.
      */
      int i=0;
-     while(str[i]!=NULL)
+     while(str[i] != NULL)
      {
-     	bmd *bmd;
-     	bmd=parse_bmd_xml(str[i]);
-     	munit_assert_true(bmd!=NULL);
+     	//bmd b;
+     	//b=parse_bmd_xml(str[i]);
+     	//munit_assert_true(b != NULL);
      	
-     	free(bmd);
+     	//free(b);
      	i++;
      }
     //munit_assert_string_equal(str, "/path/to/bmd.xml");
 
     // Invoke the ESB function (or any other function to test)
-    int status = process_esb_request(str);
+    int status = process_esb_request(*str);
     
     // Assert the expected results
     munit_assert_true(status == 0);
@@ -115,15 +116,15 @@ static MunitResult
 test2_parse_bmd_xml(const MunitParameter params[], void *fixture)
 {
     char *str = (char *)fixture;
-    bmd *bmd;
-    bmd=parse_bmd_xml(str);
-    munit_assert_string_equal(bmd->envelop.message_id,"A9ECAEF2-107A-4452-9553-043B6D25386E");
-    munit_assert_string_equal(bmd->envelop.sender_id,"756E2EAA-1D5B-4BC0-ACC4-4CEB669408DA");
-    munit_assert_string_equal(bmd->envelop.destination_id,"6393F82F-4687-433D-AA23-1966330381FE");
-    munit_assert_string_equal(bmd->envelop.message_type,"CreditReport");
-    munit_assert_string_equal(bmd->envelop.signature,"63f5f61f7a79301f715433f8f3689390d1f5da4f855169023300491c00b8113c");
-    munit_assert_string_equal(bmd->envelop.reference_id,"INV-PROFILE-889712");
-    munit_assert_string_equal(bmd->envelop.received_on,"2020-08-12T05:18:00+0000");
+    bmd b;
+    b=parse_bmd_xml(str);
+    munit_assert_string_equal(b.envelop.message_id,"A9ECAEF2-107A-4452-9553-043B6D25386E");
+    munit_assert_string_equal(b.envelop.sender_id,"756E2EAA-1D5B-4BC0-ACC4-4CEB669408DA");
+    munit_assert_string_equal(b.envelop.destination_id,"6393F82F-4687-433D-AA23-1966330381FE");
+    munit_assert_string_equal(b.envelop.message_type,"CreditReport");
+    munit_assert_string_equal(b.envelop.signature,"63f5f61f7a79301f715433f8f3689390d1f5da4f855169023300491c00b8113c");
+    munit_assert_string_equal(b.envelop.reference_id,"INV-PROFILE-889712");
+    munit_assert_string_equal(b.envelop.received_on,"2020-08-12T05:18:00+0000");
     return MUNIT_OK;
     munit_assert_string_equal(str, "TEST-2");
     return MUNIT_OK;

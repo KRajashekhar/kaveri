@@ -4,7 +4,7 @@
 //gcc -Wall -I/usr/include/libxml2 -o main main.c -lxml2 `mysql_config --cflags --libs`
 #include "bmd.h"
 
-int main() {
+int main(void) {
 bmd b;
 b = parse_bmd_xml("bmd.xml") ;
 printf("%s\n",b.payload);
