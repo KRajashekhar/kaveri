@@ -403,7 +403,7 @@ static MunitResult test_get_transport_value_T2(const MunitParameter params[], vo
 	/* Put all unit tests here. */
 MunitTest esb_tests[] = {
     {
-    	//test_bmd_parse_xml
+    	"/test_bmd_parse_xml",
     	test_parse_bmd_xml,
     	test_parse_bmd_xml_setup,
     	test_parse_bmd_xml_tear_down,
@@ -412,7 +412,7 @@ MunitTest esb_tests[] = {
     },
     
     {
-     	//test2_bmd_parse_xml
+     	"/test2_bmd_parse_xml",
      	test2_parse_bmd_xml,
      	test2_parse_bmd_xml_setup,
      	test2_parse_bmd_xml_tear_down,
@@ -421,7 +421,7 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	//test_json_filesize
+     	"/test_json_filesize",
      	test_filesize,
      	test_filesize_setup,
      	test_filesize_tear_down,
@@ -430,7 +430,7 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	//filecontents_test,
+     	"/filecontents_test,"
      	test_Json_filecontents,
      	Json_filecontents_setup,
      	Json_filecontents_tear_down,
@@ -439,7 +439,7 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	//http transport_test
+     	"/http transport_test",
      	test_HTTP_transport_service,
      	NULL,
      	NULL,
@@ -448,7 +448,7 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	//email_transport_test
+     	"/email_transport_test",
      	test_email_transport_service,
      	NULL,
      	NULL,
@@ -457,7 +457,7 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	//no_transport_test
+     	"/no_transport_test",
      	test_no_transport_service,
      	NULL,
      	NULL,
@@ -466,7 +466,7 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	//HTTP_Json_transform_test
+     	"/HTTP_Json_transform_test",
      	test_HTTP_Json_transform,
      	NULL,
      	NULL,
@@ -475,7 +475,7 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	//email_Json_transform_test
+     	"/email_Json_transform_test",
      	test_email_Json_transform,
      	NULL,
      	NULL,
@@ -484,7 +484,7 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	//no_transform_test
+     	"/no_transform_test",
      	test_no_transform,
      	NULL,
      	NULL,
@@ -493,7 +493,7 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	//http request_test
+     	"/http request_test",
      	test_HTTP_request,
      	NULL,
      	NULL,
@@ -502,7 +502,7 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	//send_email_test
+     	"/send_email_test",
      	test_send_email,
      	NULL,
      	NULL,
@@ -512,7 +512,7 @@ MunitTest esb_tests[] = {
      
      {
      
-     	//select_active_route_test
+     	"/select_active_route_test",
      	test_select_active_route,
      	NULL,
      	NULL,
@@ -521,7 +521,7 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	//select_transport_config
+     	"/select_transport_config",
      	test_select_transport_config,
      	NULL,
      	NULL,
@@ -530,7 +530,7 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	//select_transport_config_invalid_test"
+     	"/select_transport_config_invalid_test",
      	test_select_transport_config_invalid,
      	NULL,
      	NULL,
@@ -539,7 +539,7 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	//select_tranform_config
+     	"/select_tranform_config",
      	test_select_transform_config,
      	NULL,
      	NULL,
@@ -548,7 +548,7 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	//select_transform_config_invalid
+     	"/select_transform_config_invalid",
      	test_select_transform_config_invalid,
      	NULL,
      	NULL,
@@ -557,7 +557,7 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	//test_check_new_request
+     	"/test_check_new_request",
 	test_check_new_request,
 	NULL,
 	NULL,
@@ -566,7 +566,7 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	//test_check_new_request_invalid
+     	"/test_check_new_request_invalid",
      	test_check_new_request_invalid,
      	NULL,
      	NULL,
@@ -575,7 +575,7 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	//test_get_route_id
+     	"/test_get_route_id",
      	test_get_route_id,
      	NULL,
      	NULL,
@@ -584,7 +584,7 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	//test_get_transform_key
+     	"/test_get_transform_key",
      	test_get_transform_key,
      	NULL,
      	NULL,
@@ -593,7 +593,7 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	//get transport_key t1
+     	"/get transport_key t1",
      	test_get_transport_key_T1,
      	NULL,
      	NULL,
@@ -602,7 +602,7 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	//get_transport_key_t2
+     	"/get_transport_key_t2",
      	test_get_transport_key_T2,
      	NULL,
      	NULL,
@@ -611,7 +611,7 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	//get_transport_key_t3
+     	"/get_transport_key_t3",
      	test_get_transport_key_T3,
      	NULL,
      	NULL,
@@ -620,7 +620,7 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	//tst_get_transport_value_t1
+     	"/tst_get_transport_value_t1",
      	test_get_transport_value_T1,
      	NULL,
      	NULL,
@@ -629,7 +629,7 @@ MunitTest esb_tests[] = {
      },
      
      {
-     	//test_get_transport_value_t2
+     	"/test_get_transport_value_t2",
      	test_get_transport_value_T2,
      	NULL,
      	NULL,
