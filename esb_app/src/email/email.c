@@ -80,11 +80,7 @@ int send_mail(char *to,char *file_path)
 		
 		return (int) res;
 }
-/*
-int main() {
-	return 0;
-}
-*/
+
 /*
 int main()
 {

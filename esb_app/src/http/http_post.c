@@ -5,8 +5,7 @@
 
 #include "http.h"
 
-int main(void)
-{
+int http_send_request_2(char *URL)
     CURL *curl;
     CURLcode res;
     curl_global_init(CURL_GLOBAL_ALL);

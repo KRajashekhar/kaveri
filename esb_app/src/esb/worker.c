@@ -45,7 +45,7 @@ void *poll_database_for_new_requets(void *vargp)
     
     if(mysql_real_connect(conn, HOST, USER, PASSWD, DB, PORT, UNIX_SOCKET, FLAG)==NULL)
     {
-        return finish_with_error(conn);
+        fprintf(stderr,"Failed to connect to mysql server %s",mysql_error(conn));
     }
     	
     int i = 0;
@@ -67,7 +67,7 @@ void *poll_database_for_new_requets(void *vargp)
          res=mysql_store_result(conn);
          int fields=mysql_num_fields(res);
          printf("Entries in the table esb_request with status =available \n");
-         while(row=mysql_fetch_result(res))
+         while(row=mysql_fetch_row(res))
          {
          	for(int i=0;i<4;i++)
          	{
@@ -109,26 +109,62 @@ void *poll_database_for_new_requets(void *vargp)
               * 5. Cleanup
               */
             printf("Applying transformation and transporting steps.\n");
-            int route_id=get_route_id(SENDER,DEST,MTYPE);
-            //getting the config key fot transformation
-            char transform_key[50];
-            get_transform_key(route_id,transform_key);
-            printf("\n transform key - %s\n", transform_key);
-            
-            //if transformation is required
-            char transport_key[50];
-            check_transform(transform_key,route_id,transport_key);
-            printf("trasnport key - %s\n", transport_key);
-            
-            //getting the service value
-            char transport_value[50];
-            get_transport_value(route_id,transport_value);
-            printf(" transport value - %s\n",transport_value);
-            
-            //applying transport service
-            Apply_transport_service(transport_key,transport_value);
-            
-            //checking and updating
+          
+          //change available to taken
+          change_available_to_taken(ID);
+          
+          int route_id=get_route_id(SENDER,DEST,MTYPE);
+          if(route_id==0)
+          {
+          	change_status_to_error(ID);
+          	
+          }
+          
+          //getting config_key
+          
+          char transform_key[50];
+           get_transform_key(route_id, transform_key);
+
+            if (transform_key == NULL) {
+                change_status_to_error(ID);
+                
+            }
+          
+          printf("transform key is %s\n",transform_key);
+          
+          char transport_value[50];
+          get_transport_value(route_id,transport_value);
+          
+          if(transport_value==NULL)
+          {
+          	change_status_to_error(ID);
+          
+          }
+          
+          printf("transport value is %s\n",transport_value);
+          
+          
+          
+          char transport_key[50];
+          int transform_status=check_transform(transform_key,route_id,transport_key,transport_value,SENDER);
+         if(transport_key == NULL || transform_status==0)
+         {
+         	change_status_to_error(ID);
+         	
+         }
+         
+         printf("Transport key is %s\n",transport_key);
+         int transport_status=Apply_tranport_service(transport_key, transport_value);
+         
+          if(transform_status==0)
+          {
+          	change_status_to_error(ID);
+          	
+          }
+          
+          //checking and updating the status
+          
+          change_taken_to_done(ID);
             
         }
         /**
