@@ -3,9 +3,6 @@
  * following is one of the ways to invoke a dyamically loaded function in C.
  * Help taken from: https://stackoverflow.com/a/1120834
  */
-
-// @authors Kucharla Rajashekhar and Vinay Prabhakar
-
 #include <stdio.h>
 #include <string.h>
 
@@ -20,11 +17,11 @@ void tranform_bmd_Credit_svc(void* ptr) { printf("Transformation for Credit serv
 void transport_bmd_Credit_svc(void* ptr) { printf("Transport for Credit service\n"); }
 void transform_bmd_IFSC_svc(void *ptr)
 {
-   printf("Hello");
+   printf("IFSC Service Transform");
 }
 void transport_bmd_IFSC_svc(void *ptr)
 {
-    printf("Hello again");
+    printf("IFSC Service Transport");
 }
 /* The ESB would have this table */
 const static struct
