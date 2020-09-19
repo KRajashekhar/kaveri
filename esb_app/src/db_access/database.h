@@ -23,9 +23,5 @@
 #define database "esb_db"
 #define port 3306
 
-int insert_in_esb_request(BMD *bmd);
-int select_active_route(const unsigned char *Sender, const unsigned char *Destination, const unsigned char *MessageType);
-int select_transport_config(int route_id);
-int select_transform_config(int route_id);
 
 #endif
