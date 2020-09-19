@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <curl/curl.h>
+#include "http.h"
 
 void init_string(struct string * s) {
     s -> len = 0;
