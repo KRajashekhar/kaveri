@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "bmd_parser.h"
+#include "../bmd/bmd_parser.h"
 #include "esb.h"
 #include <stdlib.h>
 
