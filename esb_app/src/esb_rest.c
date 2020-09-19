@@ -21,14 +21,25 @@ rest_result get_messageID(struct http_request *req)
 {
     rest_result rs_res;
     rs_res.status=1; //1-->OK , -ve for errors
-
+    http_populate_get(req);
     if(req->method!=HTTP_METHOD_GET)
     {
-        printf("NOT A GET");
         kore_log(LOG_ERR, "Rejecting non GET request.");
 		http_response(req, 405,"Wrong Method\n", 13);
     }
     http_response(req, 200, "Processing GET REQUEST",15);
+    char  *out;
+    //printf("%s\n\n",req->query_string);
+    if(http_argument_get_string(req,"MessageID",&out))
+    {
+       rs_res.message_id=malloc(strlen(out)*sizeof(char)+1);
+       strcpy(rs_res.message_id,out);
+    }
+       else
+       {
+           printf("Could not work \n\n\n");
+       }
+       
     return rs_res;  
 }
 
