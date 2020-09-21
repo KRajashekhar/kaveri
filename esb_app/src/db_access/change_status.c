@@ -80,32 +80,34 @@ void change_status_to_error(int id) {
     mysql_free_result(res);
 }
 
-void get_status(char* messageID, char* status) {
+void get_status(char *message_id, char* status)
+{
+    	MYSQL *conn;
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+	char query[5000];
+	conn = mysql_init(NULL);
 
-    MYSQL * conn;
-    MYSQL_RES * res;
-    MYSQL_ROW row;
-    char query[5000];
-    conn = mysql_init(NULL);
+	/* Connect to database */
+	if (!mysql_real_connect(conn, server, user, password, database, 0, NULL, 0))
+	{
+		return NULL;
+	}
 
-    /* Connect to database */
-    if (!mysql_real_connect(conn, server, user, password, database, 0, NULL, 0)) {
-        printf("Failed to connect MySQL Server %s. Error: %s\n", server, mysql_error(conn));
-    }
+	/*Get transform config_value*/
+	sprintf(query,GET_STATUS,message_id);
+	/* Execute SQL query.*/
+	if (mysql_query(conn, query))
+	{
+		return NULL;
+	}
 
-   /* Get status */
-    sprintf(query, GET_STATUS, messageID);
+	res = mysql_store_result(conn);
+	row = mysql_fetch_row(res);
+	
+	strcpy(status,row[0]);
 
-    /* Execute SQL query.*/
-    if (mysql_query(conn, query)) {
-        printf("Failed to execute query. Error: %s\n", mysql_error(conn));
-    }
+	/* free results */
+	mysql_free_result(res);
 
-    res = mysql_store_result(conn);
-    row = mysql_fetch_row(res);
-
-    strcpy(status, row[0]);
-
-    /* free results */
-    mysql_free_result(res);
 }
