@@ -12,6 +12,10 @@ int check_transform(char type[], int route_id, char * transport_key, char * tran
         printf("\nApplying Email_Json transformation\n");
         get_emailID(route_id, transport_key);
         return 1;
+    } else if ((!strcmp(type, "Json_transform")) && (!strcmp(transport_value, "SFTP"))) {
+        printf("\nApplying Email_Json transformation\n");
+        get_sftpserver(route_id, transport_key);
+        return 1;
     } else {
         printf("\nNo transformation needed\n");
         return 0;
