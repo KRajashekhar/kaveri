@@ -329,6 +329,36 @@ void get_emailID(int route_id, char * transport_key) {
 
 }
 
+void get_sftpserver(int route_id, char * transport_key) {
+    MYSQL * conn;
+    MYSQL_RES * res;
+    MYSQL_ROW row;
+    char query[5000];
+    conn = mysql_init(NULL);
+
+    /* Connect to database */
+    if (!mysql_real_connect(conn, server, user, password, database, 0, NULL, 0)) {
+        printf("Failed to connect MySQL Server %s. Error: %s\n", server, mysql_error(conn));
+    }
+
+    /* Get transform config_key */
+    sprintf(query, GET_transportkey, route_id);
+
+    /* Execute SQL query.*/
+    if (mysql_query(conn, query)) {
+        printf("Failed to execute query. Error: %s\n", mysql_error(conn));
+    }
+
+    res = mysql_store_result(conn);
+    row = mysql_fetch_row(res);
+
+    strcpy(transport_key, row[0]);
+
+    /* free results */
+    mysql_free_result(res);
+
+}
+
 void get_transport_value(int route_id, char * transport_value) {
 
     MYSQL * conn;
