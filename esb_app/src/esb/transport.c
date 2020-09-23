@@ -29,7 +29,7 @@ int Apply_transport_service(char URL[], char transport_service[], char SENDER[])
     	strcpy(filename, SENDER);
     	strcat(filename, "Payload.json");
         
-        sftp_upload(URL, filename);
+        status = sftp_upload(URL, filename);
         return status;
     } else {
         status = 0;
