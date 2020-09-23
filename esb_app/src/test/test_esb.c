@@ -5,10 +5,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "../bmd/bmd_parser.h"
-//#include "../bmd/xmljson.c" //Uncomment this when using munit testing
+#include "../bmd/xmljson.c" //Uncomment this when using munit testing
 
 /* To compile the test cases */
-/*gcc test_esb.c munit.c ../bmd/bmd_parser.c ../db_access/database.c ../esb/esb.c ../esb/transform.c ../esb/transport.c ../adapter/http.c ../adapter/email.c ../adapter/sftp.c `mysql_config --cflags --libs` `xml2-config --cflags --libs` -lcurl -o test_esb*/
+/*gcc test_esb.c munit.c ../bmd/bmd_parser.c ../db_access/database.c ../db_access/change_status.c ../esb/esb.c ../esb/transform.c ../esb/transport.c ../adapter/http.c ../adapter/email.c ../adapter/sftp.c `mysql_config --cflags --libs` `xml2-config --cflags --libs` -lcurl -o test_esb*/
 
 /* To run the test cases */
 /* ./test_esb */
@@ -425,6 +425,39 @@ test_get_transport_value_T3(const MunitParameter params[], void * fixture) {
     return MUNIT_OK;
 }
 
+/* Test function to check status is taken */
+static MunitResult
+test_get_status_taken(const MunitParameter params[], void * fixture) {
+    char status[20];
+    change_available_to_taken(1045);
+    get_status("A3ECAEF2-104A-3452-9553-043B6D25386E", status);
+
+    munit_assert_string_equal(status, "taken");
+    return MUNIT_OK;
+}
+
+/* Test function to check status is done */
+static MunitResult
+test_get_status_done(const MunitParameter params[], void * fixture) {
+    char status[20];
+    change_taken_to_done(1045);
+    get_status("A3ECAEF2-104A-3452-9553-043B6D25386E", status);
+
+    munit_assert_string_equal(status, "done");
+    return MUNIT_OK;
+}
+
+/* Test function to check status is error */
+static MunitResult
+test_get_status_error(const MunitParameter params[], void * fixture) {
+    char status[20];
+    change_status_to_error(1045);
+    get_status("A3ECAEF2-104A-3452-9553-043B6D25386E", status);
+
+    munit_assert_string_equal(status, "error");
+    return MUNIT_OK;
+}
+
 /* Put all unit tests here. */
 MunitTest esb_tests[] = {
     {
@@ -668,6 +701,30 @@ MunitTest esb_tests[] = {
     {
         "/test_get_transport_value_T3_test", /* name */
         test_get_transport_value_T3,         /* test function */
+        NULL,                                /* setup function for the test */
+        NULL,                                /* tear_down */
+        MUNIT_TEST_OPTION_NONE,              /* options */
+        NULL                                 /* parameters */
+    },
+    {
+        "/get_status_taken_test", 	/* name */
+        test_get_status_taken,         /* test function */
+        NULL,                                /* setup function for the test */
+        NULL,                                /* tear_down */
+        MUNIT_TEST_OPTION_NONE,              /* options */
+        NULL                                 /* parameters */
+    },
+    {
+        "/get_status_done_test", 	/* name */
+        test_get_status_done,         /* test function */
+        NULL,                                /* setup function for the test */
+        NULL,                                /* tear_down */
+        MUNIT_TEST_OPTION_NONE,              /* options */
+        NULL                                 /* parameters */
+    },
+    {
+        "/get_status_error_test", 	/* name */
+        test_get_status_error,         /* test function */
         NULL,                                /* setup function for the test */
         NULL,                                /* tear_down */
         MUNIT_TEST_OPTION_NONE,              /* options */
