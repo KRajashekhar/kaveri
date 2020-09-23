@@ -69,7 +69,10 @@ int insert_in_esb_request(BMD * bmd) {
     /*free the result*/
 
     mysql_free_result(res);
+    
+    /*Close the connection */
     mysql_close(conn);
+    
     return success;
 }
 
@@ -102,6 +105,10 @@ int select_active_route(const unsigned char * Sender,
     route = atoi(row[0]);
 
     mysql_free_result(res);
+    
+    /*Close the connection */
+    mysql_close(conn);
+    
     return route;
 }
 
@@ -136,6 +143,10 @@ int select_transport_config(int route_id) {
 
     /* free results */
     mysql_free_result(res);
+    
+    /*Close the connection */
+    mysql_close(conn);
+    
     return success;
 }
 
@@ -170,6 +181,10 @@ int select_transform_config(int route_id) {
 
     /* free results */
     mysql_free_result(res);
+    
+    /*Close the connection */
+    mysql_close(conn);
+    
     return success;
 }
 
@@ -203,6 +218,10 @@ int check_new_request(int id) {
 
     /* free results */
     mysql_free_result(res);
+    
+    /*Close the connection */
+    mysql_close(conn);
+    
     return success;
 }
 
@@ -231,6 +250,10 @@ int get_route_id(char SENDER[], char DEST[], char MTYPE[]) {
 
     /* free results */
     mysql_free_result(res);
+    
+    /*Close the connection */
+    mysql_close(conn);
+    
     return route_id;
 }
 
@@ -262,6 +285,10 @@ void get_transform_key(int route_id, char * key) {
 
     /* free results */
     mysql_free_result(res);
+    
+    /*Close the connection */
+    mysql_close(conn);
+    
 }
 
 void add_payload(char Payload_value[], int route_id, char * transport_key) {
@@ -296,6 +323,9 @@ void add_payload(char Payload_value[], int route_id, char * transport_key) {
 
     /* free results */
     mysql_free_result(res);
+    
+    /*Close the connection */
+    mysql_close(conn);
 
 }
 
@@ -326,6 +356,9 @@ void get_emailID(int route_id, char * transport_key) {
 
     /* free results */
     mysql_free_result(res);
+    
+    /*Close the connection */
+    mysql_close(conn);
 
 }
 
@@ -356,6 +389,9 @@ void get_sftpserver(int route_id, char * transport_key) {
 
     /* free results */
     mysql_free_result(res);
+    
+    /*Close the connection */
+    mysql_close(conn);
 
 }
 
@@ -387,5 +423,8 @@ void get_transport_value(int route_id, char * transport_value) {
 
     /* free results */
     mysql_free_result(res);
+    
+    /*Close the connection */
+    mysql_close(conn);
 
 }
