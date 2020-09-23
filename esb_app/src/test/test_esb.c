@@ -1,14 +1,14 @@
 #include "munit.h"
-#include "esb.h"
+#include "../esb/esb.h"
 #include <string.h>
 #include <dirent.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include "../bmd/bmd_parser.h"
-//#include "xmljson.c" //Uncomment this when using munit testing
+#include "../bmd/xmljson.c" //Uncomment this when using munit testing
 
 /* To compile the test cases */
-/*gcc test_esb.c munit.c bmd_parser.c database.c esb.c transport.c ../adapter/http.c ../adapter/email.c transform.c `mysql_config --cflags --libs` `xml2-config --cflags --libs` -lcurl -o test_esb*/
+/*gcc test_esb.c munit.c ../bmd/bmd_parser.c ../db_access/database.c ../esb/esb.c ../esb/transform.c ../esb/transport.c ../adapter/http.c ../adapter/email.c ../adapter/sftp.c `mysql_config --cflags --libs` `xml2-config --cflags --libs` -lcurl -o test_esb*/
 
 /* To run the test cases */
 /* ./test_esb */
@@ -79,14 +79,14 @@ test_parse_bmd_xml(const MunitParameter params[], void * fixture) {
 
 /* Define the setup and the test for test2 */
 static void *
-    test2_parse_bmd_xml_setup(const MunitParameter params[], void * user_data) {
-        char cwd[100];
-        getcwd(cwd, sizeof(cwd));
-        char path[100];
-        sprintf(path, "%s/Test_files/%s", cwd, "bmd.xml");
+test2_parse_bmd_xml_setup(const MunitParameter params[], void * user_data) {
+	char cwd[100];
+	getcwd(cwd, sizeof(cwd));
+	char path[100];
+	sprintf(path, "%s/Test_files/%s", cwd, "bmd.xml");
 
-        return strdup(path);
-    }
+	return strdup(path);
+}
 
 static void
 test2_parse_bmd_xml_tear_down(void * fixture) {
@@ -171,7 +171,15 @@ test_HTTP_transport_service(const MunitParameter params[], void * fixture) {
 /* Test function for email transport service */
 static MunitResult
 test_email_transport_service(const MunitParameter params[], void * fixture) {
-    int status = Apply_transport_service("jhelumnho2020@gmail.com", "email");
+    int status = Apply_transport_service("testkaveri123@gmail.com", "email","");
+    munit_assert_int(status, == , 1);
+    return MUNIT_OK;
+}
+
+/* Test function for SFTP transport service */
+static MunitResult
+test_SFTP_transport_service(const MunitParameter params[], void * fixture) {
+    int status = Apply_transport_service("Payload.json", "SFTP","");
     munit_assert_int(status, == , 1);
     return MUNIT_OK;
 }
@@ -210,6 +218,19 @@ test_email_Json_transform(const MunitParameter params[], void * fixture) {
     return MUNIT_OK;
 }
 
+/* Test function for SFTPs Json transform */
+static MunitResult
+test_SFTP_Json_transform(const MunitParameter params[], void * fixture) {
+    char type[] = "Json_transform";
+    int route_id = 19;
+    char * transport_key;
+    char * transport_value = "SFTP";
+    char * SENDER;
+    int transform_status = check_transform(type, route_id, transport_key, transport_value, SENDER);
+    munit_assert_int(transform_status, == , 1);
+    return MUNIT_OK;
+}
+
 /* Test function for no Json transform */
 static MunitResult
 test_no_transform(const MunitParameter params[], void * fixture) {
@@ -235,8 +256,16 @@ test_HTTP_request(const MunitParameter params[], void * fixture) {
 /* Test function for Send email */
 static MunitResult
 test_send_email(const MunitParameter params[], void * fixture) {
-    int mail_status = send_mail("jhelumnho2020@gmail.com", "Payload.json");
+    int mail_status = send_mail("testkaveri123@gmail.com", "Payload.json");
     munit_assert_int(mail_status, == , 0);
+    return MUNIT_OK;
+}
+
+/* Test function for SFTP */
+static MunitResult
+test_SFTP(const MunitParameter params[], void * fixture) {
+    int SFTP_status = sftp_upload("Payload.json", "Payload.json");
+    munit_assert_int(SFTP_status, == , 1);
     return MUNIT_OK;
 }
 
@@ -338,7 +367,7 @@ test_get_transport_key_T2(const MunitParameter params[], void * fixture) {
 
     int check = check_transform(type, route_id, transport_key, transport_value, SENDER);
 
-    munit_assert_string_equal(transport_key, "jhelumnho2020@gmail.com");
+    munit_assert_string_equal(transport_key, "testkaveri123@gmail.com");
     return MUNIT_OK;
 }
 
@@ -350,7 +379,19 @@ test_get_transport_key_T3(const MunitParameter params[], void * fixture) {
 
     get_emailID(route_id, transport_key);
 
-    munit_assert_string_equal(transport_key, "jhelumnho2020@gmail.com");
+    munit_assert_string_equal(transport_key, "testkaveri123@gmail.com");
+    return MUNIT_OK;
+}
+
+/* Test function to check get_transform_key Test 4 */
+static MunitResult
+test_get_transport_key_T4(const MunitParameter params[], void * fixture) {
+    char transport_key[70];
+    int route_id = 19;
+
+    get_sftpserver(route_id, transport_key);
+
+    munit_assert_string_equal(transport_key, "Payload.json");
     return MUNIT_OK;
 }
 
@@ -374,6 +415,16 @@ test_get_transport_value_T2(const MunitParameter params[], void * fixture) {
     return MUNIT_OK;
 }
 
+/* Test function to check get_transform_value Test 3 */
+static MunitResult
+test_get_transport_value_T3(const MunitParameter params[], void * fixture) {
+    char transport_value[50];
+    get_transport_value(19, transport_value);
+
+    munit_assert_string_equal(transport_value, "SFTP");
+    return MUNIT_OK;
+}
+
 /* Put all unit tests here. */
 MunitTest esb_tests[] = {
     {
@@ -384,7 +435,7 @@ MunitTest esb_tests[] = {
         MUNIT_TEST_OPTION_NONE,       /* options */
         NULL                          /* parameters */
     },
-    {"/test_bmd_parse_xml",         /* name */
+    {"/test2_bmd_parse_xml",         /* name */
      test2_parse_bmd_xml,           /* test function */
      test2_parse_bmd_xml_setup,     /* setup function for the test */
      test2_parse_bmd_xml_tear_down, /* tear_down */
@@ -423,6 +474,14 @@ MunitTest esb_tests[] = {
         NULL                          /* parameters */
     },
     {
+        "/SFTP_transport_test",      /* name */
+        test_SFTP_transport_service, /* test function */
+        NULL,                         /* setup function for the test */
+        NULL,                         /* tear_down */
+        MUNIT_TEST_OPTION_NONE,       /* options */
+        NULL                          /* parameters */
+    },
+    {
         "/no_transport_test",      /* name */
         test_no_transport_service, /* test function */
         NULL,                      /* setup function for the test */
@@ -447,6 +506,14 @@ MunitTest esb_tests[] = {
         NULL                          /* parameters */
     },
     {
+        "/SFTP_Json_transform_test", /* name */
+        test_SFTP_Json_transform,    /* test function */
+        NULL,                         /* setup function for the test */
+        NULL,                         /* tear_down */
+        MUNIT_TEST_OPTION_NONE,       /* options */
+        NULL                          /* parameters */
+    },
+    {
         "/no_transform_test",   /* name */
         test_no_transform,      /* test function */
         NULL,                   /* setup function for the test */
@@ -465,6 +532,14 @@ MunitTest esb_tests[] = {
     {
         "/send_email_test",     /* name */
         test_send_email,        /* test function */
+        NULL,                   /* setup function for the test */
+        NULL,                   /* tear_down */
+        MUNIT_TEST_OPTION_NONE, /* options */
+        NULL                    /* parameters */
+    },
+    {
+        "/SFTP_test",            /* name */
+        test_SFTP,        	  /* test function */
         NULL,                   /* setup function for the test */
         NULL,                   /* tear_down */
         MUNIT_TEST_OPTION_NONE, /* options */
@@ -567,6 +642,14 @@ MunitTest esb_tests[] = {
         NULL                          /* parameters */
     },
     {
+        "/get_transport_key_T4_test", /* name */
+        test_get_transport_key_T4,    /* test function */
+        NULL,                         /* setup function for the test */
+        NULL,                         /* tear_down */
+        MUNIT_TEST_OPTION_NONE,       /* options */
+        NULL                          /* parameters */
+    },
+    {
         "/test_get_transport_value_T1_test", /* name */
         test_get_transport_value_T1,         /* test function */
         NULL,                                /* setup function for the test */
@@ -577,6 +660,14 @@ MunitTest esb_tests[] = {
     {
         "/test_get_transport_value_T2_test", /* name */
         test_get_transport_value_T2,         /* test function */
+        NULL,                                /* setup function for the test */
+        NULL,                                /* tear_down */
+        MUNIT_TEST_OPTION_NONE,              /* options */
+        NULL                                 /* parameters */
+    },
+    {
+        "/test_get_transport_value_T3_test", /* name */
+        test_get_transport_value_T3,         /* test function */
         NULL,                                /* setup function for the test */
         NULL,                                /* tear_down */
         MUNIT_TEST_OPTION_NONE,              /* options */
