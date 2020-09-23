@@ -28,6 +28,9 @@ void change_available_to_taken(int id) {
 
     /* free results */
     mysql_free_result(res);
+    
+    /*Close the connection */
+    mysql_close(conn);
 }
 
 void change_taken_to_done(int id) {
@@ -53,6 +56,9 @@ void change_taken_to_done(int id) {
 
     /* free results */
     mysql_free_result(res);
+    
+    /*Close the connection */
+    mysql_close(conn);
 }
 
 void change_status_to_error(int id) {
@@ -78,6 +84,9 @@ void change_status_to_error(int id) {
 
     /* free results */
     mysql_free_result(res);
+    
+    /*Close the connection */
+    mysql_close(conn);
 }
 
 void get_status(char *message_id, char* status)
@@ -109,5 +118,8 @@ void get_status(char *message_id, char* status)
 
 	/* free results */
 	mysql_free_result(res);
+	
+	/*Close the connection */
+    	mysql_close(conn);
 
 }
