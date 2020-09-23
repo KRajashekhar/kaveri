@@ -33,7 +33,7 @@ static size_t read_callback(void *ptr, size_t size, size_t nmemb, void *stream)
     return retcode;
 }
 
-void *sftp_upload(void *asptr, void *fileptr)
+int *sftp_upload(void *asptr, void *fileptr)
 {
     char *as = (char *)asptr; // should be unique inorder to identify
     char *file = (char *)fileptr;
@@ -99,7 +99,7 @@ void *sftp_upload(void *asptr, void *fileptr)
         {
             fprintf(stderr, "curl_easy_perform() failed: %s\n",
                     curl_easy_strerror(res));
-            return "NO";
+            return 0;
         }
 
         /* clean up the SFTP commands list */
@@ -111,6 +111,5 @@ void *sftp_upload(void *asptr, void *fileptr)
     fclose(fp); /* close the local file */
 
     curl_global_cleanup();
-    return "YES";
+    return 1;
 }
-
