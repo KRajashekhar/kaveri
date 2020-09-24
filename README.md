@@ -56,7 +56,7 @@
     │   └── esb_app.conf
     ├── dh2048.pem
     ├── esb.code-workspace
-    ├── sql\ schema
+    ├── sql schema
     │   ├── esb_db.sql
     │   ├── routes.sql
     │   ├── transform_config.sql
