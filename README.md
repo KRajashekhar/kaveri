@@ -249,7 +249,7 @@ mysql> select * from transport_config;
 8. For creating sftp connection please refer to this link: [sftp-ubuntu](https://linuxconfig.org/how-to-setup-sftp-server-on-ubuntu-20-04-focal-fossa-linux#:~:text=You%20can%20use%20your%20preferred,the%20window%20and%20click%20connect)
 9. For status check using RESTful API use this command on new terminal window:
 ```bash
-   curl -k  https://localhost:8888/rest?MessageID="A3ECAEF2-104A-3452-9553-043B6D25386E" --output -
+   curl -k  https://localhost:8888/rest?MessageID="enter messageID stored in esb_request table" --output -
 ```
 10. If you face problem like bind(): Address already in use error when running kodev run. Run the following command: 
 ```bash
