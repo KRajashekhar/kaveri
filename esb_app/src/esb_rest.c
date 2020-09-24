@@ -19,10 +19,9 @@ int esb_rest(struct http_request *req)
 
     if (get_messageid.status > 0)
     {
-            return KORE_RESULT_OK;
+        return KORE_RESULT_OK;
     }
-        
-    
+
     else
     {
         return KORE_RESULT_ERROR;
@@ -43,14 +42,14 @@ rest_result get_messageID(struct http_request *req)
         return rs_res;
     }
 
-/* HTTP_response to get status for message_id */
+    /* HTTP_response to get status for message_id */
     char *out;
     if (http_argument_get_string(req, "MessageID", &out))
     {
         rs_res.message_id = malloc(strlen(out) * sizeof(char) + 1);
         strcpy(rs_res.message_id, out);
-        char status[20]; 
-        get_status(out,status);
+        char status[20];
+        get_status(out, status);
         http_response(req, 200, status, strlen(status));
     }
     else
