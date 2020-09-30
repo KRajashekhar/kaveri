@@ -1,5 +1,6 @@
 # Kaveri
-
+![Code Quality Score](https://www.code-inspector.com/project/14196/score/svg)
+![Code Grade](https://www.code-inspector.com/project/14196/status/svg)
 ## Project Structure
 
 ```bash
